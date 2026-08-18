@@ -4,8 +4,7 @@ import com.waggy.entity.Role;
 
 public record UserResponseDTO(
         Integer id,
-        String firstName,
-        String lastName,
+        String name,
         String email,
         Role role
 ) {

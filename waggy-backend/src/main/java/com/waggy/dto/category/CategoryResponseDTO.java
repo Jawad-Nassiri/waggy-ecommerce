@@ -2,6 +2,7 @@ package com.waggy.dto.category;
 
 public record CategoryResponseDTO(
         Integer id,
-        String name
+        String name,
+        String slug
 ) {
 }
