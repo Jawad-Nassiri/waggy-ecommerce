@@ -17,12 +17,10 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class UserService {
-    // add Dependencies
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
-    // create a new user
     public UserResponseDTO saveUserInDb(UserRequestDTO dto) {
         if (userRepository.existsByEmail(dto.email())) {
             throw new EmailAlreadyExistsException("Email is already registered");
@@ -37,13 +35,11 @@ public class UserService {
     }
 
 
-    // get all users
     public List<UserResponseDTO> findAllUsers() {
         return userRepository.findAll().stream().map(userMapper::toDTO).toList();
     }
 
 
-    // get a user by ID
     public UserResponseDTO findUserById(Integer id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
@@ -51,7 +47,7 @@ public class UserService {
         return userMapper.toDTO(user);
     }
 
-    // delete a user by ID
+
     public void deleteUser(Integer id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));

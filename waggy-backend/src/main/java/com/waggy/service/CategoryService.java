@@ -37,12 +37,11 @@ public class CategoryService {
     }
 
 
-    // get all categories
     public List<CategoryResponseDTO> findAllCategories() {
         return categoryRepository.findAll().stream().map(categoryMapper::toDTO).toList();
     }
 
-    // get a user by ID
+
     public CategoryResponseDTO findCategoryById(Integer id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found !"));
@@ -50,7 +49,6 @@ public class CategoryService {
         return categoryMapper.toDTO(category);
     }
 
-    // delete a category by ID
     public void deleteCategory(Integer id) {
        Category category = categoryRepository.findById(id)
                .orElseThrow(() -> new CategoryNotFoundException("Category not found !"));
@@ -58,7 +56,6 @@ public class CategoryService {
        categoryRepository.delete(category);
     }
 
-    // update category
     public CategoryResponseDTO updateCategory(Integer id, CategoryRequestDTO dto) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found !"));
