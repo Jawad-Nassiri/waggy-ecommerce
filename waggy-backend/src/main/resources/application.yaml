@@ -1,3 +1,18 @@
 spring:
   application:
     name: waggy-backend
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/waggy
+    username: root
+    password: root
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+# WARNING: Only for development.
+# Do not store the real JWT secret here in production.
+jwt:
+  secret: WaggyDevSecret_7fK2mP9xQ4vL8sR3nT6yU1aZ5cD9eF2g
