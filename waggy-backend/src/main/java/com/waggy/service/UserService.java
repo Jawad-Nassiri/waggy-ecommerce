@@ -90,6 +90,11 @@ public class UserService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
+        if (!user.getEmail().equals(dto.email())
+                && userRepository.existsByEmail(dto.email())) {
+            throw new EmailAlreadyExistsException("Email is already registered");
+        }
+
         user.setName(dto.name());
         user.setEmail(dto.email());
 
