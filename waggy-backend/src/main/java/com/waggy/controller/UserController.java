@@ -4,6 +4,7 @@ import com.waggy.dto.user.UserRequestDTO;
 import com.waggy.dto.user.UserResponseDTO;
 import com.waggy.dto.user.UserUpdateDTO;
 import com.waggy.service.UserService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public UserResponseDTO createUser(@RequestBody UserRequestDTO dto) {
+    public UserResponseDTO createUser(@Valid @RequestBody UserRequestDTO dto) {
         return userService.saveUserInDb(dto);
     }
 
@@ -27,29 +28,32 @@ public class UserController {
     }
 
 
-    @GetMapping("/{id}")
-    public UserResponseDTO getUserById(@PathVariable Integer id) {
-        return userService.findUserById(id);
-    }
-
-
     @GetMapping("/me")
     public UserResponseDTO getLoggedInUser() {
         return userService.getCurrentUser();
     }
 
 
+    @GetMapping("/{id}")
+    public UserResponseDTO getUserById(@PathVariable Integer id) {
+        return userService.findUserById(id);
+    }
+
+
+    @PutMapping("/me")
+    public UserResponseDTO updateCurrentUser(@Valid @RequestBody UserUpdateDTO dto) {
+        return userService.updateCurrentUser(dto);
+    }
+
+
     @PutMapping("/{id}")
     public UserResponseDTO updateUser(
             @PathVariable Integer id,
+            @Valid
             @RequestBody UserUpdateDTO dto) {
         return userService.updateUser(id, dto);
     }
 
-    @PutMapping("/me")
-    public UserResponseDTO updateCurrentUser(@RequestBody UserUpdateDTO dto) {
-        return userService.updateCurrentUser(dto);
-    }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
