@@ -35,11 +35,11 @@ public class SecurityConfig {
                         UsernamePasswordAuthenticationFilter.class
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/auth/**").anonymous()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/users").hasRole("ADMIN")
                         .requestMatchers("/users/me").authenticated()
-                        .requestMatchers("/users/{id}").hasRole("ADMIN")
+                        .requestMatchers("/users/*").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/products/**", "/categories/**").permitAll()
                         .requestMatchers("/products/**", "/categories/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
