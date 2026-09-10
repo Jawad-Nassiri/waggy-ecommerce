@@ -1,5 +1,6 @@
 package com.waggy.service;
 
+import com.waggy.dto.user.AdminUserUpdateDTO;
 import com.waggy.dto.user.UserRequestDTO;
 import com.waggy.dto.user.UserResponseDTO;
 import com.waggy.entity.User;
@@ -8,6 +9,7 @@ import com.waggy.exception.UserNotFoundException;
 import com.waggy.mapper.UserMapper;
 import com.waggy.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.waggy.dto.user.UserUpdateDTO;
@@ -61,9 +63,7 @@ public class UserService {
         userRepository.delete(user);
     }
 
-
-    // update a user's name, email, and role
-    public UserResponseDTO updateUser(Integer id, UserUpdateDTO dto) {
+    public UserResponseDTO updateUser(Integer id, AdminUserUpdateDTO dto) {
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
@@ -80,5 +80,46 @@ public class UserService {
         User updatedUser = userRepository.save(user);
 
         return userMapper.toDTO(updatedUser);
+    }
+
+    public UserResponseDTO updateCurrentUser(UserUpdateDTO dto) {
+        String email = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getName();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        if (!user.getEmail().equals(dto.email())
+                && userRepository.existsByEmail(dto.email())) {
+            throw new EmailAlreadyExistsException("Email is already registered");
+        }
+
+        user.setName(dto.name());
+        user.setEmail(dto.email());
+
+        User savedUser = userRepository.save(user);
+
+        return userMapper.toDTO(savedUser);
+    }
+
+    public UserResponseDTO getCurrentUser() {
+        String email = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getName();
+
+        User user = findUserByEmail(email);
+
+        return userMapper.toDTO(user);
+    }
+
+    public void deleteCurrentUser() {
+        String email = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getName();
+
+        User user = findUserByEmail(email);
+
+        userRepository.delete(user);
     }
 }
