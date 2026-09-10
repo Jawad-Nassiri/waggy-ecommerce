@@ -1,5 +1,6 @@
 package com.waggy.controller;
 
+import com.waggy.dto.user.AdminUserUpdateDTO;
 import com.waggy.dto.user.UserRequestDTO;
 import com.waggy.dto.user.UserResponseDTO;
 import com.waggy.dto.user.UserUpdateDTO;
@@ -50,7 +51,7 @@ public class UserController {
     public UserResponseDTO updateUser(
             @PathVariable Integer id,
             @Valid
-            @RequestBody UserUpdateDTO dto) {
+            @RequestBody AdminUserUpdateDTO dto) {
         return userService.updateUser(id, dto);
     }
 
