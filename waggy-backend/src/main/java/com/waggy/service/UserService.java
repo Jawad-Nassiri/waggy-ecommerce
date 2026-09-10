@@ -1,5 +1,6 @@
 package com.waggy.service;
 
+import com.waggy.dto.user.AdminUserUpdateDTO;
 import com.waggy.dto.user.UserRequestDTO;
 import com.waggy.dto.user.UserResponseDTO;
 import com.waggy.entity.User;
@@ -62,7 +63,7 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    public UserResponseDTO updateUser(Integer id, UserUpdateDTO dto) {
+    public UserResponseDTO updateUser(Integer id, AdminUserUpdateDTO dto) {
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
@@ -88,6 +89,11 @@ public class UserService {
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        if (!user.getEmail().equals(dto.email())
+                && userRepository.existsByEmail(dto.email())) {
+            throw new EmailAlreadyExistsException("Email is already registered");
+        }
 
         user.setName(dto.name());
         user.setEmail(dto.email());

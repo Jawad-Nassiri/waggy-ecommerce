@@ -40,7 +40,7 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/users").hasRole("ADMIN")
                         .requestMatchers("/users/me").authenticated()
-                        .requestMatchers("/users/{id}").hasRole("ADMIN")
+                        .requestMatchers("/users/*").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/products/**", "/categories/**").permitAll()
                         .requestMatchers("/products/**", "/categories/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/orders/me").authenticated()
