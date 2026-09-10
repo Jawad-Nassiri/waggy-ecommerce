@@ -1,15 +1,15 @@
 package com.waggy.service;
 
+import com.waggy.dto.cart.CartItemRequestDTO;
 import com.waggy.dto.cart.CartResponseDTO;
-import com.waggy.entity.Cart;
-import com.waggy.entity.Role;
-import com.waggy.entity.User;
-import com.waggy.exception.CartNotFoundException;
-import com.waggy.exception.UnauthorizedException;
-import com.waggy.exception.UserNotFoundException;
+import com.waggy.entity.*;
+import com.waggy.exception.*;
 import com.waggy.mapper.CartMapper;
+import com.waggy.repository.CartItemRepository;
 import com.waggy.repository.CartRepository;
+import com.waggy.repository.ProductRepository;
 import com.waggy.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -22,28 +22,34 @@ public class CartService {
     private final CartRepository cartRepository;
     private final CartMapper cartMapper;
     private final UserRepository userRepository;
+    private final ProductRepository productRepository;
+    private final CartItemRepository cartItemRepository;
 
-    public CartResponseDTO addCartInDb() {
+
+    private User getUser() {
         // get the email of the currently logged-in user
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        User user = userRepository.findByEmail(email)
+        return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("User not found !"));
+    }
 
-        Cart cart = new Cart();
-        cart.setUser(user);
 
-        Cart savedCart = cartRepository.save(cart);
+    public CartResponseDTO addCartInDb() {
+        User user = getUser();
 
-        return cartMapper.toDTO(savedCart);
+        return cartRepository.findByUser(user)
+                .map(cartMapper::toDTO)
+                .orElseGet(() -> {
+                    Cart cart = new Cart();
+                    cart.setUser(user);
+                    return cartMapper.toDTO(cartRepository.save(cart));
+                });
     }
 
 
     public List<CartResponseDTO> findAllCarts() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException("User not found !"));
+        User user = getUser();
 
         if (user.getRole().equals(Role.ADMIN)) {
             return cartRepository.findAll().stream().map(cartMapper::toDTO).toList();
@@ -56,10 +62,7 @@ public class CartService {
     }
 
     public CartResponseDTO findCartById(Integer id) {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException("User not found !"));
+        User user = getUser();
 
         Cart cart = cartRepository.findById(id)
                 .orElseThrow(() -> new CartNotFoundException("Cart not found !"));
@@ -73,11 +76,94 @@ public class CartService {
     }
 
 
-    public void deleteCart(Integer id) {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+    public CartResponseDTO findMyCart() {
+        User user = getUser();
 
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException("User not found !"));
+        Cart cart = cartRepository.findByUserId(user.getId())
+                .orElseThrow(() -> new CartNotFoundException("Cart not found"));
+
+        return cartMapper.toDTO(cart);
+
+    }
+
+
+    public CartResponseDTO addItemToCart(CartItemRequestDTO dto) {
+        User user = getUser();
+
+        Cart cart = cartRepository.findByUserId(user.getId())
+                .orElseThrow(() -> new CartNotFoundException("Cart not found"));
+
+        Product product = productRepository.findById(dto.productId())
+                .orElseThrow(() -> new ProductNotFoundException("Product not found!"));
+
+        CartItem cartItem = cartItemRepository
+                .findByCartIdAndProductId(cart.getId(), product.getId())
+                .orElse(null);
+
+        int newQuantity = dto.quantity();
+
+        if (cartItem != null) {
+            newQuantity += cartItem.getQuantity();
+        }
+
+        if (newQuantity > product.getStock()) {
+            throw new IllegalArgumentException("Not enough stock");
+        }
+
+        if (cartItem == null) {
+            cartItem = new CartItem();
+            cartItem.setCart(cart);
+            cartItem.setProduct(product);
+        }
+
+        cartItem.setQuantity(newQuantity);
+        cartItemRepository.save(cartItem);
+
+        return cartMapper.toDTO(cart);
+    }
+
+
+    public CartResponseDTO updateCartItem(Integer productId, CartItemRequestDTO dto) {
+        User user = getUser();
+
+        Cart cart = cartRepository.findByUserId(user.getId())
+                .orElseThrow(() -> new CartNotFoundException("Cart not found"));
+
+        CartItem cartItem = cartItemRepository
+                .findByCartIdAndProductId(cart.getId(), productId)
+                .orElseThrow(() -> new CartItemNotFoundException("Cart item not found !"));
+
+        Product product = cartItem.getProduct();
+
+        if (dto.quantity() > product.getStock()) {
+            throw new IllegalArgumentException("Not enough stock");
+        }
+
+        cartItem.setQuantity(dto.quantity());
+        cartItemRepository.save(cartItem);
+
+        return cartMapper.toDTO(cart);
+    }
+
+
+    public CartResponseDTO removeCartItem(Integer productId) {
+        User user = getUser();
+
+        Cart cart = cartRepository.findByUserId(user.getId())
+                .orElseThrow(() -> new CartNotFoundException("Cart not found"));
+
+        CartItem cartItem = cartItemRepository
+                .findByCartIdAndProductId(cart.getId(), productId)
+                .orElseThrow(() -> new CartItemNotFoundException("Cart item not found !"));
+
+        cartItemRepository.delete(cartItem);
+
+        return cartMapper.toDTO(cart);
+    }
+
+    @Transactional
+    public void deleteCart(Integer id) {
+        User user = getUser();
 
         Cart cart = cartRepository.findById(id)
                 .orElseThrow(() -> new CartNotFoundException("Cart not found !"));
@@ -87,8 +173,19 @@ public class CartService {
             throw new UnauthorizedException("You cannot delete this cart !");
         }
 
+        cart.getUser().setCart(null);
+        cartItemRepository.deleteAllByCartId(cart.getId());
         cartRepository.delete(cart);
     }
 
+    @Transactional
+    public void clearCart() {
+        User user = getUser();
+
+        Cart cart = cartRepository.findByUserId(user.getId())
+                .orElseThrow(() -> new CartNotFoundException("Cart not found"));
+
+        cartItemRepository.deleteAllByCartId(cart.getId());
+    }
 
 }

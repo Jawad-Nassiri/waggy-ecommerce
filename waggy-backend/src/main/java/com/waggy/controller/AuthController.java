@@ -7,6 +7,7 @@ import com.waggy.entity.User;
 import com.waggy.exception.AuthenticationException;
 import com.waggy.service.JwtService;
 import com.waggy.service.UserService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,7 @@ public class AuthController {
     private final JwtService jwtService;
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequestDTO loginRequest) {
+    public String login(@Valid @RequestBody LoginRequestDTO loginRequest) {
 
         User user = userService.findUserByEmail(loginRequest.email());
 
@@ -35,7 +36,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public UserResponseDTO register(@RequestBody UserRequestDTO userRequestDTO) {
+    public UserResponseDTO register(@Valid @RequestBody UserRequestDTO userRequestDTO) {
         return userService.saveUserInDb(userRequestDTO);
     }
 }

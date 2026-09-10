@@ -1,10 +1,14 @@
 package com.waggy.repository;
 
 import com.waggy.entity.Cart;
+import com.waggy.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
 public interface CartRepository extends JpaRepository<Cart, Integer> {
     Optional<Cart> findByUserId(Integer userId);
+    Optional<Cart> findByUser(User user);
+
+
 }

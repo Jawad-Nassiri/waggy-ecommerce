@@ -2,8 +2,9 @@ package com.waggy.dto.user;
 
 import com.waggy.entity.Role;
 
-public record UserUpdateDTO(
+public record AdminUserUpdateDTO(
         String name,
-        String email
+        String email,
+        Role role
 ) {
 }
