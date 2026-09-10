@@ -55,7 +55,8 @@ public class OrderMapper {
                         .stream()
                         .map(item -> item.getPrice()
                                 .multiply(BigDecimal.valueOf(item.getQuantity())))
-                        .reduce(BigDecimal.ZERO, BigDecimal::add)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add),
+                order.getStatus()
         );
     }
 
