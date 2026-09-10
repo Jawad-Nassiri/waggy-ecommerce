@@ -8,6 +8,7 @@ public record OrderResponseDTO(
         Integer id,
         LocalDateTime orderDate,
         List<OrderItemResponseDTO> items,
-        BigDecimal totalPrice
+        BigDecimal totalPrice,
+        String status
 ) {
 }
