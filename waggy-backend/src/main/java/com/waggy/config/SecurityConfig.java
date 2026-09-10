@@ -47,6 +47,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/orders").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/orders/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/orders/{id}").hasRole("ADMIN")
+                        .requestMatchers("/payments").authenticated()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->
