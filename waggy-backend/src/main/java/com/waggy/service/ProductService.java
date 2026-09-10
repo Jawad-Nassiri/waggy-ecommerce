@@ -21,7 +21,9 @@ public class ProductService {
     private final CategoryRepository categoryRepository;
 
 
-    public ProductResponseDTO saveProductInDb(ProductRequestDTO dto, Category category) {
+    public ProductResponseDTO saveProductInDb(ProductRequestDTO dto) {
+        Category category = categoryRepository.findById(dto.categoryId())
+                .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
         Product product = productMapper.toEntity(dto, category);
         Product savedProduct = productRepository.save(product);
 
