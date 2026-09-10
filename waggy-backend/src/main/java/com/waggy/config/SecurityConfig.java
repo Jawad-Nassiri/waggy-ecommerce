@@ -43,6 +43,10 @@ public class SecurityConfig {
                         .requestMatchers("/users/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/products/**", "/categories/**").permitAll()
                         .requestMatchers("/products/**", "/categories/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/orders/me").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/orders").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/orders/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/orders/{id}").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->
