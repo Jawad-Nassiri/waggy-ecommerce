@@ -6,6 +6,7 @@ import com.waggy.security.CustomAuthenticationEntryPoint;
 import com.waggy.security.JwtAuthenticationFilter;
 import lombok.AllArgsConstructor;
 
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -42,6 +43,10 @@ public class SecurityConfig {
                         .requestMatchers("/users/*").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/products/**", "/categories/**").permitAll()
                         .requestMatchers("/products/**", "/categories/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/orders/me").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/orders").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/orders/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/orders/{id}").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->
@@ -58,5 +63,12 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public FilterRegistrationBean<JwtAuthenticationFilter> jwtFilterRegistration(JwtAuthenticationFilter filter) {
+        FilterRegistrationBean<JwtAuthenticationFilter> reg = new FilterRegistrationBean<>(filter);
+        reg.setEnabled(false);
+        return reg;
     }
 }

@@ -51,15 +51,16 @@ public class GlobalExceptionHandler {
         return e.getMessage();
     }
 
+
     @ExceptionHandler(UnauthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public String handleUnauthorized(UnauthorizedException e) {
         return e.getMessage();
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleValidation(MethodArgumentNotValidException e) {
-        return e.getBindingResult().getFieldError().getDefaultMessage();
+    @ExceptionHandler(OrderNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleOrderNotFound(OrderNotFoundException e) {
+        return e.getMessage();
     }
 }

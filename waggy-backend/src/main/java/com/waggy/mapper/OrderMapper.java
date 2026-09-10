@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -19,22 +20,26 @@ public class OrderMapper {
     private final OrderItemMapper orderItemMapper;
     private final ProductRepository productRepository;
 
-    public Order toEntity(OrderRequestDTO dto) {
-        Order order = new Order();
+//    public Order toEntity(OrderRequestDTO dto) {
+//        Order order = new Order();
+//
+//        List<OrderItem> orderItems = dto.items()
+//                .stream()
+//                .map(item -> {
+//                    Product product = productRepository.findById(item.productId())
+//                            .orElseThrow();
+//
+//                    return orderItemMapper.toEntity(item, product);
+//                })
+//                .collect(Collectors.toList());
+//
+//        order.setOrderItems(orderItems);
+//
+//        return order;
+//    }
 
-        List<OrderItem> orderItems = dto.items()
-                .stream()
-                .map(item -> {
-                    Product product = productRepository.findById(item.productId())
-                            .orElseThrow();
-
-                    return orderItemMapper.toEntity(item, product);
-                })
-                .toList();
-
-        order.setOrderItems(orderItems);
-
-        return order;
+    public Order toEntity() {
+        return new Order();
     }
 
 
