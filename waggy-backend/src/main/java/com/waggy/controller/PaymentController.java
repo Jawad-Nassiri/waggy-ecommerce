@@ -18,4 +18,12 @@ public class PaymentController {
     public PaymentResponseDTO createPayment(@Valid @RequestBody PaymentRequestDTO dto) {
         return paymentService.createCheckoutSession(dto);
     }
+
+    @PostMapping("/webhook")
+    public void handleWebhook(
+            @RequestBody String payload,
+            @RequestHeader("Stripe-Signature") String sigHeader
+    ) {
+        paymentService.handleWebhook(payload, sigHeader);
+    }
 }

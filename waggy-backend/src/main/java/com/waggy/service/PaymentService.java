@@ -7,23 +7,31 @@ import com.waggy.dto.payment.PaymentResponseDTO;
 import com.waggy.entity.Order;
 import com.waggy.exception.OrderNotFoundException;
 import com.waggy.repository.OrderRepository;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import com.stripe.model.Event;
+import com.stripe.net.Webhook;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
 public class PaymentService {
 
     private final OrderRepository orderRepository;
+
+    @Value("${stripe.webhook-secret}")
+    private String webhookSecret;
+
+    public PaymentService(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
 
     public PaymentResponseDTO createCheckoutSession(PaymentRequestDTO dto) {
 
         Order order = orderRepository.findById(dto.orderId())
                 .orElseThrow(() -> new OrderNotFoundException("Order not found !"));
 
-//        This part takes all the items in the order and converts each one into a Stripe line item.
+//        this part takes all the items in the order and converts each one into a Stripe line item.
         List<SessionCreateParams.LineItem> lineItems = order.getOrderItems()
                 .stream()
                 .map(item -> SessionCreateParams.LineItem.builder()
@@ -43,20 +51,23 @@ public class PaymentService {
                 )
                 .toList();
 
-                // This part sets the payment details.
-                // After payment → go to the success page.
-                // If cancelled → go to the cancel page.
+                // this part sets the payment details.
+                // after payment → go to the success page.
+                // if canceled → go to the cancel page.
         SessionCreateParams params = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
                 .setSuccessUrl("http://localhost:4200/payment/success")
                 .setCancelUrl("http://localhost:4200/payment/cancel")
                 .addAllLineItem(lineItems)
+                .putMetadata("orderId", order.getId().toString())
                 .build();
 
 
-        // creates the Stripe payment page for the order.
-        // returns the payment page URL.
-        // If something goes wrong, it throws an error.
+
+
+        // creates the stripe payment page for the order.
+        // returns the payment page url.
+        // if something goes wrong, it throws an error.
         try {
             Session session = Session.create(params);
 
@@ -66,6 +77,41 @@ public class PaymentService {
             throw new RuntimeException(
                     "Failed to create Stripe checkout session", e
             );
+        }
+    }
+
+    public void markOrderAsPaid(Integer orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new OrderNotFoundException("Order not found !"));
+
+        order.setStatus("PAID");
+        orderRepository.save(order);
+    }
+
+
+    public void handleWebhook(String payload,String sigHeader) {
+
+        try {
+            Event event = Webhook.constructEvent(
+                    payload,
+                    sigHeader,
+                    webhookSecret
+            );
+
+            if ("checkout.session.completed".equals(event.getType())) {
+
+                Session session = (Session) event
+                        .getDataObjectDeserializer()
+                        .getObject()
+                        .orElseThrow();
+
+                String orderId = session.getMetadata().get("orderId");
+
+                markOrderAsPaid(Integer.valueOf(orderId));
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Webhook error", e);
         }
     }
 }
