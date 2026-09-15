@@ -2,7 +2,6 @@ package com.waggy.mapper;
 
 import com.waggy.dto.order.OrderResponseDTO;
 import com.waggy.entity.Order;
-import com.waggy.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +12,6 @@ import java.math.BigDecimal;
 public class OrderMapper {
 
     private final OrderItemMapper orderItemMapper;
-    private final ProductRepository productRepository;
 
 
     public Order toEntity() {
