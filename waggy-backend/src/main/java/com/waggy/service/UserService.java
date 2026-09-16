@@ -41,7 +41,6 @@ public class UserService {
         return userRepository.findAll().stream().map(userMapper::toDTO).toList();
     }
 
-
     public UserResponseDTO findUserById(Integer id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
@@ -52,9 +51,7 @@ public class UserService {
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
-
     }
-
 
     public void deleteUser(Integer id) {
         User user = userRepository.findById(id)

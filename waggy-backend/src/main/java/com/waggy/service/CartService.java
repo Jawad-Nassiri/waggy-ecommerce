@@ -34,7 +34,6 @@ public class CartService {
                 .orElseThrow(() -> new UserNotFoundException("User not found !"));
     }
 
-
     public CartResponseDTO addCartInDb() {
         User user = getUser();
 
@@ -46,7 +45,6 @@ public class CartService {
                     return cartMapper.toDTO(cartRepository.save(cart));
                 });
     }
-
 
     public List<CartResponseDTO> findAllCarts() {
         User user = getUser();
@@ -75,7 +73,6 @@ public class CartService {
         return cartMapper.toDTO(cart);
     }
 
-
     public CartResponseDTO findMyCart() {
         User user = getUser();
 
@@ -85,7 +82,6 @@ public class CartService {
         return cartMapper.toDTO(cart);
 
     }
-
 
     public CartResponseDTO addItemToCart(CartItemRequestDTO dto) {
         User user = getUser();
@@ -122,7 +118,6 @@ public class CartService {
         return cartMapper.toDTO(cart);
     }
 
-
     public CartResponseDTO updateCartItem(Integer productId, CartItemRequestDTO dto) {
         User user = getUser();
 
@@ -144,7 +139,6 @@ public class CartService {
 
         return cartMapper.toDTO(cart);
     }
-
 
     public CartResponseDTO removeCartItem(Integer productId) {
         User user = getUser();

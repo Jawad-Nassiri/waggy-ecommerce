@@ -57,12 +57,10 @@ public class OrderService {
         return orderMapper.toDTO(savedOrder);
     }
 
-
     public List<OrderResponseDTO> findAllOrders() {
         return orderRepository.findAll()
                 .stream().map(orderMapper::toDTO).toList();
     }
-
 
     public OrderResponseDTO findOrderById(Integer id) {
         Order order = orderRepository.findById(id)
@@ -70,7 +68,6 @@ public class OrderService {
 
         return orderMapper.toDTO(order);
     }
-
 
     public void deleteOrder(Integer id) {
         Order order = orderRepository.findById(id)

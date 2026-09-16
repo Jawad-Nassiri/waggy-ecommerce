@@ -67,6 +67,4 @@ public class ProductService {
 
         return productMapper.toDTO(updatedProduct);
     }
-
-
 }

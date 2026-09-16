@@ -15,11 +15,10 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class CategoryService {
-    // add dependencies
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
 
-    // create a new category
+
     public CategoryResponseDTO saveCategoryInDb(CategoryRequestDTO dto) {
 
         if(categoryRepository.existsByName(dto.name())) {
@@ -36,11 +35,9 @@ public class CategoryService {
         return categoryMapper.toDTO(savedCategory);
     }
 
-
     public List<CategoryResponseDTO> findAllCategories() {
         return categoryRepository.findAll().stream().map(categoryMapper::toDTO).toList();
     }
-
 
     public CategoryResponseDTO findCategoryById(Integer id) {
         Category category = categoryRepository.findById(id)
