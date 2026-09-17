@@ -5,6 +5,7 @@ import com.waggy.dto.product.ProductResponseDTO;
 import com.waggy.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +21,6 @@ public class ProductController {
         return productService.saveProductInDb(dto);
     }
 
-
     @GetMapping
     public List<ProductResponseDTO> getAllProducts() {
         return productService.findAllProducts();
@@ -34,9 +34,7 @@ public class ProductController {
 
 
     @PutMapping("/{id}")
-    public ProductResponseDTO updateProduct(
-            @PathVariable Integer id,
-            @Valid @RequestBody ProductRequestDTO dto
+    public ProductResponseDTO updateProduct(@PathVariable Integer id, @Valid @RequestBody ProductRequestDTO dto
     ) {
         return productService.updateProduct(id, dto);
 
@@ -44,6 +42,7 @@ public class ProductController {
 
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProduct(@PathVariable Integer id) {
         productService.deleteProduct(id);
     }
