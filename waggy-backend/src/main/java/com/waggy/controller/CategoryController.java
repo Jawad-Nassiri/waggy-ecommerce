@@ -5,6 +5,7 @@ import com.waggy.dto.category.CategoryResponseDTO;
 import com.waggy.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,13 +33,12 @@ public class CategoryController
     }
 
     @PutMapping("/{id}")
-    public CategoryResponseDTO updateCategory(
-            @PathVariable Integer id,
-            @Valid @RequestBody CategoryRequestDTO dto) {
+    public CategoryResponseDTO updateCategory(@PathVariable Integer id, @Valid @RequestBody CategoryRequestDTO dto) {
         return categoryService.updateCategory(id, dto);
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCategory(@PathVariable Integer id) {
         categoryService.deleteCategory(id);
     }
