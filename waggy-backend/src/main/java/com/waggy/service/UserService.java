@@ -5,8 +5,10 @@ import com.waggy.dto.user.UserRequestDTO;
 import com.waggy.dto.user.UserResponseDTO;
 import com.waggy.entity.User;
 import com.waggy.exception.EmailAlreadyExistsException;
+import com.waggy.exception.UserHasOrdersException;
 import com.waggy.exception.UserNotFoundException;
 import com.waggy.mapper.UserMapper;
+import com.waggy.repository.OrderRepository;
 import com.waggy.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +24,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final OrderRepository orderRepository;
 
     public UserResponseDTO saveUserInDb(UserRequestDTO dto) {
         if (userRepository.existsByEmail(dto.email())) {
@@ -35,7 +38,6 @@ public class UserService {
 
         return userMapper.toDTO(savedUser);
     }
-
 
     public List<UserResponseDTO> findAllUsers() {
         return userRepository.findAll().stream().map(userMapper::toDTO).toList();
@@ -57,7 +59,12 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
-        userRepository.delete(user);
+        boolean haveOrder = orderRepository.existsByUserId(user.getId());
+
+        if (haveOrder) {
+            throw new UserHasOrdersException("Cannot delete user with existing orders");
+        }
+            userRepository.delete(user);
     }
 
     public UserResponseDTO updateUser(Integer id, AdminUserUpdateDTO dto) {

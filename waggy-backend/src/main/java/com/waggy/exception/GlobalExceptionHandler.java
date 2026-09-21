@@ -63,4 +63,10 @@ public class GlobalExceptionHandler {
     public String handleOrderNotFound(OrderNotFoundException e) {
         return e.getMessage();
     }
+
+    @ExceptionHandler(UserHasOrdersException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleUserHaveOrder(UserHasOrdersException e) {
+        return e.getMessage();
+    }
 }

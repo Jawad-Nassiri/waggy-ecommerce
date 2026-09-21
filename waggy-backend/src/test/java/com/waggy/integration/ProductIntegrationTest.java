@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -35,6 +36,9 @@ class ProductIntegrationTest {
     private ProductRepository productRepository;
 
     @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @Autowired
     private CategoryRepository categoryRepository;
 
     @Autowired
@@ -42,9 +46,11 @@ class ProductIntegrationTest {
 
     @BeforeEach
     void setUp() {
+        jdbcTemplate.update("DELETE FROM order_items");
         productRepository.deleteAll();
         categoryRepository.deleteAll();
     }
+
     private Product createProduct(Category category) {
         Product product = new Product();
         product.setName("Dog Food");

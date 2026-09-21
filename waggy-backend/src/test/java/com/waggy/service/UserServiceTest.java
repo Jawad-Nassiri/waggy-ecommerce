@@ -7,6 +7,7 @@ import com.waggy.entity.Role;
 import com.waggy.entity.User;
 import com.waggy.exception.UserNotFoundException;
 import com.waggy.mapper.UserMapper;
+import com.waggy.repository.OrderRepository;
 import com.waggy.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,7 +39,7 @@ class UserServiceTest {
     private PasswordEncoder passwordEncoder;
 
     @Mock
-    private Authentication authentication;
+    private OrderRepository orderRepository;
 
     @InjectMocks
     private UserService userService;

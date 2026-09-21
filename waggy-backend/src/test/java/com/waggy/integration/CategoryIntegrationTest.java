@@ -40,6 +40,7 @@ public class CategoryIntegrationTest {
 
     @BeforeEach
     void setUp() {
+        jdbcTemplate.update("DELETE FROM products");
         jdbcTemplate.update("DELETE FROM categories");
     }
 
