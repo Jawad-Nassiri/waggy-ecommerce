@@ -1,0 +1,260 @@
+/* footer start  */
+
+.footer {
+    padding: 60px 0 0;
+    margin-top: 60px;
+    border-top: 1px solid #eee;
+    font-family: 'Chilanka', cursive;
+}
+
+.footer-container {
+    margin: 0 auto;
+    padding: 0 100px;
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.footer-brand {
+    max-width: 220px;
+}
+
+.footer-brand img {
+    width: 220px;
+    margin-bottom: 15px;
+}
+
+.footer-brand p {
+    font-size: 18px;
+    color: #41403e;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 10px;
+}
+
+.social-icons a {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #41403e;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #41403e;
+    text-decoration: none;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+
+.social-icons a:hover {
+    border-color: #dead6f;
+    color: #dead6f;
+}
+
+.footer-links h4,
+.footer-newsletter h4 {
+    font-size: 20px;
+    color: #41403e;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.footer-links ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0;
+}
+
+.footer-links ul a {
+    text-decoration: none;
+    font-size: 18px;
+    color: #41403e;
+    transition: all 0.3s;
+}
+
+.footer-links ul a:hover {
+    color: #dead6f;
+}
+
+.footer-newsletter p {
+    font-size: 18px;
+    color: #41403e;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.newsletter-input {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 35px;
+    padding: 8px 8px 8px 18px;
+    max-width: 300px;
+}
+
+.newsletter-input input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 18px;
+    color: #41403e;
+}
+
+.newsletter-input button {
+    background: #dead6f;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    color: white;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.footer-bottom {
+    max-width: 1100px;
+    margin: 40px auto 0;
+    padding: 20px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    color: #999;
+}
+
+.footer-bottom a {
+    color: #dead6f;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* footer finish  */
+
+
+
+/* responsive */
+
+@media (max-width: 1400px) {
+
+    .footer-container {
+        padding: 0 50px;
+    }
+
+}
+
+@media (max-width: 1024px) {
+
+    .footer-container {
+        padding: 0 50px;
+        flex-wrap: wrap;
+    }
+
+    .footer-brand {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .footer-newsletter {
+        width: 100%;
+        max-width: 350px;
+    }
+}
+
+
+@media (max-width: 768px) {
+
+    .footer {
+        padding-top: 40px;
+        margin-top: 40px;
+
+    }
+
+    .footer-container {
+        padding: 0 25px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px 30px;
+    }
+
+    .footer-brand {
+        max-width: 100%;
+    }
+
+    .footer-brand img {
+        width: 180px;
+    }
+
+    .footer-brand p,
+    .footer-newsletter p {
+        font-size: 16px;
+    }
+
+    .footer-links,
+    .footer-brand,
+    .footer-newsletter {
+        text-align: center
+    }
+
+    .social-icons {
+        justify-content: center;
+    }
+
+    .footer-links h4,
+    .footer-newsletter h4 {
+        font-size: 18px;
+    }
+
+    .footer-links ul a {
+        font-size: 16px;
+    }
+
+    .newsletter-input {
+        max-width: 100%;
+    }
+
+    .footer-bottom {
+        margin-top: 30px;
+        padding: 20px 25px;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        text-align: center;
+        font-size: 16px;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 35px;
+    }
+
+    .footer-brand,
+    .footer-newsletter {
+        max-width: 100%;
+    }
+
+    .footer-brand img {
+        width: 160px;
+    }
+
+    .social-icons {
+        margin-top: 10px;
+    }
+
+    .footer-bottom {
+        font-size: 14px;
+    }
+}

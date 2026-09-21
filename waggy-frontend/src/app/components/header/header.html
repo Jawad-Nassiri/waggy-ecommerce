@@ -1,0 +1,81 @@
+<!-- header start -->
+<header class="top-header">
+  <div class="header-container">
+
+    <div class="logo">
+      <img src="/images/logo.png" alt="Logo" />
+    </div>
+
+    <div class="header-badge">
+      <i class="fa-solid fa-bolt"></i>
+      <span>Fast delivery • Easy returns</span>
+    </div>
+
+    <div class="header-contact">
+      <div>
+        <span>Phone</span>
+        <span class="strong">+980-34984089</span>
+      </div>
+
+      <div>
+        <span>Email</span>
+        <span class="strong">Waggy@Gmail.Com</span>
+      </div>
+    </div>
+
+    <button class="menu-toggle" (click)="toggleMenu()">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+  </div>
+</header>
+<!-- header finish -->
+
+
+<!-- nav start -->
+<nav class="main-nav">
+
+  <div class="nav-container">
+    <div class="nav-icons">
+
+      <a routerLink="/login" class="user">
+        <i class="fa-solid fa-user"></i>
+      </a>
+
+      <div class="cart-wrap">
+        <a routerLink="/cart" class="cart-icon">
+          <i class="fa-solid fa-cart-shopping"></i>
+        </a>
+
+        <span class="cart-count">0</span>
+      </div>
+
+    </div>
+
+    <ul class="nav-links" [class.active]="menuOpen">
+      <button class="menu-close" (click)="toggleMenu()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <li>
+        <a routerLink="/">Home</a>
+      </li>
+
+      <li>
+        <a routerLink="/shop">Shop</a>
+      </li>
+
+      <li>
+        <a routerLink="/blog">Blog</a>
+      </li>
+
+      <li>
+        <a routerLink="/faq">FAQ</a>
+      </li>
+
+    </ul>
+
+  </div>
+
+</nav>
+<!-- nav finish -->
