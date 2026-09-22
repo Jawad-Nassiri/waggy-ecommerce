@@ -1,2 +1,99 @@
+<!-- banner component  -->
 <app-banner title="Register"></app-banner>
+<!-- banner component  -->
+
+<div class="auth-container">
+  <div class="auth-tabs">
+    <a routerLink="/login" class="auth-tab">LOG IN</a>
+    <a routerLink="/signup" class="auth-tab active">SIGN UP</a>
+  </div>
+
+  <div class="auth-divider"></div>
+
+  <form
+    class="auth-form"
+    (ngSubmit)="signup(name_input, email_input, password_input, confirm_password_input)"
+  >
+    <div class="auth-section-line"></div>
+
+    <div class="form-group">
+      <input
+        type="text"
+        id="name"
+        placeholder="Your Full Name"
+        #name_input
+        (input)="validateName(name_input.value, name_input)"
+      />
+      <small *ngIf="name_input.value !== '' && !nameValid"> Please provide a valid name ! </small>
+    </div>
+
+    <div class="form-group">
+      <input
+        type="email"
+        id="email"
+        placeholder="Your Email Address"
+        #email_input
+        (input)="validateEmail(email_input.value, email_input)"
+      />
+      <small *ngIf="email_input.value !== '' && !emailValid"> Please provide a valid email ! </small>
+    </div>
+
+    <div class="form-group password-group">
+      <input
+        type="password"
+        id="password"
+        placeholder="Set Your Password"
+        #password_input
+        (input)="validatePassword(password_input.value, $event, confirm_password_input)"
+      />
+      <i
+        class="fa-solid fa-eye-slash eye-icon"
+        #password_eye_icon
+        (click)="changeEyeIconStatus($event, password_input)"
+      ></i>
+      <small *ngIf="password_input.value !== '' && !passwordValid">
+        Password must be at least 6 characters and contain a letter, a number, and a special
+        character.
+      </small>
+    </div>
+
+    <div class="form-group password-group">
+      <input
+        type="password"
+        id="confirm-password"
+        placeholder="Retype Your Password"
+        #confirm_password_input
+        (input)="validateConfirmPassword(password_input.value, confirm_password_input)"
+      />
+      <i
+        class="fa-solid fa-eye-slash eye-icon"
+        #confirm_password_eye_icon
+        (click)="changeEyeIconStatus($event, confirm_password_input)"
+      ></i>
+      <small *ngIf="confirm_password_input.value !== '' && !confirmPasswordValid">
+        Passwords do not match.
+      </small>
+    </div>
+
+    <button type="submit" class="btn-submit">SIGN UP</button>
+  </form>
+</div>
+
+
+
+
+<!-- toast component  -->
+@if (showToast()) {
+  <app-toast
+    [title]="toastTitle"
+    [message]="toastMessage"
+    [type]="toastType"
+    (closed)="showToast.set(false)"
+  >
+  </app-toast>
+}
+<!-- toast component  -->
+
+<!-- gallery component  -->
 <app-gallery [images]="galleryImages" alt="Animal Photo"></app-gallery>
+<!-- gallery component  -->
