@@ -4,6 +4,7 @@ package com.waggy.security;
 import com.waggy.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -17,13 +18,11 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Checks each request for a JWT.
- *
- * Example:
- * A user logs in and receives a JWT.
- * The user sends the JWT with the next request.
- * This filter checks if the JWT is valid.
- * If it is valid, Spring knows who the user is.
+ * checks each request for a jwt stored in the token cookie.
+
+ * the browser automatically sends the cookie with each request.
+ * this filter extracts the jwt and validates it.
+ * if it is valid, spring knows who the user is.
  */
 
 @Component
@@ -39,14 +38,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
 
-        String authHeader = request.getHeader("Authorization");
+        Cookie[] cookies = request.getCookies();
 
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        if (cookies == null) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        String token = authHeader.substring(7);
+        String token = null;
+
+        for (Cookie cookie : cookies) {
+            if ("token".equals(cookie.getName())) {
+                token = cookie.getValue();
+                break;
+            }
+        }
+
+        if (token == null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         if (!jwtService.isTokenValid(token)) {
             filterChain.doFilter(request, response);
