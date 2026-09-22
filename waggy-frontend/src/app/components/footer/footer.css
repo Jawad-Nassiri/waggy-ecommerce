@@ -246,6 +246,10 @@
         max-width: 100%;
     }
 
+    .footer-newsletter p {
+        margin-bottom: 0px;
+    }
+
     .footer-brand img {
         width: 160px;
     }

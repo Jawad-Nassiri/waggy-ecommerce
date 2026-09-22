@@ -1,5 +1,6 @@
 package com.waggy.controller;
 
+import com.waggy.dto.user.AuthResponseDTO;
 import com.waggy.dto.user.LoginRequestDTO;
 import com.waggy.dto.user.UserRequestDTO;
 import com.waggy.dto.user.UserResponseDTO;
@@ -36,7 +37,16 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public UserResponseDTO register(@Valid @RequestBody UserRequestDTO userRequestDTO) {
-        return userService.saveUserInDb(userRequestDTO);
+    public AuthResponseDTO register(@Valid @RequestBody UserRequestDTO userRequestDTO) {
+        UserResponseDTO user = userService.saveUserInDb(userRequestDTO);
+
+        String token = jwtService.generateToken(user.email(), user.role());
+
+        return new AuthResponseDTO(
+                token,
+                user.id(),
+                user.name(),
+                user.email()
+        );
     }
 }
