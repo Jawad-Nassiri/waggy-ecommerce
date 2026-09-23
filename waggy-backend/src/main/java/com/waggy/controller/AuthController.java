@@ -12,6 +12,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseCookie;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -57,6 +60,16 @@ public class AuthController {
             @Valid @RequestBody UserRequestDTO userRequestDTO,
             HttpServletResponse response
     ) {
+
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null
+                && authentication.isAuthenticated()
+                && !(authentication instanceof AnonymousAuthenticationToken)) {
+            throw new AuthenticationException("You are already logged in");
+        }
+
         UserResponseDTO user = userService.saveUserInDb(userRequestDTO);
 
         String token = jwtService.generateToken(user.email(), user.role());
