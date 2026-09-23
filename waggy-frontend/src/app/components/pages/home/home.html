@@ -1,0 +1,10 @@
+<!-- toast component  -->
+@if (showToast()) {
+  <app-toast
+    [title]="toastTitle"
+    [message]="toastMessage"
+    [type]="toastType"
+    (closed)="showToast.set(false)"
+  >
+  </app-toast>
+}

@@ -6,6 +6,7 @@ import { AuthService } from '../../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { Toast } from '../../toast/toast';
 import { RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -13,10 +14,11 @@ import { RouterLink } from '@angular/router';
   templateUrl: './signup.html',
   styleUrl: './signup.css',
 })
-  
 export class Signup {
-
-  constructor(private authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+  ) {
     this.authService.loadCurrentUser();
   }
 
@@ -97,7 +99,7 @@ export class Signup {
     }
 
     this.authService.signup(name, email, password).subscribe({
-      next: (response) => {
+      next: () => {
         this.toastTitle = 'Success';
         this.toastMessage = 'Registration successful!';
         this.toastType = 'success';
@@ -112,6 +114,10 @@ export class Signup {
         this.emailValid = false;
         this.passwordValid = false;
         this.confirmPasswordValid = false;
+
+        this.router.navigate(['/'], {
+          state: { toastMessage: 'Registration successful!' },
+        });
       },
 
       error: (error) => {
@@ -122,5 +128,4 @@ export class Signup {
       },
     });
   }
-
 }
