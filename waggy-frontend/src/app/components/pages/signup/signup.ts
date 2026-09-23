@@ -29,7 +29,7 @@ export class Signup {
   showToast = signal(false);
   toastTitle = '';
   toastMessage = '';
-  toastType = 'success';
+  toastType = '';
 
   galleryImages = [
     '/images/gallery/gallery1.jpg',
@@ -100,11 +100,6 @@ export class Signup {
 
     this.authService.signup(name, email, password).subscribe({
       next: () => {
-        this.toastTitle = 'Success';
-        this.toastMessage = 'Registration successful!';
-        this.toastType = 'success';
-        this.showToast.set(true);
-
         nameInput.value = '';
         emailInput.value = '';
         passwordInput.value = '';

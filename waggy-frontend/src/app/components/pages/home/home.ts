@@ -14,7 +14,7 @@ export class Home {
   showToast = signal(false);
 
   ngOnInit() {
-  const message = history.state.toastMessage;
+  const message = history.state?.toastMessage;
 
   if (message) {
     this.toastTitle = 'Success';
