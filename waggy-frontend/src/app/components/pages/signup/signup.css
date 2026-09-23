@@ -29,11 +29,6 @@
     color: #e4a400;
 }
 
-.auth-divider {
-    border-top: 1px solid #ddd;
-    margin-bottom: 32px;
-}
-
 .auth-form {
     display: flex;
     flex-direction: column;

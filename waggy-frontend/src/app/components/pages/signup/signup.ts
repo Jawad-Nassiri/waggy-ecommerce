@@ -2,18 +2,23 @@ import { Component, signal } from '@angular/core';
 import { Banner } from '../../banner/banner';
 import { Gallery } from '../../gallery/gallery';
 import { NgIf } from '@angular/common';
-import { Signup as SignupService } from '../../../services/signup';
+import { AuthService } from '../../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { Toast } from '../../toast/toast';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
-  imports: [Banner, Gallery, NgIf, FormsModule, Toast],
+  imports: [Banner, Gallery, NgIf, FormsModule, Toast, RouterLink],
   templateUrl: './signup.html',
   styleUrl: './signup.css',
 })
+  
 export class Signup {
-  constructor(private signupService: SignupService) {}
+
+  constructor(private authService: AuthService) {
+    this.authService.loadCurrentUser();
+  }
 
   passwordValid = false;
   confirmPasswordValid = false;
@@ -91,9 +96,8 @@ export class Signup {
       return;
     }
 
-    this.signupService.signup(name, email, password).subscribe({
+    this.authService.signup(name, email, password).subscribe({
       next: (response) => {
-        console.log(response)
         this.toastTitle = 'Success';
         this.toastMessage = 'Registration successful!';
         this.toastType = 'success';
@@ -111,7 +115,6 @@ export class Signup {
       },
 
       error: (error) => {
-        console.log('ERROR:', error);
         this.toastTitle = 'Error';
         this.toastMessage = error.error || 'Registration failed.';
         this.toastType = 'error';
@@ -119,4 +122,5 @@ export class Signup {
       },
     });
   }
+
 }

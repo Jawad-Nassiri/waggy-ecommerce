@@ -1,14 +1,15 @@
 <!-- banner component  -->
 <app-banner title="Register"></app-banner>
-<!-- banner component  -->
 
+
+<!-- signup form  -->
 <div class="auth-container">
+
   <div class="auth-tabs">
     <a routerLink="/login" class="auth-tab">LOG IN</a>
     <a routerLink="/signup" class="auth-tab active">SIGN UP</a>
   </div>
 
-  <div class="auth-divider"></div>
 
   <form
     class="auth-form"
@@ -77,10 +78,8 @@
 
     <button type="submit" class="btn-submit">SIGN UP</button>
   </form>
+
 </div>
-
-
-
 
 <!-- toast component  -->
 @if (showToast()) {
@@ -92,8 +91,7 @@
   >
   </app-toast>
 }
-<!-- toast component  -->
 
 <!-- gallery component  -->
 <app-gallery [images]="galleryImages" alt="Animal Photo"></app-gallery>
-<!-- gallery component  -->
+
