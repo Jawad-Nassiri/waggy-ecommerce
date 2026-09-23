@@ -1,16 +1,16 @@
 import { Component, signal } from '@angular/core';
 import { Banner } from '../../banner/banner';
 import { Gallery } from '../../gallery/gallery';
-import { NgIf } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { Toast } from '../../toast/toast';
 import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
+import { galleryImages } from '../../../data/gallery-images';
 
 @Component({
   selector: 'app-signup',
-  imports: [Banner, Gallery, NgIf, FormsModule, Toast, RouterLink],
+  imports: [Banner, Gallery, FormsModule, Toast, RouterLink],
   templateUrl: './signup.html',
   styleUrl: './signup.css',
 })
@@ -31,14 +31,7 @@ export class Signup {
   toastMessage = '';
   toastType = '';
 
-  galleryImages = [
-    '/images/gallery/gallery1.jpg',
-    '/images/gallery/gallery2.jpg',
-    '/images/gallery/gallery3.jpg',
-    '/images/gallery/gallery4.jpg',
-    '/images/gallery/gallery5.jpg',
-    '/images/gallery/gallery6.jpg',
-  ];
+  galleryImages = galleryImages;
 
   changeEyeIconStatus(event: Event, input: HTMLInputElement): void {
     const icon = event.target as HTMLElement;

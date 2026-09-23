@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-
+import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-header',
   imports: [RouterLink],
@@ -8,6 +8,8 @@ import { RouterLink } from '@angular/router';
   styleUrl: './header.css',
 })
 export class Header {
+
+  constructor(public authService: AuthService) {}
   menuOpen = false;
   toggleMenu() {
     this.menuOpen = !this.menuOpen;

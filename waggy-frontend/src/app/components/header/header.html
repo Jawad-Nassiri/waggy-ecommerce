@@ -1,7 +1,6 @@
 <!-- header start -->
 <header class="top-header">
   <div class="header-container">
-
     <div class="logo">
       <img src="/images/logo.png" alt="Logo" />
     </div>
@@ -26,21 +25,25 @@
     <button class="menu-toggle" (click)="toggleMenu()">
       <i class="fa-solid fa-bars"></i>
     </button>
-
   </div>
 </header>
 <!-- header finish -->
 
-
 <!-- nav start -->
 <nav class="main-nav">
-
   <div class="nav-container">
     <div class="nav-icons">
-
-      <a routerLink="/login" class="user">
-        <i class="fa-solid fa-user"></i>
-      </a>
+      
+      @if (authService.currentUser()) {
+        
+        <a routerLink="/profile" class="user">
+          <i class="fa-solid fa-user"></i>
+        </a>
+      } @else {
+        <a routerLink="/login" class="user">
+          <i class="fa-solid fa-user"></i>
+        </a>
+      }
 
       <div class="cart-wrap">
         <a routerLink="/cart" class="cart-icon">
@@ -49,7 +52,6 @@
 
         <span class="cart-count">0</span>
       </div>
-
     </div>
 
     <ul class="nav-links" [class.active]="menuOpen">
@@ -72,10 +74,7 @@
       <li>
         <a routerLink="/faq">FAQ</a>
       </li>
-
     </ul>
-
   </div>
-
 </nav>
 <!-- nav finish -->
