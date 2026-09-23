@@ -60,7 +60,6 @@ export class Login {
 
     this.authService.login(email, password).subscribe({
       next: (user) => {
-        console.log('current user', user)
         emailInput.value = '';
         passwordInput.value = '';
 

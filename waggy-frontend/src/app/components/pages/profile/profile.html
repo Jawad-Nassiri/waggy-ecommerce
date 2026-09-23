@@ -1,1 +1,38 @@
-<p>profile works!</p>
+<!-- banner -->
+<app-banner title="Profile"></app-banner>
+
+<div class="waggy-profile">
+  <section class="wp-user">
+    <div class="wp-user-item">
+      <span class="wp-user-label">Name</span>
+      <span class="wp-user-value">{{ user?.name }}</span>
+    </div>
+    <div class="wp-user-divider"></div>
+    <div class="wp-user-item">
+      <span class="wp-user-label">Email</span>
+      <span class="wp-user-value">{{ user?.email }}</span>
+    </div>
+    <div class="wp-user-divider"></div>
+    <div class="wp-user-item">
+      <span class="wp-user-label">Orders</span>
+      <span class="wp-user-value">3</span>
+    </div>
+    <button class="wp-logout" type="button" (click)="logout()">Log out</button>
+  </section>
+
+  <section class="wp-orders">
+    <h2 class="wp-orders-title">My Orders</h2>
+    <!-- orders  -->
+    <div class="wp-order-card">
+      <div class="wp-order-main">
+        <p class="wp-order-date">Sep 18, 2026</p>
+        <h3 class="wp-order-name">Grain-Free Salmon Kibble, 12kg</h3>
+        <p class="wp-order-id">#WGY-10482</p>
+      </div>
+      <span class="wp-status wp-status--paid">Paid</span>
+    </div>
+  </section>
+</div>
+
+<!-- gallery component  -->
+<app-gallery [images]="galleryImages" alt="Animal Photo"></app-gallery>
