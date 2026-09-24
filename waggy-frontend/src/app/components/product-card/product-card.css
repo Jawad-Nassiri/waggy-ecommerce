@@ -58,3 +58,38 @@
     background: #41403e;
     color: white;
 }
+
+@media (max-width: 1024px) and (min-width: 901px) {
+  .product-image {
+    height: 200px;
+  }
+
+  .product-image img {
+    width: 70%;
+    height: 70%;
+    object-fit: contain;
+  }
+}
+
+@media (max-width: 600px) {
+  .product-image {
+    height: 200px;
+    width: 380px;
+    max-width: 100%;
+    margin: 0 auto 15px auto;
+  }
+
+  .product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .product-card {
+    text-align: center;
+  }
+
+  .btn-cart {
+    margin: 0 auto;
+  }
+}
