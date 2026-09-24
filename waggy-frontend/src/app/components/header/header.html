@@ -33,7 +33,6 @@
 <nav class="main-nav">
   <div class="nav-container">
     <div class="nav-icons">
-      
       @if (authService.currentUser()) {
         <a routerLink="/profile" class="user">
           <i class="fa-solid fa-user"></i>
@@ -53,25 +52,27 @@
       </div>
     </div>
 
-    <ul class="nav-links" [class.active]="menuOpen">
+    <ul class="nav-links" [class.menu-open]="menuOpen">
       <button class="menu-close" (click)="toggleMenu()">
         <i class="fa-solid fa-xmark"></i>
       </button>
 
       <li>
-        <a routerLink="/">Home</a>
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          Home
+        </a>
       </li>
 
       <li>
-        <a routerLink="/shop">Shop</a>
+        <a routerLink="/products" routerLinkActive="active">Shop</a>
       </li>
 
       <li>
-        <a routerLink="/blog">Blog</a>
+        <a routerLink="/blog" routerLinkActive="active">Blog</a>
       </li>
 
       <li>
-        <a routerLink="/faq">FAQ</a>
+        <a routerLink="/faq" routerLinkActive="active">FAQ</a>
       </li>
     </ul>
   </div>
