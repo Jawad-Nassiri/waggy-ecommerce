@@ -1,0 +1,109 @@
+/* Shop container */
+
+.shop-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 40px 20px 60px;
+  display: flex;
+  gap: 60px;
+}
+
+/* Sidebar */
+
+.shop-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+}
+
+.shop-sidebar h3 {
+  font-size: 22px;
+  font-weight: 500;
+  color: #41403e;
+  margin-bottom: 20px;
+  margin-top: 40px;
+}
+
+.shop-sidebar h3:first-child {
+  margin-top: 0;
+}
+
+.shop-sidebar ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.shop-sidebar ul a {
+  text-decoration: none;
+  font-size: 18px;
+  color: #999;
+}
+
+.shop-sidebar ul a.active,
+.shop-sidebar ul a:hover {
+  color: #dead6f;
+}
+
+.category-list li a {
+  cursor: pointer;
+}
+/* Shop content */
+
+.shop-content {
+  flex: 1;
+}
+
+.results-count {
+  font-size: 18px;
+  color: #999;
+  margin-bottom: 30px;
+}
+
+.price-list li a {
+  cursor: pointer;
+}
+
+/* Shop grid */
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px 20px;
+}
+
+.pagination {
+    display: flex;
+    gap: 10px;
+    margin-top: 50px;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination a {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    font-size: 16px;
+    color: #41403e;
+    cursor: pointer;
+}
+
+.pagination a.active {
+    border-color: #dead6f;
+    color: #dead6f;
+}
+
+.pagination a.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.pagination a:hover {
+    border-color: #41403e;
+}
+
