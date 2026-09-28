@@ -8,6 +8,7 @@ import { guestGuard } from './guards/guest.guard';
 import { Products } from './components/pages/products/products';
 import { Blog } from './components/pages/blog/blog';
 import { Cart } from './components/pages/cart/cart';
+import { ProductDetail } from './components/pages/product-detail/product-detail';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -16,5 +17,6 @@ export const routes: Routes = [
   { path: 'profile', component: Profile, canActivate: [authGuard] },
   { path: 'products', component: Products },
   { path: 'blog', component: Blog },
-  {path: 'cart', component: Cart}
+  { path: 'cart', component: Cart },
+  {path: 'product-detail', component: ProductDetail}
 ];

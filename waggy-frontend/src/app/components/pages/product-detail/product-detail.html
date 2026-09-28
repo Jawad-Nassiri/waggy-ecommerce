@@ -1,0 +1,33 @@
+<!-- banner component  -->
+<app-banner title="Single Product"></app-banner>
+
+<!-- product detail  -->
+<main class="product">
+  <div class="product-photo">
+    <img src="/images/products/clothing/hoodie1.jpg" alt="Jump Suit" />
+  </div>
+
+  <section class="product-info">
+    <p class="price">$170.00</p>
+
+    <p class="description">
+      Justo, cum feugiat imperdiet nulla molestie ac vulputate scelerisque amet. Bibendum adipiscing
+      platea blandit sit sed quam semper rhoncus.
+    </p>
+
+    <p class="stock">2 in stock</p>
+
+    <div class="qty">
+      <button type="button" aria-label="Decrease quantity" (click)="decreaseQuantity()">&minus;</button>
+      <input type="number" [value]="productQty" aria-label="Quantity" readonly />
+      <button type="button" aria-label="Increase quantity" (click)="increaseQuantity()">+</button>
+    </div>
+
+    <button type="button" class="btn-basket">Add to basket</button>
+    <a routerLink="/products" class="btn btn-dark">continue shopping</a>
+  </section>
+</main>
+
+
+<!-- gallery component -->
+<app-gallery [images]="galleryImages" alt="Animal Photo"></app-gallery>
