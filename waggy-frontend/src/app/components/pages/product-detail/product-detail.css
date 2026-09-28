@@ -16,7 +16,7 @@
 .product-photo img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: fill;
     display: block;
 }
 
@@ -24,6 +24,11 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+}
+
+.product-info h1 {
+    font-size: 35px;
+    font-weight: 400;
 }
 
 .price {

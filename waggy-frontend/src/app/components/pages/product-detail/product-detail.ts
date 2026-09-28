@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { Banner } from '../../banner/banner';
 import { galleryImages } from '../../../data/gallery-images';
 import { Gallery } from '../../gallery/gallery';
-import { RouterLink } from '@angular/router';
-
+import { RouterLink, ActivatedRoute } from '@angular/router';
+import { ProductService } from '../../../services/product.service';
+import { Product } from '../../../models/product';
 
 @Component({
   selector: 'app-product-detail',
@@ -12,20 +13,39 @@ import { RouterLink } from '@angular/router';
   styleUrl: './product-detail.css',
 })
 export class ProductDetail {
-  galleryImages = galleryImages;
+  constructor(
+    private productService: ProductService,
+    private route: ActivatedRoute,
+  ) {}
 
+  product = signal<Product | null>(null);
+  productId = 0;
+  galleryImages = galleryImages;
   productQty = 1;
-  inStock = 10
 
   increaseQuantity(): void {
-    if (this.productQty < this.inStock) {
+    if (this.productQty < this.product()!.stock) {
       this.productQty++;
     }
   }
 
   decreaseQuantity(): void {
     if (this.productQty > 1) {
-      this.productQty--
+      this.productQty--;
     }
+  }
+
+  getProductById() {
+    this.productService.getProductById(this.productId).subscribe((product) => {
+      this.product.set(product);
+    });
+  }
+
+  ngOnInit() {
+    this.productId = Number(this.route.snapshot.paramMap.get('id'));
+    this.getProductById();
+    setTimeout(() => {
+      window.scrollTo(0, 300);
+    });
   }
 }
