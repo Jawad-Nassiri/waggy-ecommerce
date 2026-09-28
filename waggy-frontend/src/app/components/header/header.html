@@ -43,12 +43,14 @@
         </a>
       }
 
-      <div class="cart-wrap">
-        <a routerLink="/cart" class="cart-icon">
+      <div class="cart-wrap" routerLink="/cart">
+        <a class="cart-icon">
           <i class="fa-solid fa-cart-shopping"></i>
         </a>
 
-        <span class="cart-count">0</span>
+        <span class="cart-count">
+          {{ cartService.cartCount() }}
+        </span>
       </div>
     </div>
 

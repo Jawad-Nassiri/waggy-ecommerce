@@ -1,0 +1,32 @@
+import { Injectable, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Product } from '../models/product';
+import { Cart } from '../models/cart';
+import { tap } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class CartService {
+  constructor(private http: HttpClient) {}
+
+  path = 'http://localhost:8080/carts';
+  cartCount = signal(0);
+
+  addToCart(product: Product, quantity: number) {
+    return this.http.post(this.path + '/items', {
+      productId: product.id,
+      quantity: quantity,
+    });
+  }
+
+  getMyCart() {
+    return this.http
+      .get<Cart>(this.path + '/me')
+      .pipe(tap((cart) => this.cartCount.set(cart.items.length)));
+  }
+
+  clearCartCount() {
+  this.cartCount.set(0);
+}
+}

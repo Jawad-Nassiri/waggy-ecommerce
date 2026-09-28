@@ -127,6 +127,7 @@
 
 .cart-wrap {
     position: relative;
+    cursor: pointer;
 }
 
 .cart-icon {

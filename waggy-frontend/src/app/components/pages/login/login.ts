@@ -7,6 +7,7 @@ import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Toast } from '../../toast/toast';
+import { CartService } from '../../../services/cart.service';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,7 @@ export class Login {
   constructor(
     private authService: AuthService,
     private router: Router,
+    private cartService: CartService
   ) {}
 
   galleryImages = galleryImages;
@@ -59,7 +61,7 @@ export class Login {
     }
 
     this.authService.login(email, password).subscribe({
-      next: (user) => {
+      next: () => {
         emailInput.value = '';
         passwordInput.value = '';
 
@@ -69,6 +71,8 @@ export class Login {
         this.router.navigate(['/'], {
           state: { toastMessage: 'Login successful!' },
         });
+
+        this.cartService.getMyCart().subscribe();
       },
 
       error: (error) => {

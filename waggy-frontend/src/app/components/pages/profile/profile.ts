@@ -4,6 +4,7 @@ import { Gallery } from '../../gallery/gallery';
 import { galleryImages } from '../../../data/gallery-images';
 import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
+import { CartService } from '../../../services/cart.service';
 
 @Component({
   selector: 'app-profile',
@@ -14,7 +15,8 @@ import { Router } from '@angular/router';
 export class Profile {
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private cartService: CartService
   ) {}
 
   user: any = null;
@@ -35,6 +37,7 @@ export class Profile {
         this.router.navigate(['/'], {
           state: { toastMessage: 'Logout successful!' },
         });
+        this.cartService.clearCartCount();
       },
     });
   }
