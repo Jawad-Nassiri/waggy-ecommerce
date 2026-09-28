@@ -1,8 +1,7 @@
 <a [routerLink]="['/product-detail', product.id]" class="product-card-link">
-    <div class="product-card">
-
+  <div class="product-card">
     <div class="product-image">
-      <img [src]="'/images/products/' + product.image" [alt]="product.name">
+      <img [src]="'/images/products/' + product.image" [alt]="product.name" />
     </div>
 
     <h3>{{ product.name }}</h3>
@@ -13,7 +12,16 @@
 
     <p class="product-price">${{ product.price }}</p>
 
-    <button class="btn-cart">ADD TO CART</button>
-
+    <button class="btn-cart" (click)="addToCart($event)">ADD TO CART</button>
   </div>
 </a>
+
+<!-- toast component  -->
+@if (showToast()) {
+  <app-toast
+    [title]="toastTitle"
+    [message]="toastMessage"
+    [type]="toastType"
+    (closed)="showToast.set(false)"
+  ></app-toast>
+}
