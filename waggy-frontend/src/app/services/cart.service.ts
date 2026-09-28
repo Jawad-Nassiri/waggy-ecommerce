@@ -27,6 +27,10 @@ export class CartService {
   }
 
   clearCartCount() {
-  this.cartCount.set(0);
-}
+    this.cartCount.set(0);
+  }
+
+  updateCartItem(productId: number, quantity: number) {
+    return this.http.put<Cart>(this.path + '/items/' + productId, { productId, quantity });
+  }
 }

@@ -19,8 +19,4 @@ export class Header {
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
   }
-
-  ngOnInit() {
-    console.log(this.cartService.cartCount());
-  }
 }
