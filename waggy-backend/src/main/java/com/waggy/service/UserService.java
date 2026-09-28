@@ -15,6 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.waggy.dto.user.UserUpdateDTO;
+import com.waggy.repository.CartRepository;
+import com.waggy.entity.Cart;
 
 import java.util.List;
 
@@ -25,6 +27,7 @@ public class UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final OrderRepository orderRepository;
+    private final CartRepository cartRepository;
 
     public UserResponseDTO saveUserInDb(UserRequestDTO dto) {
         if (userRepository.existsByEmail(dto.email())) {
@@ -35,6 +38,9 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         User savedUser = userRepository.save(user);
+        Cart cart = new Cart();
+        cart.setUser(savedUser);
+        cartRepository.save(cart);
 
         return userMapper.toDTO(savedUser);
     }

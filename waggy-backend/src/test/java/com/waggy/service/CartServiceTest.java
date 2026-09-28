@@ -62,7 +62,8 @@ class CartServiceTest {
                 "mac book",
                 1,
                 new BigDecimal(1299.99),
-                new BigDecimal(1299.99)
+                new BigDecimal(1299.99),
+                "image.jpg"
         );
     }
 

@@ -7,6 +7,7 @@ public record CartItemResponseDTO(
         String productName,
         Integer quantity,
         BigDecimal price,
-        BigDecimal subtotal
+        BigDecimal subtotal,
+        String image
 ) {
 }

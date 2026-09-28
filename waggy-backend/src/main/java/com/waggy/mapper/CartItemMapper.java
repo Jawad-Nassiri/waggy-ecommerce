@@ -1,13 +1,14 @@
 package com.waggy.mapper;
 
 
+import java.math.BigDecimal;
+
+import org.springframework.stereotype.Component;
+
 import com.waggy.dto.cart.CartItemRequestDTO;
 import com.waggy.dto.cart.CartItemResponseDTO;
 import com.waggy.entity.CartItem;
 import com.waggy.entity.Product;
-import org.springframework.stereotype.Component;
-
-import java.math.BigDecimal;
 
 @Component
 public class CartItemMapper {
@@ -25,7 +26,8 @@ public class CartItemMapper {
                 cartItem.getQuantity(),
                 cartItem.getProduct().getPrice(),
                 cartItem.getProduct().getPrice()
-                        .multiply(BigDecimal.valueOf(cartItem.getQuantity()))
+                        .multiply(BigDecimal.valueOf(cartItem.getQuantity())),
+                cartItem.getProduct().getImage()
         );
     }
 }
