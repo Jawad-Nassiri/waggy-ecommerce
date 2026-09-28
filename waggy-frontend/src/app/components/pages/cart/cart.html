@@ -1,0 +1,54 @@
+<!-- banner component  -->
+<app-banner title="Cart"></app-banner>
+
+<!-- cart  -->
+<main class="cart">
+
+  <section class="cart-items">
+    <div class="cart-head">
+      <span>Product</span>
+      <span>Quantity</span>
+      <span>Subtotal</span>
+    </div>
+
+    <article class="cart-row">
+      <div class="cart-product">
+        <img src="/images/products/clothing/hoodie1.jpg" alt="Grey Hoodie" />
+        <h3>Grey Hoodie</h3>
+      </div>
+      <div class="qty">
+        <button type="button" aria-label="Decrease quantity">&minus;</button>
+        <input type="number" value="1" min="1" max="50" aria-label="Quantity" readonly />
+        <button type="button" aria-label="Increase quantity">+</button>
+      </div>
+      <div class="cart-price">
+        <span>$150.00</span>
+        <button type="button" class="remove" aria-label="Remove Grey Hoodie">
+          <i class="fa-solid fa-trash-can"></i>
+        </button>
+      </div>
+    </article>
+
+  </section>
+
+  <aside class="cart-total">
+    <h2>Cart Total</h2>
+
+    <dl class="totals">
+      <div>
+        <dt>Subtotal</dt>
+        <dd>$1,500.00</dd>
+      </div>
+      <div>
+        <dt>Total</dt>
+        <dd>$1,500.00</dd>
+      </div>
+    </dl>
+
+    <div class="actions">
+      <button type="button" class="btn btn-dark">Update Cart</button>
+      <button type="button" class="btn btn-dark">Continue to Shop</button>
+      <button type="button" class="btn btn-gold">Proceed to Checkout</button>
+    </div>
+  </aside>
+</main>

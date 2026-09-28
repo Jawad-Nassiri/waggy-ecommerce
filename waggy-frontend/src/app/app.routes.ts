@@ -7,6 +7,7 @@ import { authGuard } from './guards/auth.guard';
 import { guestGuard } from './guards/guest.guard';
 import { Products } from './components/pages/products/products';
 import { Blog } from './components/pages/blog/blog';
+import { Cart } from './components/pages/cart/cart';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -14,5 +15,6 @@ export const routes: Routes = [
   { path: 'login', component: Login, canActivate: [guestGuard] },
   { path: 'profile', component: Profile, canActivate: [authGuard] },
   { path: 'products', component: Products },
-  {path: 'blog', component: Blog}
+  { path: 'blog', component: Blog },
+  {path: 'cart', component: Cart}
 ];
