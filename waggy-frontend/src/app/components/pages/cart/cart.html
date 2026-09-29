@@ -24,17 +24,21 @@
           </div>
 
           <div class="qty">
-            <button type="button" aria-label="Decrease quantity" (click)="decreaseQty(item)">&minus;</button>
+            <button type="button" aria-label="Decrease quantity" (click)="decreaseQty(item)">
+              &minus;
+            </button>
 
             <input type="number" [value]="item.quantity" min="1" readonly aria-label="Quantity" />
 
-            <button type="button" aria-label="Increase quantity" (click)="increaseQty(item)">+</button>
+            <button type="button" aria-label="Increase quantity" (click)="increaseQty(item)">
+              +
+            </button>
           </div>
 
           <div class="cart-price">
-            <span>${{ item.subtotal }}</span>
+            <span>${{ item.price * item.quantity }}</span>
 
-            <button type="button" class="remove" [attr.aria-label]="'Remove ' + item.productName">
+            <button type="button" class="remove" [attr.aria-label]="'Remove ' + item.productName" (click)="removeItem(item.productId)">
               <i class="fa-solid fa-trash-can"></i>
             </button>
           </div>
@@ -49,15 +53,20 @@
     <dl class="totals">
       <div>
         <dt>Subtotal</dt>
-        <dd>$1,500.00</dd>
+        <dd>
+          ${{getCartSubtotal()}}
+        </dd>
       </div>
       <div>
         <dt>Total</dt>
-        <dd>$1,500.00</dd>
+        <dd>
+          ${{getCartSubtotal()}}
+        </dd>
       </div>
     </dl>
 
     <div class="actions">
+      <button class="btn btn-dark" (click)="clearCart()">Clear Cart</button>
       <button routerLink="/products" type="submit" class="btn btn-dark">Continue to Shop</button>
       <button type="button" class="btn btn-gold">Proceed to Checkout</button>
     </div>

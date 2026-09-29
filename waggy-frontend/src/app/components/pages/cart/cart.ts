@@ -14,7 +14,6 @@ import { Toast } from '../../toast/toast';
 })
 export class CartComponent {
   cartItems = signal<CartItem[]>([]);
-  productQty = 0;
 
   // toast
   showToast = signal(false);
@@ -70,6 +69,48 @@ export class CartComponent {
         },
       });
     }
+  }
+
+  removeItem(productId: number): void {
+    this.cartService.removeItemFromCart(productId).subscribe({
+      next: (response: Cart) => {
+        this.cartItems.set(response.items);
+        this.toastTitle = 'Success';
+        this.toastMessage = 'Product deleted successfully!';
+        this.toastType = 'success';
+        this.showToast.set(true);
+        this.cartService.getMyCart().subscribe();
+      },
+      error: () => {
+        this.toastTitle = 'Error';
+        this.toastMessage = 'Failed to delete product.';
+        this.toastType = 'error';
+        this.showToast.set(true);
+      },
+    });
+  }
+
+  getCartSubtotal(): number {
+    return this.cartItems().reduce((total, item) => total + item.price * item.quantity, 0);
+  }
+
+  clearCart(): void {
+    this.cartService.clearCart().subscribe({
+      next: () => {
+        this.cartItems.set([]);
+        this.toastTitle = 'Success';
+        this.toastMessage = 'Cart cleared successfully!';
+        this.toastType = 'success';
+        this.showToast.set(true);
+        this.cartItems.set([]);
+      },
+      error: () => {
+        this.toastTitle = 'Error';
+        this.toastMessage = 'Failed to clear cart.';
+        this.toastType = 'error';
+        this.showToast.set(true);
+      },
+    });
   }
 
   ngOnInit(): void {

@@ -33,4 +33,13 @@ export class CartService {
   updateCartItem(productId: number, quantity: number) {
     return this.http.put<Cart>(this.path + '/items/' + productId, { productId, quantity });
   }
+
+  removeItemFromCart(productId: number) {
+    return this.http.delete<Cart>(this.path + '/items/' + productId);
+  }
+
+  clearCart() {
+    this.clearCartCount();
+    return this.http.delete<void>(this.path + '/me/items');
+  }
 }
