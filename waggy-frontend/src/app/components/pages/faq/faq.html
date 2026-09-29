@@ -1,0 +1,36 @@
+<!-- banner component  -->
+<app-banner title="FAQs"></app-banner>
+
+<!-- faqs  -->
+<main class="faq-main">
+  <h1>Frequently Asked Questions</h1>
+
+  <p class="faq-intro">
+    Find answers to the most common questions about shopping with Waggy, managing your account,
+    placing orders, and making payments.
+  </p>
+
+  <div class="faq-list">
+    @for (faq of faqs; track $index) {
+      <div class="faq-item">
+        <button
+          class="faq-question"
+          type="button"
+          [class.open]="openIndex() === $index"
+          [attr.aria-expanded]="openIndex() === $index"
+          (click)="toggle($index)"
+        >
+          <span>{{ faq.q }}</span>
+          <i class="fa-solid fa-caret-down"></i>
+        </button>
+
+        @if (openIndex() === $index) {
+          <div class="faq-answer">{{ faq.a }}</div>
+        }
+      </div>
+    }
+  </div>
+</main>
+
+<!-- gallery component  -->
+<app-gallery [images]="galleryImages"></app-gallery>
