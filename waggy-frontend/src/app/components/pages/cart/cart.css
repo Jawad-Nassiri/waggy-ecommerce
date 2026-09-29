@@ -207,6 +207,11 @@ button {
     opacity: 0.95;
 }
 
+.btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .empty-cart {
     display: flex;
     flex-direction: column;

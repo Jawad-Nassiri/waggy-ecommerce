@@ -38,7 +38,12 @@
           <div class="cart-price">
             <span>${{ item.price * item.quantity }}</span>
 
-            <button type="button" class="remove" [attr.aria-label]="'Remove ' + item.productName" (click)="removeItem(item.productId)">
+            <button
+              type="button"
+              class="remove"
+              [attr.aria-label]="'Remove ' + item.productName"
+              (click)="removeItem(item.productId)"
+            >
               <i class="fa-solid fa-trash-can"></i>
             </button>
           </div>
@@ -53,20 +58,23 @@
     <dl class="totals">
       <div>
         <dt>Subtotal</dt>
-        <dd>
-          ${{getCartSubtotal()}}
-        </dd>
+        <dd>${{ getCartSubtotal() }}</dd>
       </div>
       <div>
         <dt>Total</dt>
-        <dd>
-          ${{getCartSubtotal()}}
-        </dd>
+        <dd>${{ getCartSubtotal() }}</dd>
       </div>
     </dl>
 
     <div class="actions">
-      <button class="btn btn-dark" (click)="clearCart()">Clear Cart</button>
+      <button
+        class="btn btn-dark"
+        [disabled]="cartItems().length === 0"
+        (click)="clearCart()"
+        [class.disabled]="cartItems().length === 0"
+      >
+        Clear Cart
+      </button>
       <button routerLink="/products" type="submit" class="btn btn-dark">Continue to Shop</button>
       <button type="button" class="btn btn-gold">Proceed to Checkout</button>
     </div>
