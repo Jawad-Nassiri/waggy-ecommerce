@@ -1,82 +1,53 @@
 <!-- header start -->
-<header class="top-header">
+<header class="main-header">
   <div class="header-container">
-    <div class="logo">
+    <a routerLink="/" class="logo">
       <img src="/images/logo.png" alt="Logo" />
-    </div>
+    </a>
 
-    <div class="header-badge">
-      <i class="fa-solid fa-bolt"></i>
-      <span>Fast delivery • Easy returns</span>
-    </div>
+    <nav class="main-nav">
+      <ul class="nav-links" [class.menu-open]="menuOpen">
+        <button class="menu-close" (click)="toggleMenu()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
 
-    <div class="header-contact">
-      <div>
-        <span>Phone</span>
-        <span class="strong">+980-34984089</span>
+        <li>
+          <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+        </li>
+        <li>
+          <a routerLink="/products" routerLinkActive="active">Shop</a>
+        </li>
+        <li>
+          <a routerLink="/blog" routerLinkActive="active">Blog</a>
+        </li>
+        <li>
+          <a routerLink="/faq" routerLinkActive="active">FAQ</a>
+        </li>
+      </ul>
+
+      <div class="nav-icons">
+        @if (authService.currentUser()) {
+          <a routerLink="/profile" class="user">
+            <i class="fa-solid fa-user"></i>
+          </a>
+        } @else {
+          <a routerLink="/login" class="user">
+            <i class="fa-solid fa-user"></i>
+          </a>
+        }
+
+        <div class="cart-wrap" routerLink="/cart">
+          <a class="cart-icon">
+            <i class="fa-solid fa-cart-shopping"></i>
+          </a>
+          <span class="cart-count">{{ cartService.cartCount() }}</span>
+        </div>
       </div>
 
-      <div>
-        <span>Email</span>
-        <span class="strong">Waggy@Gmail.Com</span>
-      </div>
-    </div>
-
-    <button class="menu-toggle" (click)="toggleMenu()">
-      <i class="fa-solid fa-bars"></i>
-    </button>
+      <button class="menu-toggle" (click)="toggleMenu()">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </nav>
   </div>
 </header>
 <!-- header finish -->
-
-<!-- nav start -->
-<nav class="main-nav">
-  <div class="nav-container">
-    <div class="nav-icons">
-      @if (authService.currentUser()) {
-        <a routerLink="/profile" class="user">
-          <i class="fa-solid fa-user"></i>
-        </a>
-      } @else {
-        <a routerLink="/login" class="user">
-          <i class="fa-solid fa-user"></i>
-        </a>
-      }
-
-      <div class="cart-wrap" routerLink="/cart">
-        <a class="cart-icon">
-          <i class="fa-solid fa-cart-shopping"></i>
-        </a>
-
-        <span class="cart-count">
-          {{ cartService.cartCount() }}
-        </span>
-      </div>
-    </div>
-
-    <ul class="nav-links" [class.menu-open]="menuOpen">
-      <button class="menu-close" (click)="toggleMenu()">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-
-      <li>
-        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          Home
-        </a>
-      </li>
-
-      <li>
-        <a routerLink="/products" routerLinkActive="active">Shop</a>
-      </li>
-
-      <li>
-        <a routerLink="/blog" routerLinkActive="active">Blog</a>
-      </li>
-
-      <li>
-        <a routerLink="/faq" routerLinkActive="active">FAQ</a>
-      </li>
-    </ul>
-  </div>
-</nav>
-<!-- nav finish -->
