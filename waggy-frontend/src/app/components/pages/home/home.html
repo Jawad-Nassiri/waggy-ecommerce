@@ -107,3 +107,62 @@
     </div>
   </div>
 </section>
+
+<!-- hoodies  -->
+<section class="products-section">
+  <div class="products-header">
+    <h2>Pet Clothing</h2>
+    <a routerLink="/products" class="btn-shop">SHOP NOW →</a>
+  </div>
+
+  <div class="products-slider-wrapper">
+    <button class="navigation prev" type="button" (click)="scroll(slider, -1)">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+
+    <div class="products-slider" #slider>
+      @for (product of clothingProducts(); track product.id) {
+        <app-product-card [product]="product"></app-product-card>
+      }
+    </div>
+
+    <button class="navigation next" type="button" (click)="scroll(slider, 1)">
+      <i class="fa-solid fa-arrow-right"></i>
+    </button>
+  </div>
+</section>
+
+<!-- foods  -->
+<section class="products-section food">
+  <div class="products-header foods">
+    <h2>Pet Foodies</h2>
+    <a routerLink="/products" class="btn-shop">SHOP NOW →</a>
+  </div>
+
+  <div class="food-grid">
+    @for (product of foodProducts(); track product.id) {
+      <app-product-card [product]="product"></app-product-card>
+    }
+  </div>
+</section>
+
+<!-- sale banner  -->
+<section class="sale-banner">
+  <div class="sale-content">
+    <span>Discover Our Collection</span>
+
+    <h2>
+      Clearance<br />
+      Sale !!!
+    </h2>
+
+    <a routerLink="/products" class="btn-shop">SHOP NOW →</a>
+  </div>
+
+  <div class="sale-image">
+    <img src="images/home/banner/banner-img4.png" alt="Clearance Sale" />
+  </div>
+</section>
+
+<!-- gallery component  -->
+<app-gallery [images]="galleryImages"></app-gallery>

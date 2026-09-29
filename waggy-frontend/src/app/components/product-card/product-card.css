@@ -23,7 +23,7 @@
 }
 
 .product-card h3 {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 500;
     color: #41403e;
     margin-bottom: 6px;
@@ -31,13 +31,13 @@
 
 .product-stars {
     color: #dead6f;
-    font-size: 18px;
+    font-size: 25px;
     margin-bottom: 6px;
 }
 
 .product-price {
     color: #dead6f;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 600;
     margin-bottom: 12px;
 }
@@ -47,7 +47,7 @@
     border: 1px solid #41403e;
     background: white;
     color: #41403e;
-    font-size: 14px;
+    font-size: 15px;
     letter-spacing: 1px;
     cursor: pointer;
     border-radius: 3px;
