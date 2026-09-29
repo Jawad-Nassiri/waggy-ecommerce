@@ -173,4 +173,26 @@ class ProductServiceTest {
 
     }
 
+    @Test
+    void findProductByCategory_shouldFindByCategory() {
+        Product product = createProduct();
+
+        Category category = new Category();
+        category.setId(1);
+        product.setCategory(category);
+
+        when(productRepository.findByCategoryId(product.getCategory().getId()))
+                .thenReturn(List.of(product));
+
+        when(productMapper.toDTO(product))
+                .thenReturn(createProductResponseDTO());
+
+        List<ProductResponseDTO> result =
+                productService.getProductByCategory(product.getCategory().getId());
+
+        assertEquals(1, result.size());
+        verify(productRepository).findByCategoryId(product.getCategory().getId());
+        verify(productMapper).toDTO(product);
+    }
+
 }

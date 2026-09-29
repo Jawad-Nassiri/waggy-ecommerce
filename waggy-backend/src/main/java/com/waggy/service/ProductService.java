@@ -30,11 +30,9 @@ public class ProductService {
         return productMapper.toDTO(savedProduct);
     }
 
-
     public List<ProductResponseDTO> findAllProducts() {
         return productRepository.findAll().stream().map(productMapper::toDTO).toList();
     }
-
 
     public ProductResponseDTO findProductById(Integer id) {
         Product product = productRepository.findById(id)
@@ -42,6 +40,9 @@ public class ProductService {
         return productMapper.toDTO(product);
     }
 
+    public List<ProductResponseDTO> getProductByCategory(Integer categoryId) {
+        return productRepository.findByCategoryId(categoryId).stream().map(productMapper::toDTO).toList();
+    }
 
     public void deleteProduct(Integer id) {
         Product product = productRepository.findById(id)

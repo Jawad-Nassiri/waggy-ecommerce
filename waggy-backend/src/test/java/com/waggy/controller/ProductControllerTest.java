@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.waggy.dto.category.CategoryResponseDTO;
 import com.waggy.dto.product.ProductRequestDTO;
 import com.waggy.dto.product.ProductResponseDTO;
+import com.waggy.entity.Category;
 import com.waggy.service.JwtService;
 import com.waggy.service.ProductService;
 import org.junit.jupiter.api.Test;
@@ -158,5 +159,19 @@ class ProductControllerTest {
                 .andExpect(status().isNoContent());
 
         verify(productService).deleteProduct(1);
+    }
+
+    @Test
+    void getProductByCategory_shouldGetProductByCategory() throws Exception {
+        ProductResponseDTO product = createResponseDTO();
+        Integer id = 1;
+        List<ProductResponseDTO> products = List.of(product);
+
+        when(productService.getProductByCategory(id)).thenReturn(products);
+
+        mockMvc.perform(get("/products/category/1"))
+                .andExpect(status().isOk());
+
+        verify(productService).getProductByCategory(id);
     }
 }
