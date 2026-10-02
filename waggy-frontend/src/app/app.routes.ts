@@ -9,6 +9,7 @@ import { Products } from './components/pages/products/products';
 import { Blog } from './components/pages/blog/blog';
 import { CartComponent } from './components/pages/cart/cart';
 import { ProductDetail } from './components/pages/product-detail/product-detail';
+import { Faq } from './components/pages/faq/faq';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -18,5 +19,6 @@ export const routes: Routes = [
   { path: 'products', component: Products },
   { path: 'blog', component: Blog },
   { path: 'cart', component: CartComponent },
-  {path: 'product-detail/:id', component: ProductDetail}
+  { path: 'product-detail/:id', component: ProductDetail },
+  {path: 'faq', component: Faq}
 ];

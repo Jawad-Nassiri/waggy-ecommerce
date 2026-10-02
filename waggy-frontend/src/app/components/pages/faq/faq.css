@@ -28,6 +28,7 @@
 
 .faq-item {
     border-bottom: 1px solid #eee;
+    /* transition: all 0.5s ease; */
 }
 
 .faq-item:last-child {
@@ -64,10 +65,26 @@
 }
 
 .faq-answer {
-    padding: 0 20px 20px;
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+}
+
+.faq-answer.open {
+    grid-template-rows: 1fr;
+}
+
+.faq-answer-inner {
+    overflow: hidden;
+    padding: 0 20px;
     font-size: 18px;
     line-height: 1.8;
     color: #6b6a68;
+    transition: padding 0.3s ease;
+}
+
+.faq-answer.open .faq-answer-inner {
+    padding: 0 20px 20px;
 }
 
 
@@ -79,8 +96,12 @@
         font-size: 17px;
     }
 
-    .faq-answer {
-        padding: 0 16px 16px;
+    .faq-answer-inner {
+        padding: 0 16px;
         font-size: 15px;
+    }
+
+    .faq-answer.open .faq-answer-inner {
+        padding: 0 16px 16px;
     }
 }

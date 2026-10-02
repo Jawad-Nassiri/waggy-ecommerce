@@ -11,6 +11,7 @@ export class CartService {
   constructor(private http: HttpClient) {}
 
   path = 'http://localhost:8080/carts';
+  ordersPath = 'http://localhost:8080/orders';
   cartCount = signal(0);
 
   addToCart(product: Product, quantity: number) {
@@ -41,5 +42,9 @@ export class CartService {
   clearCart() {
     this.clearCartCount();
     return this.http.delete<void>(this.path + '/me/items');
+  }
+
+  createOrder(items: { productId: number; quantity: number }[]) {
+    return this.http.post(this.ordersPath, { items });
   }
 }

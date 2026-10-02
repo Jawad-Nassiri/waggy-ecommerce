@@ -76,7 +76,14 @@
         Clear Cart
       </button>
       <button routerLink="/products" type="submit" class="btn btn-dark">Continue to Shop</button>
-      <button type="button" class="btn btn-gold">Proceed to Checkout</button>
+      <button
+        type="button"
+        class="btn btn-gold"
+        [disabled]="cartItems().length === 0"
+        [class.disabled]="cartItems().length === 0"
+      >
+        Proceed to Checkout
+      </button>
     </div>
   </aside>
 </main>
