@@ -10,6 +10,7 @@ import { Blog } from './components/pages/blog/blog';
 import { CartComponent } from './components/pages/cart/cart';
 import { ProductDetail } from './components/pages/product-detail/product-detail';
 import { Faq } from './components/pages/faq/faq';
+import { PaymentSuccess } from './components/pages/payment-success/payment-success';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -20,5 +21,7 @@ export const routes: Routes = [
   { path: 'blog', component: Blog },
   { path: 'cart', component: CartComponent },
   { path: 'product-detail/:id', component: ProductDetail },
-  {path: 'faq', component: Faq}
+  { path: 'faq', component: Faq },
+  { path: 'payments/success', component: PaymentSuccess, canActivate: [authGuard] },
+  { path: 'payments/cancel', component: PaymentSuccess, canActivate: [authGuard] }
 ];

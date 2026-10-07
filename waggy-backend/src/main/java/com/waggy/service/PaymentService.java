@@ -1,18 +1,19 @@
 package com.waggy.service;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import com.stripe.model.Event;
 import com.stripe.model.checkout.Session;
+import com.stripe.net.Webhook;
 import com.stripe.param.checkout.SessionCreateParams;
 import com.waggy.dto.payment.PaymentRequestDTO;
 import com.waggy.dto.payment.PaymentResponseDTO;
 import com.waggy.entity.Order;
 import com.waggy.exception.OrderNotFoundException;
 import com.waggy.repository.OrderRepository;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import com.stripe.model.Event;
-import com.stripe.net.Webhook;
-
-import java.util.List;
 
 @Service
 public class PaymentService {
@@ -56,8 +57,8 @@ public class PaymentService {
                 // if canceled → go to the cancel page.
         SessionCreateParams params = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
-                .setSuccessUrl("http://localhost:4200/payment/success")
-                .setCancelUrl("http://localhost:4200/payment/cancel")
+                .setSuccessUrl("http://localhost:4200/payments/success?orderId=" + order.getId())
+                .setCancelUrl("http://localhost:4200/payments/cancel")
                 .addAllLineItem(lineItems)
                 .putMetadata("orderId", order.getId().toString())
                 .build();

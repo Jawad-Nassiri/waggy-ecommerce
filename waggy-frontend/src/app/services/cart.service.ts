@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Product } from '../models/product';
 import { Cart } from '../models/cart';
 import { tap } from 'rxjs';
+import { Order } from '../models/order';
+
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +14,7 @@ export class CartService {
 
   path = 'http://localhost:8080/carts';
   ordersPath = 'http://localhost:8080/orders';
+  paymentsPath = 'http://localhost:8080/payments';
   cartCount = signal(0);
 
   addToCart(product: Product, quantity: number) {
@@ -45,6 +48,14 @@ export class CartService {
   }
 
   createOrder(items: { productId: number; quantity: number }[]) {
-    return this.http.post(this.ordersPath, { items });
+    return this.http.post<{ id: number }>(this.ordersPath, { items });
+  }
+
+  createPayment(orderId: number) {
+    return this.http.post<{ checkoutUrl: string }>(this.paymentsPath, { orderId });
+  }
+
+  getOrder() {
+    return this.http.get<Order[]>(this.ordersPath + '/me');
   }
 }

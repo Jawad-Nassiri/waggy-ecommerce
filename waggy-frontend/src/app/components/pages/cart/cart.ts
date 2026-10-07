@@ -3,7 +3,7 @@ import { Banner } from '../../banner/banner';
 import { CartService } from '../../../services/cart.service';
 import { CartItem } from '../../../models/cart-item';
 import { Cart } from '../../../models/cart';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Toast } from '../../toast/toast';
 
 @Component({
@@ -21,7 +21,10 @@ export class CartComponent {
   toastMessage = '';
   toastType = '';
 
-  constructor(private cartService: CartService) {}
+  constructor(
+    private cartService: CartService,
+    private router: Router,
+  ) {}
 
   getMyCart(): void {
     this.cartService.getMyCart().subscribe((response: Cart) => {
@@ -109,6 +112,23 @@ export class CartComponent {
         this.toastMessage = 'Failed to clear cart.';
         this.toastType = 'error';
         this.showToast.set(true);
+      },
+    });
+  }
+
+  checkout(): void {
+    const items = this.cartItems().map((item) => ({
+      productId: item.productId,
+      quantity: item.quantity,
+    }));
+
+    this.cartService.createOrder(items).subscribe({
+      next: (order) => {
+        this.cartService.createPayment(order.id).subscribe({
+          next: (response) => {
+            window.location.href = response.checkoutUrl;
+          },
+        });
       },
     });
   }

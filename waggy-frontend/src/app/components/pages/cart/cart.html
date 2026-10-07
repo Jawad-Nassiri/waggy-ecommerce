@@ -81,6 +81,7 @@
         class="btn btn-gold"
         [disabled]="cartItems().length === 0"
         [class.disabled]="cartItems().length === 0"
+        (click)="checkout()"
       >
         Proceed to Checkout
       </button>
