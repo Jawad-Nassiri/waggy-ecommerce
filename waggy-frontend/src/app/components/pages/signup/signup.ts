@@ -19,7 +19,6 @@ export class Signup {
     private authService: AuthService,
     private router: Router,
   ) {
-    this.authService.loadCurrentUser();
   }
 
   passwordValid = false;
@@ -106,6 +105,8 @@ export class Signup {
         this.router.navigate(['/'], {
           state: { toastMessage: 'Registration successful!' },
         });
+
+        this.authService.loadCurrentUser();
       },
 
       error: (error) => {
