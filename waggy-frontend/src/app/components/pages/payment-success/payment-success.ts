@@ -24,7 +24,6 @@ export class PaymentSuccess {
       const order = orders.find((order) => order.id === orderId);
 
       if (order?.status === 'PAID') {
-        this.cartService.clearCart().subscribe();
         this.isValid.set(true)
       } else {
         this.router.navigate(['/cart']);

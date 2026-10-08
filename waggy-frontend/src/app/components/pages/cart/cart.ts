@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, HostListener } from '@angular/core';
 import { Banner } from '../../banner/banner';
 import { CartService } from '../../../services/cart.service';
 import { CartItem } from '../../../models/cart-item';
@@ -28,6 +28,7 @@ export class CartComponent {
 
   getMyCart(): void {
     this.cartService.getMyCart().subscribe((response: Cart) => {
+      console.log('CART FROM BACKEND:', response);
       this.cartItems.set(response.items);
     });
   }
@@ -135,5 +136,13 @@ export class CartComponent {
 
   ngOnInit(): void {
     this.getMyCart();
+  }
+
+  // reload cart when coming back with the back button
+  @HostListener('window:pageshow', ['$event'])
+  onPageShow(event: PageTransitionEvent): void {
+    if (event.persisted) {
+      this.getMyCart();
+    }
   }
 }

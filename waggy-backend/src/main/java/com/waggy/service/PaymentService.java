@@ -2,6 +2,10 @@ package com.waggy.service;
 
 import java.util.List;
 
+import com.waggy.entity.Cart;
+import com.waggy.entity.User;
+import com.waggy.exception.CartNotFoundException;
+import com.waggy.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +23,14 @@ import com.waggy.repository.OrderRepository;
 public class PaymentService {
 
     private final OrderRepository orderRepository;
+    private final CartRepository cartRepository;
 
     @Value("${stripe.webhook-secret}")
     private String webhookSecret;
 
-    public PaymentService(OrderRepository orderRepository) {
+    public PaymentService(OrderRepository orderRepository, CartRepository cartRepository) {
         this.orderRepository = orderRepository;
+        this.cartRepository = cartRepository;
     }
 
     public PaymentResponseDTO createCheckoutSession(PaymentRequestDTO dto) {
@@ -52,9 +58,9 @@ public class PaymentService {
                 )
                 .toList();
 
-                // this part sets the payment details.
-                // after payment → go to the success page.
-                // if canceled → go to the cancel page.
+        // this part sets the payment details.
+        // after payment → go to the success page.
+        // if canceled → go to the cancel page.
         SessionCreateParams params = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
                 .setSuccessUrl("http://localhost:4200/payments/success?orderId=" + order.getId())
@@ -62,8 +68,6 @@ public class PaymentService {
                 .addAllLineItem(lineItems)
                 .putMetadata("orderId", order.getId().toString())
                 .build();
-
-
 
 
         // creates the stripe payment page for the order.
@@ -82,14 +86,22 @@ public class PaymentService {
     }
 
     public void markOrderAsPaid(Integer orderId) {
+        System.out.println("🔥 markOrderAsPaid CALLED: " + orderId);
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException("Order not found !"));
 
         order.setStatus("PAID");
         orderRepository.save(order);
+
+//        clear the cart after successfully payment
+        User user = order.getUser();
+        Cart cart = cartRepository.findByUser(user)
+                .orElseThrow(() -> new CartNotFoundException("Cart not found !"));
+        cart.getCartItems().clear();
+        cartRepository.save(cart);
     }
 
-    public void handleWebhook(String payload,String sigHeader) {
+    public void handleWebhook(String payload, String sigHeader) {
 
         try {
             Event event = Webhook.constructEvent(
