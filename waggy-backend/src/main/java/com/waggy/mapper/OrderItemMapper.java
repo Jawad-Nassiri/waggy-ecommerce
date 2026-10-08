@@ -24,6 +24,7 @@ public class OrderItemMapper {
         return new OrderItemResponseDTO(
                 orderItem.getProduct().getId(),
                 orderItem.getProduct().getName(),
+                orderItem.getProduct().getImage(),
                 orderItem.getQuantity(),
                 orderItem.getPrice(),
                 orderItem.getPrice()

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { CartService } from '../../../services/cart.service';
 
@@ -15,17 +15,17 @@ export class PaymentSuccess {
     private router: Router
   ) { }
   
-  isValid = false;
+  isValid = signal(false);
 
   ngOnInit() {
     const orderId = Number(this.route.snapshot.queryParamMap.get('orderId'));
 
-    this.cartService.getOrder().subscribe((orders) => {
+    this.cartService.getOrders().subscribe((orders) => {
       const order = orders.find((order) => order.id === orderId);
 
       if (order?.status === 'PAID') {
         this.cartService.clearCart().subscribe();
-        this.isValid = true;
+        this.isValid.set(true)
       } else {
         this.router.navigate(['/cart']);
       }

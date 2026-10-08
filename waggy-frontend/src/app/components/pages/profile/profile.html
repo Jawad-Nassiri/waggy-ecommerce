@@ -15,22 +15,54 @@
     <div class="wp-user-divider"></div>
     <div class="wp-user-item">
       <span class="wp-user-label">Orders</span>
-      <span class="wp-user-value">3</span>
+      <span class="wp-user-value">{{ orders().length }}</span>
     </div>
     <button class="wp-logout" type="button" (click)="logout()">Log out</button>
   </section>
 
   <section class="wp-orders">
-    <h2 class="wp-orders-title">My Orders</h2>
-    <!-- orders  -->
-    <div class="wp-order-card">
-      <div class="wp-order-main">
-        <p class="wp-order-date">Sep 18, 2026</p>
-        <h3 class="wp-order-name">Grain-Free Salmon Kibble, 12kg</h3>
-        <p class="wp-order-id">#WGY-10482</p>
+    @if (orders().length === 0) {
+      <div class="empty-orders">
+        <p>You haven't placed any orders yet.</p>
+        <i class="fa-solid fa-face-frown"></i>
       </div>
-      <span class="wp-status wp-status--paid">Paid</span>
-    </div>
+    } @else {
+      <h2 class="wp-orders-title">My Orders</h2>
+
+      @for (order of orders(); track order.id) {
+        <div class="wp-order-card">
+          <div class="wp-order-header">
+            <div>
+              <p class="wp-order-date">{{ order.orderDate | date: 'MMM d, yyyy' }}</p>
+              <p class="wp-order-id">ID: #{{ order.id }}</p>
+            </div>
+            <span class="wp-status wp-status--paid">{{ order.status }}</span>
+          </div>
+
+          <ul class="wp-items">
+            @for (item of order.items; track item.productId) {
+              <li class="wp-item">
+                <img
+                  class="wp-item-img"
+                  [src]="'/images/products/' + item.productImage"
+                  [alt]="item.productName"
+                />
+                <div class="wp-item-info">
+                  <h3 class="wp-item-name">{{ item.productName }}</h3>
+                  <p class="wp-item-qty">Qty: {{ item.quantity }}</p>
+                </div>
+                <span class="wp-item-price">€{{ item.quantity * item.price }}</span>
+              </li>
+            }
+          </ul>
+
+          <div class="wp-order-footer">
+            <span>Total</span>
+            <strong>€{{ order.totalPrice }}</strong>
+          </div>
+        </div>
+      }
+    }
   </section>
 </div>
 

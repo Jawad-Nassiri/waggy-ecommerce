@@ -55,7 +55,7 @@ export class CartService {
     return this.http.post<{ checkoutUrl: string }>(this.paymentsPath, { orderId });
   }
 
-  getOrder() {
+  getOrders() {
     return this.http.get<Order[]>(this.ordersPath + '/me');
   }
 }
