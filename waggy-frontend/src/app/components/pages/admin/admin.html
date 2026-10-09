@@ -1,0 +1,40 @@
+<div class="admin">
+  <aside class="sidebar" [class.open]="sidebarOpen">
+    <a routerLink="/" class="logo">
+      <i class="fa-solid fa-paw"></i>
+      <span class="label">Waggy</span>
+    </a>
+
+    <nav class="side-menu">
+      <a
+        routerLink="/admin"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="navlink"
+      >
+        <span class="navicon"><i class="fa-solid fa-house"></i></span>
+        <span class="label">Dashboard</span>
+      </a>
+      <a routerLink="/admin/users" routerLinkActive="active" class="navlink">
+        <span class="navicon"><i class="fa-solid fa-users"></i></span>
+        <span class="label">Users</span>
+      </a>
+      <a routerLink="/admin/products" routerLinkActive="active" class="navlink">
+        <span class="navicon"><i class="fa-solid fa-box"></i></span>
+        <span class="label">Products</span>
+      </a>
+      <a routerLink="/admin/orders" routerLinkActive="active" class="navlink">
+        <span class="navicon"><i class="fa-solid fa-bag-shopping"></i></span>
+        <span class="label">Orders</span>
+      </a>
+    </nav>
+
+    <button class="toggle-sidebar" (click)="sidebarOpen = !sidebarOpen">
+      <i class="fa-solid fa-angle-right"></i>
+    </button>
+  </aside>
+
+  <section class="content">
+    <router-outlet></router-outlet>
+  </section>
+</div>
