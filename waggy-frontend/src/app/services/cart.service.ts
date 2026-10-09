@@ -4,7 +4,7 @@ import { Product } from '../models/product';
 import { Cart } from '../models/cart';
 import { tap } from 'rxjs';
 import { Order } from '../models/order';
-
+import { catchError, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -25,9 +25,13 @@ export class CartService {
   }
 
   getMyCart() {
-    return this.http
-      .get<Cart>(this.path + '/me')
-      .pipe(tap((cart) => this.cartCount.set(cart.items.length)));
+    return this.http.get<Cart>(this.path + '/me').pipe(
+      tap((cart) => this.cartCount.set(cart.items.length)),
+      catchError(() => {
+        this.cartCount.set(0);
+        return of({ items: [] } as unknown as Cart);
+      }),
+    );
   }
 
   clearCartCount() {

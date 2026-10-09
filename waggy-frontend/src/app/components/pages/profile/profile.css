@@ -183,11 +183,15 @@
 
 .wp-order-footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding-top: 14px;
   border-top: 1px solid #efebe3;
   font-size: 18px;
   color: #3f2f22;
+}
+
+.wp-order-footer span {
+  margin-right: 3px;
 }
 
 .wp-status {

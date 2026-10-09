@@ -9,3 +9,7 @@
 body {
     font-family: 'Chilanka', cursive;
 }
+
+[routerLink] {
+  cursor: pointer;
+}

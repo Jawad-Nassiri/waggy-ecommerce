@@ -49,7 +49,7 @@
                 />
                 <div class="wp-item-info">
                   <h3 class="wp-item-name">{{ item.productName }}</h3>
-                  <p class="wp-item-qty">Qty: {{ item.quantity }}</p>
+                  <p class="wp-item-qty">Quantity: {{ item.quantity }}</p>
                 </div>
                 <span class="wp-item-price">€{{ item.quantity * item.price }}</span>
               </li>
@@ -57,7 +57,7 @@
           </ul>
 
           <div class="wp-order-footer">
-            <span>Total</span>
+            <span>Total: </span>
             <strong>€{{ order.totalPrice }}</strong>
           </div>
         </div>

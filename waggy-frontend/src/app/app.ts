@@ -12,7 +12,7 @@ import { AuthService } from './services/auth.service';
 })
 export class App {
   constructor(private authService: AuthService) {
-    this.authService.loadCurrentUser();
+    this.authService.loadCurrentUser().subscribe();
   }
   protected readonly title = signal('waggy-frontend');
 }

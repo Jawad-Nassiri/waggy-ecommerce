@@ -86,7 +86,6 @@ public class PaymentService {
     }
 
     public void markOrderAsPaid(Integer orderId) {
-        System.out.println("🔥 markOrderAsPaid CALLED: " + orderId);
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException("Order not found !"));
 

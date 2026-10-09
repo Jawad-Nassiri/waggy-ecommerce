@@ -27,7 +27,7 @@ public class CartService {
 
 
     private User getUser() {
-        // get the email of the currently logged-in user
+        // get the email of the currently logged in user
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
         return userRepository.findByEmail(email)
