@@ -2,6 +2,7 @@ package com.waggy.controller;
 
 import com.waggy.dto.order.OrderRequestDTO;
 import com.waggy.dto.order.OrderResponseDTO;
+import com.waggy.repository.OrderRepository;
 import com.waggy.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -14,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderController {
     private final OrderService orderService;
+    private final OrderRepository orderRepository;
 
     @PostMapping
     public OrderResponseDTO createOrder(@Valid @RequestBody OrderRequestDTO dto) {
@@ -41,4 +43,10 @@ public class OrderController {
     public void deleteOrder(@PathVariable Integer id) {
         orderService.deleteOrder(id);
     }
+
+    @GetMapping("/count")
+    public long getOrdersCount() {
+    return orderRepository.count();
+}
+
 }
