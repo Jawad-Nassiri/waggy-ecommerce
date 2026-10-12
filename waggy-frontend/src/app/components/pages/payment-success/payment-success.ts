@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
-import { CartService } from '../../../services/cart.service';
+import { OrderService } from '../../../services/order.service';
+
 
 @Component({
   selector: 'app-payment-success',
@@ -10,9 +11,9 @@ import { CartService } from '../../../services/cart.service';
 })
 export class PaymentSuccess {
   constructor(
-    private cartService: CartService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private orderService: OrderService
   ) { }
   
   isValid = signal(false);
@@ -20,7 +21,7 @@ export class PaymentSuccess {
   ngOnInit() {
     const orderId = Number(this.route.snapshot.queryParamMap.get('orderId'));
 
-    this.cartService.getOrders().subscribe((orders) => {
+    this.orderService.getOrders().subscribe((orders) => {
       const order = orders.find((order) => order.id === orderId);
 
       if (order?.status === 'PAID') {

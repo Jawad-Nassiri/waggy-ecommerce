@@ -1,7 +1,7 @@
 .admin {
     display: flex;
     min-height: auto;
-    background: #f7f5f1;
+    background: #fff;
     color: #1f2a24;
 }
 
@@ -15,13 +15,12 @@
     border: none;
 }
 
-/* Sidebar */
 .sidebar {
     position: sticky;
     top: 0;
     flex-shrink: 0;
     width: 80px;
-    height: 100vh;
+    height: calc(100vh - 200px) !important;
     padding: 20px 0;
     display: flex;
     flex-direction: column;
@@ -33,7 +32,7 @@
 }
 
 .sidebar.open {
-    width: 240px;
+    width: 300px;
 }
 
 .logo {
@@ -134,16 +133,15 @@
     transform: translateY(-50%) rotate(180deg);
 }
 
-/* Content */
 .content {
     flex: 1;
     min-width: 0;
-    padding: 28px 32px 48px;
+    padding: 28px 32px 0 48px;
 }
 
 /* Responsive */
 @media (max-width: 560px) {
     .content {
-        padding: 20px 14px 40px;
+        padding: 20px 14px 0 40px;
     }
 }

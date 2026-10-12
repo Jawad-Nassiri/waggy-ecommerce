@@ -13,7 +13,7 @@ export class CartService {
   constructor(private http: HttpClient) {}
 
   path = 'http://localhost:8080/carts';
-  ordersPath = 'http://localhost:8080/orders';
+  // ordersPath = 'http://localhost:8080/orders';
   paymentsPath = 'http://localhost:8080/payments';
   cartCount = signal(0);
 
@@ -51,15 +51,15 @@ export class CartService {
     return this.http.delete<void>(this.path + '/me/items');
   }
 
-  createOrder(items: { productId: number; quantity: number }[]) {
-    return this.http.post<{ id: number }>(this.ordersPath, { items });
-  }
+  // createOrder(items: { productId: number; quantity: number }[]) {
+  //   return this.http.post<{ id: number }>(this.ordersPath, { items });
+  // }
 
   createPayment(orderId: number) {
     return this.http.post<{ checkoutUrl: string }>(this.paymentsPath, { orderId });
   }
 
-  getOrders() {
-    return this.http.get<Order[]>(this.ordersPath + '/me');
-  }
+  // getOrders() {
+  //   return this.http.get<Order[]>(this.ordersPath + '/me');
+  // }
 }

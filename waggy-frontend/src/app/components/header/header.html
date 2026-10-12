@@ -12,7 +12,9 @@
         </button>
 
         <li>
-          <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+          <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+            >Home</a
+          >
         </li>
         <li>
           <a routerLink="/products" routerLinkActive="active">Shop</a>
@@ -27,9 +29,15 @@
 
       <div class="nav-icons">
         @if (authService.currentUser()) {
-          <a routerLink="/profile" class="user">
-            <i class="fa-solid fa-user"></i>
-          </a>
+          @if (authService.currentUser()?.role === 'ADMIN') {
+            <a routerLink="/admin" class="user">
+              <i class="fa-solid fa-user"></i>
+            </a>
+          } @else {
+            <a routerLink="/profile" class="user">
+              <i class="fa-solid fa-user"></i>
+            </a>
+          }
         } @else {
           <a routerLink="/login" class="user">
             <i class="fa-solid fa-user"></i>

@@ -13,3 +13,7 @@ body {
 [routerLink] {
   cursor: pointer;
 }
+
+body:has(.admin) app-footer .footer {
+    margin-top: 0;
+}

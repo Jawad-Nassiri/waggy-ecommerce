@@ -3,8 +3,10 @@ import { Banner } from '../../banner/banner';
 import { CartService } from '../../../services/cart.service';
 import { CartItem } from '../../../models/cart-item';
 import { Cart } from '../../../models/cart';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { Toast } from '../../toast/toast';
+import { OrderService } from '../../../services/order.service';
+
 
 @Component({
   selector: 'app-cart',
@@ -23,7 +25,7 @@ export class CartComponent {
 
   constructor(
     private cartService: CartService,
-    private router: Router,
+    private orderService: OrderService
   ) {}
 
   getMyCart(): void {
@@ -123,7 +125,7 @@ export class CartComponent {
       quantity: item.quantity,
     }));
 
-    this.cartService.createOrder(items).subscribe({
+    this.orderService.createOrder(items).subscribe({
       next: (order) => {
         this.cartService.createPayment(order.id).subscribe({
           next: (response) => {

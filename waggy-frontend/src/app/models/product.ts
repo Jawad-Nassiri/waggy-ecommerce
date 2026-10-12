@@ -7,6 +7,7 @@ export interface Product {
   image: string;
   createdAt: string;
   category: {
-  id: number;
+    id: number;
+    name: string
 }
 }

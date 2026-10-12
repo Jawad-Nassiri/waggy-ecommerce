@@ -12,6 +12,9 @@ import { ProductDetail } from './components/pages/product-detail/product-detail'
 import { Faq } from './components/pages/faq/faq';
 import { PaymentSuccess } from './components/pages/payment-success/payment-success';
 import { Admin } from './components/pages/admin/admin';
+import { AdminDashboard } from './components/pages/admin/admin-dashboard/admin-dashboard';
+import { adminGuard } from './guards/admin.guard';
+
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -26,5 +29,14 @@ export const routes: Routes = [
   { path: 'payments/success', component: PaymentSuccess, canActivate: [authGuard] },
   { path: 'payments/cancel', component: PaymentSuccess, canActivate: [authGuard] },
   {
-    path: 'admin', component: Admin},
+    path: 'admin',
+    component: Admin,
+    canActivate: [adminGuard],
+    children: [
+      {
+        path: '',
+        component: AdminDashboard,
+      },
+    ],
+  },
 ];

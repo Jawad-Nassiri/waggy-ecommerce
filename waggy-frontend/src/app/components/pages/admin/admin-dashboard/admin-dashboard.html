@@ -1,0 +1,88 @@
+<div class="content">
+  <div class="breadcrumbs">Dashboard</div>
+
+  <section class="hero-cards">
+    <article class="hero-card">
+      <span class="hero-card-icon admins-icon"><i class="fa-solid fa-user-tie"></i></span>
+      <div>
+        <p class="hero-card-title">Admins</p>
+        <p class="hero-card-data">{{ adminsCount() }}</p>
+      </div>
+    </article>
+
+    <article class="hero-card">
+      <span class="hero-card-icon users-icon"><i class="fa-solid fa-users"></i></span>
+      <div>
+        <p class="hero-card-title">Users</p>
+        <p class="hero-card-data">{{ usersCount() }}</p>
+      </div>
+    </article>
+
+    <article class="hero-card">
+      <span class="hero-card-icon products-icon"><i class="fa-solid fa-box"></i></span>
+      <div>
+        <p class="hero-card-title">Products</p>
+        <p class="hero-card-data">{{ productsCount() }}</p>
+      </div>
+    </article>
+
+    <article class="hero-card">
+      <span class="hero-card-icon orders-icon"><i class="fa-solid fa-bag-shopping"></i></span>
+      <div>
+        <p class="hero-card-title">Orders</p>
+        <p class="hero-card-data">{{ ordersCount() }}</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="after-hero">
+    <section class="panel latest-users">
+      <div class="section-header">
+        <p class="section-title">Latest users</p>
+        <a routerLink="/admin/users" class="section-link">
+          More <i class="fa-solid fa-chevron-right"></i>
+        </a>
+      </div>
+
+      @for (user of lastUsers(); track user.id) {
+        <article class="user-row">
+          <span class="user-avatar"><i class="fa-solid fa-user"></i></span>
+          <div>
+            <p class="user-name">{{ user.name }}</p>
+            <p class="user-email">{{ user.email }}</p>
+          </div>
+        </article>
+      }
+    </section>
+
+    <section class="panel table-component">
+      <div class="section-header">
+        <div>
+          <p class="section-title">Product list</p>
+          <p class="caption-text">24 products in your shop</p>
+        </div>
+        <a routerLink="/admin/products" class="section-link">
+          Products <i class="fa-solid fa-chevron-right"></i>
+        </a>
+      </div>
+
+      <div class="table-head-row">
+        <p>Title</p>
+        <p>Price</p>
+        <p>Stock</p>
+        <p>Category</p>
+      </div>
+
+      <div class="table-body">
+        @for (product of lastProducts(); track product.id) {
+          <div class="table-row">
+            <p>{{ product.name }}</p>
+            <p>€{{ product.price }}</p>
+            <p>{{ product.stock }}</p>
+            <p>{{ product.category.name }}</p>
+          </div>
+        }
+      </div>
+    </section>
+  </section>
+</div>

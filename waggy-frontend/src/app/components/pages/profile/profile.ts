@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { CartService } from '../../../services/cart.service';
 import { Order } from '../../../models/order';
 import { DatePipe } from '@angular/common';
-
+import { OrderService } from '../../../services/order.service';
 
 @Component({
   selector: 'app-profile',
@@ -20,6 +20,7 @@ export class Profile {
     private authService: AuthService,
     private router: Router,
     private cartService: CartService,
+    private orderService: OrderService
   ) {}
 
   user: any = null;
@@ -49,7 +50,7 @@ export class Profile {
   }
 
   getOrders() {
-    this.cartService.getOrders().subscribe((orders) => {
+    this.orderService.getOrders().subscribe((orders) => {
       this.orders.set(orders);
       console.log(this.orders())
 
