@@ -35,6 +35,22 @@
     width: 300px;
 }
 
+
+.side-menu .navlink {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.side-menu .navlink:hover {
+  background: #f3f4f6;
+}
+
+.side-menu .navlink:last-child {
+  margin-top: auto;
+  color: #dc2626;
+}
+
+
 .logo {
     display: flex;
     align-items: center;

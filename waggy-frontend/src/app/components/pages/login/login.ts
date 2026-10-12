@@ -73,6 +73,7 @@ export class Login {
         });
 
         this.cartService.getMyCart().subscribe();
+        this.authService.loadCurrentUser().subscribe();
       },
 
       error: (error) => {

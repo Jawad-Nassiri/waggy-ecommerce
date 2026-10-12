@@ -26,7 +26,9 @@ export class AuthService {
   }
 
   logout() {
-    return this.http.post('http://localhost:8080/auth/logout', {});
+    return this.http
+      .post('http://localhost:8080/auth/logout', {})
+      .pipe(tap(() => this.currentUser.set(null)));
   }
 
   getCurrentUser() {
