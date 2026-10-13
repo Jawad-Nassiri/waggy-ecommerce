@@ -6,11 +6,19 @@ import { User } from '../models/user';
   providedIn: 'root',
 })
 export class UserService {
-    constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-    userPath = 'http://localhost:8080/users';
+  userPath = 'http://localhost:8080/users';
+
+  getAllUsers() {
+    return this.http.get<User[]>(this.userPath);
+  }
+
+  updateUser(id: number, data: User) {
+    return this.http.put<User>(`${this.userPath}/${id}`, data);
+    }
     
-    getAllUsers() {
-        return this.http.get<User[]>(this.userPath)
+    findUserById(id: number) {
+        return this.http.get<User>(this.userPath +'/' + id)
     }
 }

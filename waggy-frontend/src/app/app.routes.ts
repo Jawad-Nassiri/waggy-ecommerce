@@ -14,6 +14,7 @@ import { PaymentSuccess } from './components/pages/payment-success/payment-succe
 import { Admin } from './components/pages/admin/admin';
 import { AdminDashboard } from './components/pages/admin/admin-dashboard/admin-dashboard';
 import { adminGuard } from './guards/admin.guard';
+import { AdminUsers } from './components/pages/admin/admin-users/admin-users';
 
 
 export const routes: Routes = [
@@ -36,6 +37,10 @@ export const routes: Routes = [
       {
         path: '',
         component: AdminDashboard,
+      },
+      {
+        path: 'users',
+        component: AdminUsers
       },
     ],
   },

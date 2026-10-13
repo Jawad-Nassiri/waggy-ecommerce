@@ -4,11 +4,13 @@ import { ProductService } from '../../../../services/product.service';
 import { Product } from '../../../../models/product';
 import { User } from '../../../../models/user';
 import { OrderService } from '../../../../services/order.service';
+import { RouterLink } from '@angular/router';
+
 
 
 @Component({
   selector: 'app-admin-dashboard',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './admin-dashboard.html',
   styleUrl: './admin-dashboard.css',
 })

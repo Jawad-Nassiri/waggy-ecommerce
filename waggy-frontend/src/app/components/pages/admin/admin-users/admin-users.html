@@ -1,0 +1,143 @@
+<div class="breadcrumbs">Users</div>
+
+<section class="panel table-component">
+  <div class="section-header">
+    <div>
+      <p class="section-title">User list</p>
+      <p class="caption-text">
+        {{ users().length }} {{ users().length === 1 ? 'user' : 'users' }} registered
+      </p>
+    </div>
+  </div>
+
+  <div class="table-scroll">
+    <div class="table-inner">
+      <div class="table-head-row">
+        <p>ID</p>
+        <p>Name</p>
+        <p>Email</p>
+        <p>Role</p>
+        <p>Created at</p>
+        <p>Actions</p>
+      </div>
+
+      @for (user of users(); track user.id) {
+        <div class="table-row">
+          <p class="user-id">#{{ user.id }}</p>
+          <div class="user-cell">
+            <p class="user-name">{{ user.name }}</p>
+          </div>
+          <p class="user-email">{{ user.email }}</p>
+          <p>
+            <span
+              class="role-badge"
+              [class.role-admin]="user.role === 'ADMIN'"
+              [class.role-user]="user.role === 'USER'"
+              >{{ user.role }}</span
+            >
+          </p>
+          <p>{{ user.createdAt }}</p>
+          <div class="product-manage">
+            <button class="edit-btn" aria-label="Edit user" (click)="openEdit(user)">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="remove-btn" aria-label="Delete user">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- modal to edit a user -->
+@if (isEditOpen() && selectedUser()) {
+  <div class="edit-user-overlay" [class.is-open]="isEditOpen()">
+    <section
+      class="edit-user-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="edit-user-title"
+    >
+      <header class="edit-user-header">
+        <div class="edit-user-heading">
+          <h2 id="edit-user-title" class="edit-user-title">Edit User</h2>
+          <p class="edit-user-subtitle">Update user information and permissions.</p>
+        </div>
+        <button type="button" class="edit-user-close" aria-label="Close" (click)="closeEdit()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </header>
+
+      <form class="edit-user-form">
+        <div class="edit-user-body">
+          <div class="edit-user-field">
+            <label for="edit-user-name" class="edit-user-label">Name</label>
+            <input
+              id="edit-user-name"
+              name="name"
+              type="text"
+              class="edit-user-input"
+              placeholder="Enter full name"
+              [(ngModel)]="selectedUser()!.name"
+            />
+          </div>
+
+          <div class="edit-user-field">
+            <label for="edit-user-email" class="edit-user-label">Email</label>
+            <input
+              id="edit-user-email"
+              name="email"
+              type="email"
+              class="edit-user-input"
+              placeholder="Enter email address"
+              [(ngModel)]="selectedUser()!.email"
+            />
+          </div>
+
+          <div class="edit-user-field">
+            <label for="edit-user-role" class="edit-user-label">Role</label>
+            <select
+              id="edit-user-role"
+              name="role"
+              class="edit-user-select"
+              [(ngModel)]="selectedUser()!.role"
+            >
+              <option value="USER">USER</option>
+              <option value="ADMIN">ADMIN</option>
+            </select>
+          </div>
+
+          <div class="edit-user-warning" role="status">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <p>Granting admin access gives this user permission to manage the store.</p>
+          </div>
+        </div>
+
+        <footer class="edit-user-footer">
+          <button type="button" class="edit-user-btn edit-user-btn--cancel" (click)="closeEdit()">
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="edit-user-btn edit-user-btn--save"
+            (click)="updateUser(selectedUser()!.id, selectedUser()!)"
+          >
+            Save Changes
+          </button>
+        </footer>
+      </form>
+    </section>
+  </div>
+}
+
+<!-- toast component  -->
+@if (showToast()) {
+  <app-toast
+    [title]="toastTitle"
+    [message]="toastMessage"
+    [type]="toastType"
+    (closed)="showToast.set(false)"
+  ></app-toast>
+}
