@@ -88,4 +88,35 @@ export class AdminUsers {
       },
     });
   }
+
+  deleteUser(id: number) {
+    this.confirmMessage = 'Are you sure you want to delete this user?';
+
+    this.confirmAction = () => {
+      this.userService.deleteUser(id).subscribe({
+        next: () => {
+          this.users.update((users) => users.filter((user) => user.id !== id));
+
+          this.showConfirm.set(false);
+          this.confirmAction = null;
+
+          this.showToast.set(true);
+          this.toastTitle = 'Success';
+          this.toastMessage = 'User deleted successfully';
+          this.toastType = 'success';
+        },
+        error: (err) => {
+          this.showConfirm.set(false);
+          this.confirmAction = null;
+
+          this.showToast.set(true);
+          this.toastTitle = 'Error';
+          this.toastMessage = err.error;
+          this.toastType = 'error';
+        },
+      });
+    };
+
+    this.showConfirm.set(true);
+  }
 }

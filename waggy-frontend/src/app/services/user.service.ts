@@ -16,9 +16,13 @@ export class UserService {
 
   updateUser(id: number, data: User) {
     return this.http.put<User>(`${this.userPath}/${id}`, data);
-    }
-    
-    findUserById(id: number) {
-        return this.http.get<User>(this.userPath +'/' + id)
-    }
+  }
+
+  findUserById(id: number) {
+    return this.http.get<User>(this.userPath + '/' + id);
+  }
+
+  deleteUser(id: number) {
+    return this.http.delete(this.userPath + '/' + id);
+  }
 }

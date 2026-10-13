@@ -10,6 +10,7 @@ import com.waggy.exception.UserNotFoundException;
 import com.waggy.mapper.UserMapper;
 import com.waggy.repository.OrderRepository;
 import com.waggy.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -61,6 +62,7 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
+    @Transactional
     public void deleteUser(Integer id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
@@ -70,6 +72,7 @@ public class UserService {
         if (haveOrder) {
             throw new UserHasOrdersException("Cannot delete user with existing orders");
         }
+        cartRepository.deleteByUserId(user.getId());
             userRepository.delete(user);
     }
 
