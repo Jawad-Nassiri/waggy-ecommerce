@@ -34,7 +34,9 @@ export class Home {
       this.toastTitle = 'Success';
       this.toastMessage = message;
       this.toastType = 'success';
-      this.showToast = signal(true);
+      this.showToast.set(true);
+
+      history.replaceState({ ...history.state, toastMessage: null }, '');
     }
 
     this.getProductsByCategoryId(1, 'clothing');
