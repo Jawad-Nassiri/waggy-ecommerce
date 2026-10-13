@@ -1,0 +1,22 @@
+<div class="confirm-overlay" [class.is-open]="isOpen()">
+  <section
+    class="confirm-box"
+    role="alertdialog"
+    aria-modal="true"
+    aria-labelledby="confirm-title"
+    aria-describedby="confirm-message"
+  >
+    <span class="confirm-icon">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+    </span>
+
+    <h3 id="confirm-title" class="confirm-title">{{ title() }}</h3>
+    <p id="confirm-message" class="confirm-message">{{ message() }}</p>
+
+    <div class="confirm-actions">
+      <button type="button" class="confirm-btn confirm-btn--no" (click)="onNo()">No</button>
+
+      <button type="button" class="confirm-btn confirm-btn--yes" (click)="onYes()">Yes</button>
+    </div>
+  </section>
+</div>

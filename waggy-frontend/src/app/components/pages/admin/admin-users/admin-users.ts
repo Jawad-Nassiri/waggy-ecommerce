@@ -3,10 +3,11 @@ import { User } from '../../../../models/user';
 import { UserService } from '../../../../services/user.service';
 import { FormsModule } from '@angular/forms';
 import { Toast } from '../../../toast/toast';
+import { ConfirmModal } from '../confirm-modal/confirm-modal';
 
 @Component({
   selector: 'app-admin-users',
-  imports: [FormsModule, Toast],
+  imports: [FormsModule, Toast, ConfirmModal],
   templateUrl: './admin-users.html',
   styleUrl: './admin-users.css',
 })
@@ -22,6 +23,16 @@ export class AdminUsers {
   toastTitle = '';
   toastMessage = '';
   toastType = '';
+
+  showConfirm = signal(false);
+  confirmMessage = '';
+  confirmAction: (() => void) | null = null;
+
+  onConfirmYes() {
+    this.showConfirm.set(false);
+    this.confirmAction?.();
+    this.confirmAction = null;
+  }
 
   openEdit(user: User) {
     this.selectedUser.set({ ...user });
@@ -46,12 +57,18 @@ export class AdminUsers {
   updateUser(id: number, data: User) {
     if (
       (data.role === 'ADMIN' || data.role === 'USER') &&
-      data.role !== this.users().find((user) => user.id === id)?.role &&
-      !confirm(`Are you sure you want to change this user's role to ${data.role}?`)
+      data.role !== this.users().find((user) => user.id === id)?.role
     ) {
+      this.confirmMessage = `Are you sure you want to change this user's role to ${data.role}?`;
+      this.confirmAction = () => this.updateUserConfirmed(id, data);
+      this.showConfirm.set(true);
       return;
     }
 
+    this.updateUserConfirmed(id, data);
+  }
+
+  updateUserConfirmed(id: number, data: User) {
     this.userService.updateUser(id, data).subscribe({
       next: (res) => {
         this.users.update((users) => users.map((user) => (user.id === id ? res : user)));

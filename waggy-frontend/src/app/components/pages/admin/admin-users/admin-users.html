@@ -141,3 +141,11 @@
     (closed)="showToast.set(false)"
   ></app-toast>
 }
+
+<!-- confirm modal component  -->
+<app-confirm-modal
+  [isOpen]="showConfirm()"
+  [message]="confirmMessage"
+  (yes)="onConfirmYes()"
+  (no)="showConfirm.set(false)"
+/>
