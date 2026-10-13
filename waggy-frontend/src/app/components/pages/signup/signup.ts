@@ -106,7 +106,7 @@ export class Signup {
           state: { toastMessage: 'Registration successful!' },
         });
 
-        this.authService.loadCurrentUser();
+        this.authService.loadCurrentUser().subscribe();
       },
 
       error: (error) => {
