@@ -51,7 +51,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteProduct(@PathVariable Integer id) {
+    public void deleteProduct(@PathVariable Integer id) throws IOException {
         productService.deleteProduct(id);
     }
 }

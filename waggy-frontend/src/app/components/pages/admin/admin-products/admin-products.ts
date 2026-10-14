@@ -91,9 +91,9 @@ export class AdminProducts {
       next: (res) => {
         this.products.update((products) =>
           products.map((product) => (product.id === id ? res : product)),
-      );
-      
-      console.log('Updated product from backend:', res);
+        );
+
+        console.log('Updated product from backend:', res);
         this.showToast.set(true);
         this.toastTitle = 'Success';
         this.toastMessage = 'Product updated successfully';
@@ -130,6 +130,35 @@ export class AdminProducts {
     }
 
     return `/images/products/${image}`;
+  }
+
+  deleteProduct(id: number) {
+    this.confirmMessage = 'Are you sure you want to delete this product?';
+
+    this.confirmAction = () => {
+      this.productService.deleteProduct(id).subscribe({
+        next: () => {
+          this.products.update((products) => products.filter((product) => product.id !== id));
+
+          this.showConfirm.set(false);
+          this.confirmAction = null;
+
+          this.showToast.set(true);
+          this.toastTitle = 'Success';
+          this.toastMessage = 'Product deleted successfully';
+          this.toastType = 'success';
+        },
+        error: (err) => {
+          this.showConfirm.set(false);
+          this.confirmAction = null;
+
+          this.showToast.set(true);
+          this.toastTitle = 'Error';
+          this.toastMessage = err.error;
+          this.toastType = 'error';
+        },
+      });
+    };
   }
 
   ngOnInit() {

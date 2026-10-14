@@ -146,7 +146,7 @@ class ProductServiceTest {
     }
 
     @Test
-    void deleteProduct_shouldDeleteProduct() {
+    void deleteProduct_shouldDeleteProduct() throws IOException {
         Product product = createProduct();
 
         when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
@@ -166,6 +166,7 @@ class ProductServiceTest {
         Category category = new Category();
         category.setId(1);
         category.setName("clothing");
+        category.setSlug("clothing");
 
         MultipartFile image = new MockMultipartFile("image", "hoodie.jpg", "image/jpeg", new byte[]{1});
 

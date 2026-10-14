@@ -46,9 +46,12 @@ public class ProductService {
         return productRepository.findByCategoryId(categoryId).stream().map(productMapper::toDTO).toList();
     }
 
-    public void deleteProduct(Integer id) {
+    public void deleteProduct(Integer id) throws IOException {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("Product not found !"));
+
+        imageService.deleteImage(product.getImage());
+
         productRepository.delete(product);
     }
 
