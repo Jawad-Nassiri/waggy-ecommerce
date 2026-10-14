@@ -11,6 +11,8 @@ import com.waggy.repository.CategoryRepository;
 import com.waggy.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -19,7 +21,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
     private final CategoryRepository categoryRepository;
-
+    private final ImageService imageService;
 
     public ProductResponseDTO saveProductInDb(ProductRequestDTO dto) {
         Category category = categoryRepository.findById(dto.categoryId())
@@ -50,19 +52,34 @@ public class ProductService {
         productRepository.delete(product);
     }
 
-    public ProductResponseDTO updateProduct(Integer id, ProductRequestDTO dto) {
+    public ProductResponseDTO updateProduct(Integer id, ProductRequestDTO dto, MultipartFile image) throws IOException, IOException {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("Product not found !"));
 
         Category category = categoryRepository.findById(dto.categoryId())
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found !"));
 
+        System.out.println("SLUG = " + category.getSlug());
+
+
         product.setName(dto.name());
         product.setDescription(dto.description());
         product.setPrice(dto.price());
         product.setStock(dto.stock());
-        product.setImage(dto.image());
         product.setCategory(category);
+
+        if (image != null && !image.isEmpty()) {
+            if (product.getImage() != null) {
+                imageService.deleteImage(product.getImage());
+            }
+            String imagePath = imageService.saveImage(image, category.getSlug());
+            product.setImage(imagePath);
+        } else if (product.getImage() != null) {
+            String fileName = product.getImage().substring(
+                    product.getImage().lastIndexOf('/') + 1
+            );
+            product.setImage(category.getSlug().toLowerCase() + "/" + fileName);
+        }
 
         Product updatedProduct = productRepository.save(product);
 

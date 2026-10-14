@@ -12,13 +12,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -141,16 +145,30 @@ class ProductControllerTest {
         ProductRequestDTO request = createRequestDTO();
         ProductResponseDTO response = createResponseDTO();
 
-        when(productService.updateProduct(id, request)).thenReturn(response);
+        MockMultipartFile image = new MockMultipartFile(
+                "image", "hoodie.jpg", "image/jpeg", new byte[]{1}
+        );
+
+        MockMultipartFile product = new MockMultipartFile(
+                "product", "", "application/json",
+                objectMapper.writeValueAsBytes(request)
+        );
+
+        when(productService.updateProduct(eq(id), any(ProductRequestDTO.class), any(MultipartFile.class)))
+                .thenReturn(response);
 
         assertProductResponse(
-                mockMvc.perform(put("/products/{id}", id)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(request)))
+                mockMvc.perform(multipart("/products/{id}", id)
+                                .file(product)
+                                .file(image)
+                                .with(requestBuilder -> {
+                                    requestBuilder.setMethod("PUT");
+                                    return requestBuilder;
+                                }))
                         .andExpect(status().isOk())
         );
 
-        verify(productService).updateProduct(id, request);
+        verify(productService).updateProduct(eq(id), any(ProductRequestDTO.class), any(MultipartFile.class));
     }
 
     @Test

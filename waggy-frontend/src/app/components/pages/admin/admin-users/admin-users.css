@@ -380,20 +380,21 @@ button {
 }
 
 .edit-user-btn--cancel {
-    background: #f8e1de;
-    color: #b3392c;
+    background: #f3f4f6;
+    color: #1f2a24;
 }
 
 .edit-user-btn--cancel:hover {
-    background: #f2cbc6;
+    background: #e5e7eb;
 }
 
 .edit-user-btn--save {
-    background: #fbf0dd;
-    color: #a8641a;
+    background: #6a4c93;
+    color: #ffffff;
 }
+
 .edit-user-btn--save:hover {
-    background: #f6e3c2;
+    background: #583d7c;
 }
 
 @media (max-width: 480px) {

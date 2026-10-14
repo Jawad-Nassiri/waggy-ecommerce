@@ -1,0 +1,194 @@
+<div class="breadcrumbs">Products</div>
+
+<section class="panel table-component">
+  <div class="section-header">
+    <div>
+      <p class="section-title">Product list</p>
+      <p class="caption-text">
+        {{ products().length }}
+        {{ products().length === 1 ? 'product' : 'products' }} registered
+      </p>
+    </div>
+  </div>
+
+  <div class="table-scroll">
+    <div class="table-inner">
+      <div class="table-head-row">
+        <p>Image</p>
+        <p>Name</p>
+        <p>Category</p>
+        <p>Price</p>
+        <p>Stock</p>
+        <p>Actions</p>
+      </div>
+
+      @for (product of products(); track product.id) {
+        <div class="table-row">
+          <div class="product-image">
+            <img
+              [src]="getProductImage(product.image)"
+              [alt]="product.name"
+            />
+          </div>
+
+          <div class="user-cell">
+            <p class="user-name">{{ product.name }}</p>
+          </div>
+
+          <p>{{ product.category.name }}</p>
+
+          <p>€{{ product.price }}</p>
+
+          <p>{{ product.stock }}</p>
+
+          <div class="product-manage">
+            <button class="edit-btn" aria-label="Edit product" (click)="openEdit(product)">
+              <i class="fas fa-edit"></i>
+            </button>
+
+            <button class="remove-btn" aria-label="Delete product">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- modal for edit a product -->
+@if (isEditOpen() && selectedProduct()) {
+  <div class="edit-product-overlay" [class.is-open]="isEditOpen()">
+    <section
+      class="edit-product-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="edit-product-title"
+    >
+      <header class="edit-product-header">
+        <div class="edit-product-heading">
+          <h2 id="edit-product-title" class="edit-product-title">Edit Product</h2>
+          <p class="edit-product-subtitle">Update product details, price and stock.</p>
+        </div>
+        <button type="button" class="edit-product-close" aria-label="Close" (click)="closeEdit()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </header>
+
+      <form class="edit-product-form">
+        <div class="edit-product-body">
+          <div class="edit-product-field">
+            <label for="edit-product-name" class="edit-product-label">Name</label>
+            <input
+              id="edit-product-name"
+              name="name"
+              type="text"
+              class="edit-product-input"
+              placeholder="Enter product name"
+              [(ngModel)]="selectedProduct()!.name"
+            />
+          </div>
+
+          <div class="edit-product-field">
+            <label for="edit-product-description" class="edit-product-label">Description</label>
+            <textarea
+              id="edit-product-description"
+              name="description"
+              class="edit-product-input"
+              [(ngModel)]="selectedProduct()!.description"
+            ></textarea>
+          </div>
+
+          <div class="edit-product-field">
+            <label for="edit-product-category" class="edit-product-label">Category</label>
+            <select
+              id="edit-product-category"
+              name="category"
+              class="edit-product-select"
+              [(ngModel)]="selectedProduct()!.category.id"
+            >
+              @for (category of categories(); track category.id) {
+                <option [ngValue]="category.id">{{ category.name }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="edit-product-row">
+            <div class="edit-product-field">
+              <label for="edit-product-price" class="edit-product-label">Price (€)</label>
+              <input
+                id="edit-product-price"
+                name="price"
+                type="number"
+                min="0"
+                step="0.01"
+                class="edit-product-input"
+                placeholder="0.00"
+                [(ngModel)]="selectedProduct()!.price"
+              />
+            </div>
+
+            <div class="edit-product-field">
+              <label for="edit-product-stock" class="edit-product-label">Stock</label>
+              <input
+                id="edit-product-stock"
+                name="stock"
+                type="number"
+                min="0"
+                class="edit-product-input"
+                placeholder="0"
+                [(ngModel)]="selectedProduct()!.stock"
+              />
+            </div>
+          </div>
+
+          <div class="edit-product-field">
+            <label for="edit-product-image" class="edit-product-label">Image</label>
+            <div class="edit-product-image-row">
+              <img
+                class="edit-product-preview"
+                [src]="previewUrl() ?? getProductImage(selectedProduct()!.image)"
+                alt="Product preview"
+              />
+              <input
+                id="edit-product-image"
+                name="image"
+                type="file"
+                accept="image/*"
+                class="edit-product-file"
+                (change)="onFileSelected($event)"
+              />
+            </div>
+          </div>
+        </div>
+
+        <footer class="edit-product-footer">
+          <button
+            type="button"
+            class="edit-product-btn edit-product-btn--cancel"
+            (click)="closeEdit()"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="edit-product-btn edit-product-btn--save"
+            (click)="updateProduct(selectedProduct()!.id, selectedProduct()!)"
+          >
+            Save Changes
+          </button>
+        </footer>
+      </form>
+    </section>
+  </div>
+}
+
+<!-- toast component  -->
+@if (showToast()) {
+  <app-toast
+    [title]="toastTitle"
+    [message]="toastMessage"
+    [type]="toastType"
+    (closed)="showToast.set(false)"
+  ></app-toast>
+}

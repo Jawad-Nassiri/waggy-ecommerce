@@ -75,7 +75,7 @@ export class AdminUsers {
 
         this.showToast.set(true);
         this.toastTitle = 'Success';
-        this.toastMessage = 'Email updated successfully';
+        this.toastMessage = 'User updated successfully';
         this.toastType = 'success';
 
         this.closeEdit();

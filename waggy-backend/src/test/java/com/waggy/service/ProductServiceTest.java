@@ -13,7 +13,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,6 +37,9 @@ class ProductServiceTest {
 
     @Mock
     private CategoryRepository categoryRepository;
+
+    @Mock
+    private ImageService imageService;
 
     @InjectMocks
     private ProductService productService;
@@ -150,28 +156,36 @@ class ProductServiceTest {
         verify(productRepository).delete(product);
     }
 
+
     @Test
-    void updateProduct_shouldUpdateProduct() {
+    void updateProduct_shouldUpdateProduct() throws IOException {
         Product product = createProduct();
         ProductRequestDTO productRequestDTO = createProductRequestDTO();
         ProductResponseDTO productResponseDTO = createProductResponseDTO();
+
         Category category = new Category();
         category.setId(1);
+        category.setName("clothing");
+
+        MultipartFile image = new MockMultipartFile("image", "hoodie.jpg", "image/jpeg", new byte[]{1});
 
         when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
         when(categoryRepository.findById(category.getId())).thenReturn(Optional.of(category));
+        when(imageService.saveImage(image, category.getName())).thenReturn("clothing/hoodie.jpg");
         when(productRepository.save(product)).thenReturn(product);
         when(productMapper.toDTO(product)).thenReturn(productResponseDTO);
 
-        ProductResponseDTO result = productService.updateProduct(product.getId(), productRequestDTO);
+        ProductResponseDTO result = productService.updateProduct(product.getId(), productRequestDTO, image);
 
         assertEquals(productResponseDTO, result);
+        assertEquals("clothing/hoodie.jpg", product.getImage());
         verify(productRepository).findById(product.getId());
         verify(categoryRepository).findById(category.getId());
+        verify(imageService).saveImage(image, category.getName());
         verify(productRepository).save(product);
         verify(productMapper).toDTO(product);
-
     }
+
 
     @Test
     void findProductByCategory_shouldFindByCategory() {

@@ -6,8 +6,11 @@ import com.waggy.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestPart;
+import java.io.IOException;
 import java.util.List;
 
 @RequestMapping("/products")
@@ -26,7 +29,6 @@ public class ProductController {
         return productService.findAllProducts();
     }
 
-
     @GetMapping("/{id}")
     public ProductResponseDTO getProductById(@PathVariable Integer id) {
         return productService.findProductById(id);
@@ -37,11 +39,13 @@ public class ProductController {
         return productService.getProductByCategory(categoryId);
     }
 
-    @PutMapping("/{id}")
-    public ProductResponseDTO updateProduct(@PathVariable Integer id, @Valid @RequestBody ProductRequestDTO dto
-    ) {
-        return productService.updateProduct(id, dto);
-
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ProductResponseDTO updateProduct(
+            @PathVariable Integer id,
+            @RequestPart("product") @Valid ProductRequestDTO dto,
+            @RequestPart(value = "image", required = false) MultipartFile image
+    ) throws IOException {
+        return productService.updateProduct(id, dto, image);
     }
 
 
