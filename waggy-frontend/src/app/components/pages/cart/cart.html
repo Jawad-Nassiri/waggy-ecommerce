@@ -36,7 +36,7 @@
           </div>
 
           <div class="cart-price">
-            <span>${{ item.price * item.quantity }}</span>
+            <span>${{ item.price * item.quantity | number:'1.2-2' }}</span>
 
             <button
               type="button"
@@ -58,11 +58,11 @@
     <dl class="totals">
       <div>
         <dt>Subtotal</dt>
-        <dd>${{ getCartSubtotal() }}</dd>
+        <dd>${{ getCartSubtotal() | number:'1.2-2' }}</dd>
       </div>
       <div>
         <dt>Total</dt>
-        <dd>${{ getCartSubtotal() }}</dd>
+        <dd>${{ getCartSubtotal() | number:'1.2-2' }}</dd>
       </div>
     </dl>
 

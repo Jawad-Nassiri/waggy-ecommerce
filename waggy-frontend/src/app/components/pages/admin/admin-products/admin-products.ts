@@ -8,11 +8,12 @@ import { Category } from '../../../../models/category';
 import { ProductRequest } from '../../../../models/product-request';
 import { ImageUrlService } from '../../../../services/image-url.service';
 import { ConfirmModal } from '../confirm-modal/confirm-modal';
+import { DecimalPipe } from '@angular/common';
 
 
 @Component({
   selector: 'app-admin-products',
-  imports: [FormsModule, Toast, ConfirmModal],
+  imports: [FormsModule, Toast, ConfirmModal, DecimalPipe],
   templateUrl: './admin-products.html',
   styleUrl: './admin-products.css',
 })

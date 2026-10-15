@@ -10,7 +10,7 @@
       <span>★★★ 3.0</span>
     </div>
 
-    <p class="product-price">${{ product.price }}</p>
+    <p class="product-price">${{ product.price | number:'1.2-2' }}</p>
 
     <button class="btn-cart" (click)="addToCart($event)">ADD TO CART</button>
   </div>

@@ -39,7 +39,7 @@
 
           <p>{{ product.category.name }}</p>
 
-          <p>€{{ product.price }}</p>
+          <p>€{{ product.price | number:'1.2-2' }}</p>
 
           <p>{{ product.stock }}</p>
 

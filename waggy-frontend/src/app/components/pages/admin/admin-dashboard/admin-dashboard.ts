@@ -5,12 +5,13 @@ import { Product } from '../../../../models/product';
 import { User } from '../../../../models/user';
 import { OrderService } from '../../../../services/order.service';
 import { RouterLink } from '@angular/router';
+import { DecimalPipe } from '@angular/common';
 
 
 
 @Component({
   selector: 'app-admin-dashboard',
-  imports: [RouterLink],
+  imports: [RouterLink, DecimalPipe],
   templateUrl: './admin-dashboard.html',
   styleUrl: './admin-dashboard.css',
 })

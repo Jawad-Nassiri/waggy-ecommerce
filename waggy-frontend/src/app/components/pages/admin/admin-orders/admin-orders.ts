@@ -6,10 +6,11 @@ import { OrderService } from '../../../../services/order.service';
 import { Order } from '../../../../models/order';
 import { ImageUrlService } from '../../../../services/image-url.service';
 import { Toast } from '../../../toast/toast';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-admin-orders',
-  imports: [DatePipe, NgClass, FormsModule, Toast, ConfirmModal],
+  imports: [DatePipe, NgClass, FormsModule, Toast, ConfirmModal, DecimalPipe],
   templateUrl: './admin-orders.html',
   styleUrl: './admin-orders.css',
 })
@@ -56,7 +57,6 @@ export class AdminOrders implements OnInit {
   getAllOrders(): void {
     this.orderService.getAllOrders().subscribe({
       next: (res) => {
-        console.log(res);
         this.orders.set(res);
       },
       error: (err) => console.error('Failed to load orders', err.error),

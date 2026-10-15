@@ -8,10 +8,11 @@ import { Product } from '../../../models/product';
 import { CartService } from '../../../services/cart.service';
 import { Toast } from '../../toast/toast';
 import { ImageUrlService } from '../../../services/image-url.service';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-product-detail',
-  imports: [Banner, Gallery, RouterLink, Toast],
+  imports: [Banner, Gallery, RouterLink, Toast, DecimalPipe],
   templateUrl: './product-detail.html',
   styleUrl: './product-detail.css',
 })
@@ -54,7 +55,6 @@ export class ProductDetail {
 
   addToCart(): void {
     if (!this.product()) {
-      console.log('Product not found!');
       return;
     }
 

@@ -4,10 +4,11 @@ import { RouterLink } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { Toast } from '../toast/toast';
 import { ImageUrlService } from '../../services/image-url.service';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-product-card',
-  imports: [RouterLink, Toast],
+  imports: [RouterLink, Toast, DecimalPipe],
   templateUrl: './product-card.html',
   styleUrl: './product-card.css',
 })

@@ -72,15 +72,12 @@ public class ProductService {
         productRepository.delete(product);
     }
 
-    public ProductResponseDTO updateProduct(Integer id, ProductRequestDTO dto, MultipartFile image) throws IOException, IOException {
+    public ProductResponseDTO updateProduct(Integer id, ProductRequestDTO dto, MultipartFile image) throws IOException {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("Product not found !"));
 
         Category category = categoryRepository.findById(dto.categoryId())
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found !"));
-
-        System.out.println("SLUG = " + category.getSlug());
-
 
         product.setName(dto.name());
         product.setDescription(dto.description());
@@ -92,17 +89,12 @@ public class ProductService {
             if (product.getImage() != null) {
                 imageService.deleteImage(product.getImage());
             }
+
             String imagePath = imageService.saveImage(image, category.getSlug());
             product.setImage(imagePath);
-        } else if (product.getImage() != null) {
-            String fileName = product.getImage().substring(
-                    product.getImage().lastIndexOf('/') + 1
-            );
-            product.setImage(category.getSlug().toLowerCase() + "/" + fileName);
         }
 
-        Product updatedProduct = productRepository.save(product);
-
-        return productMapper.toDTO(updatedProduct);
+        return productMapper.toDTO(productRepository.save(product));
     }
+
 }

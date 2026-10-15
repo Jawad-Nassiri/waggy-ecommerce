@@ -77,7 +77,7 @@
         @for (product of lastProducts(); track product.id) {
           <div class="table-row">
             <p>{{ product.name }}</p>
-            <p>€{{ product.price }}</p>
+            <p>€{{ product.price | number:'1.2-2' }}</p>
             <p>{{ product.stock }}</p>
             <p>{{ product.category.name }}</p>
           </div>

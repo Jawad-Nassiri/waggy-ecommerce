@@ -6,13 +6,13 @@ import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
 import { CartService } from '../../../services/cart.service';
 import { Order } from '../../../models/order';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { OrderService } from '../../../services/order.service';
 import { ImageUrlService } from '../../../services/image-url.service';
 
 @Component({
   selector: 'app-profile',
-  imports: [Banner, Gallery, DatePipe],
+  imports: [Banner, Gallery, DatePipe, DecimalPipe],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
@@ -54,7 +54,6 @@ export class Profile {
   getOrders() {
     this.orderService.getOrders().subscribe((orders) => {
       this.orders.set(orders);
-      console.log(this.orders());
     });
   }
 

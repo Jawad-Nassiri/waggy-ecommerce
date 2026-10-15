@@ -51,7 +51,7 @@
                   <h3 class="wp-item-name">{{ item.productName }}</h3>
                   <p class="wp-item-qty">Quantity: {{ item.quantity }}</p>
                 </div>
-                <span class="wp-item-price">€{{ item.quantity * item.price }}</span>
+                <span class="wp-item-price">€{{ item.quantity * item.price | number:'1.2-2' }}</span>
               </li>
             }
           </ul>

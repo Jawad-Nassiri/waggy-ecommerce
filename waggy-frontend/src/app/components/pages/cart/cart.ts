@@ -7,10 +7,11 @@ import { RouterLink } from '@angular/router';
 import { Toast } from '../../toast/toast';
 import { OrderService } from '../../../services/order.service';
 import { ImageUrlService } from '../../../services/image-url.service';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-cart',
-  imports: [Banner, RouterLink, Toast],
+  imports: [Banner, RouterLink, Toast, DecimalPipe],
   templateUrl: './cart.html',
   styleUrl: './cart.css',
 })
@@ -31,7 +32,6 @@ export class CartComponent {
 
   getMyCart(): void {
     this.cartService.getMyCart().subscribe((response: Cart) => {
-      console.log('CART FROM BACKEND:', response);
       this.cartItems.set(response.items);
     });
   }

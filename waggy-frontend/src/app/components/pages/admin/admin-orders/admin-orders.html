@@ -95,13 +95,13 @@
               <p class="caption-text">Qty: {{ item.quantity }}</p>
             </div>
 
-            <span class="order-total">€{{ item.quantity * item.price }}</span>
+            <span class="order-total">€{{ item.quantity * item.price | number:'1.2-2' }}</span>
           </div>
         }
 
         <div class="details-total">
           <span>Total:</span>
-          <strong>€{{ selectedOrder()!.totalPrice }}</strong>
+          <strong>€{{ selectedOrder()!.totalPrice | number:'1.2-2' }}</strong>
         </div>
       </div>
 
