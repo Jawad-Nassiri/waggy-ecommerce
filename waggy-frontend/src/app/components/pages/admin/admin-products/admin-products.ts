@@ -7,10 +7,12 @@ import { CategoryService } from '../../../../services/category.service';
 import { Category } from '../../../../models/category';
 import { ProductRequest } from '../../../../models/product-request';
 import { ImageUrlService } from '../../../../services/image-url.service';
+import { ConfirmModal } from '../confirm-modal/confirm-modal';
+
 
 @Component({
   selector: 'app-admin-products',
-  imports: [FormsModule, Toast],
+  imports: [FormsModule, Toast, ConfirmModal],
   templateUrl: './admin-products.html',
   styleUrl: './admin-products.css',
 })
@@ -29,6 +31,7 @@ export class AdminProducts {
   selectedFile: File | null = null;
   isAddOpen = signal(false);
   selectedImage = signal<File | null>(null);
+  selectedCategoryId = 1;
 
   // toast
   showToast = signal(false);
@@ -157,6 +160,7 @@ export class AdminProducts {
         },
       });
     };
+    this.showConfirm.set(true);
   }
 
   openAddProductModal() {

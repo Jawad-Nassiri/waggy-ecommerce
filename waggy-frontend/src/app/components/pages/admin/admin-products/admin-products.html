@@ -245,7 +245,12 @@
 
           <div class="edit-product-field">
             <label for="add-category" class="edit-product-label">Category</label>
-            <select id="add-category" name="categoryId" class="edit-product-select" ngModel>
+            <select
+              id="add-category"
+              name="categoryId"
+              class="edit-product-select"
+              [(ngModel)]="selectedCategoryId"
+            >
               <option [ngValue]="null" disabled>Select a category</option>
               @for (category of categories(); track category.id) {
                 <option [ngValue]="category.id">{{ category.name }}</option>
@@ -308,3 +313,11 @@
     </section>
   </div>
 }
+
+<!-- confirm modal  -->
+<app-confirm-modal
+  [isOpen]="showConfirm()"
+  [message]="confirmMessage"
+  (yes)="onConfirmYes()"
+  (no)="showConfirm.set(false)"
+></app-confirm-modal>

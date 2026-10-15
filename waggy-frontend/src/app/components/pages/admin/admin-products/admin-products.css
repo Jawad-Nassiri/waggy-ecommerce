@@ -53,9 +53,9 @@ button {
   justify-content: center;
   gap: 8px;
   padding: 10px 20px;
-      background: #3f2f22;
-    color: #ffffff;
-    transition: background 0.15s ease;
+  background: #3f2f22;
+  color: #ffffff;
+  transition: background 0.15s ease;
   font-weight: 600;
   border: none;
   border-radius: 8px;
@@ -67,7 +67,7 @@ button {
 }
 
 .add-product-btn:hover {
-     background: #5a4331;
+  background: #5a4331;
 }
 
 .add-product-btn span {
@@ -646,6 +646,69 @@ button {
 
 .edit-product-file::file-selector-button:hover {
   background: rgba(63, 47, 34, 0.16);
+}
+
+/* confirm modal  */
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(31, 42, 36, 0.55);
+  backdrop-filter: blur(3px);
+}
+
+.confirm-modal {
+  width: 100%;
+  max-width: 400px;
+  padding: 24px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(31, 42, 36, 0.2);
+  text-align: center;
+}
+
+.confirm-message {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2a24;
+  margin-bottom: 20px;
+}
+
+.confirm-footer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.confirm-btn {
+  height: 42px;
+  padding: 0 20px;
+  border-radius: 10px;
+  font-size: 14.5px;
+  font-weight: 600;
+  transition: background 0.15s ease;
+}
+
+.confirm-btn--cancel {
+  background: #f3f4f6;
+  color: #1f2a24;
+}
+
+.confirm-btn--cancel:hover {
+  background: #e5e7eb;
+}
+
+.confirm-btn--delete {
+  background: #b3392c;
+  color: #ffffff;
+}
+
+.confirm-btn--delete:hover {
+  background: #962f24;
 }
 
 @media (max-width: 480px) {
