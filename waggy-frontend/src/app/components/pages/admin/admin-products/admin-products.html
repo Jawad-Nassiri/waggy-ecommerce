@@ -2,13 +2,18 @@
 
 <section class="panel table-component">
   <div class="section-header">
-    <div>
+    <div class="section-info">
       <p class="section-title">Product list</p>
       <p class="caption-text">
         {{ products().length }}
         {{ products().length === 1 ? 'product' : 'products' }} registered
       </p>
     </div>
+
+    <button class="add-product-btn" (click)="openAddProductModal()">
+      <span>+</span>
+      Add Product
+    </button>
   </div>
 
   <div class="table-scroll">
@@ -25,10 +30,7 @@
       @for (product of products(); track product.id) {
         <div class="table-row">
           <div class="product-image">
-            <img
-              [src]="getProductImage(product.image)"
-              [alt]="product.name"
-            />
+            <img [src]="getImageUrl(product.image)" [alt]="product.name" />
           </div>
 
           <div class="user-cell">
@@ -46,7 +48,11 @@
               <i class="fas fa-edit"></i>
             </button>
 
-            <button class="remove-btn" aria-label="Delete product" (click)="deleteProduct(product.id)">
+            <button
+              class="remove-btn"
+              aria-label="Delete product"
+              (click)="deleteProduct(product.id)"
+            >
               <i class="fas fa-trash-alt"></i>
             </button>
           </div>
@@ -56,9 +62,9 @@
   </div>
 </section>
 
-<!-- modal for edit a product -->
+<!-- modal to edit a product -->
 @if (isEditOpen() && selectedProduct()) {
-  <div class="edit-product-overlay" [class.is-open]="isEditOpen()">
+  <div class="edit-product-overlay">
     <section
       class="edit-product-modal"
       role="dialog"
@@ -147,7 +153,7 @@
             <div class="edit-product-image-row">
               <img
                 class="edit-product-preview"
-                [src]="previewUrl() ?? getProductImage(selectedProduct()!.image)"
+                [src]="previewUrl() ?? getImageUrl(selectedProduct()!.image)"
                 alt="Product preview"
               />
               <input
@@ -191,4 +197,114 @@
     [type]="toastType"
     (closed)="showToast.set(false)"
   ></app-toast>
+}
+
+<!-- modal to add new product -->
+@if (isAddOpen()) {
+  <div class="edit-product-overlay">
+    <section class="edit-product-modal">
+      <header class="edit-product-header">
+        <div class="edit-product-heading">
+          <h2 class="edit-product-title">Add Product</h2>
+          <p class="edit-product-subtitle">Enter the new product details, price and stock.</p>
+        </div>
+
+        <button type="button" class="edit-product-close" (click)="closeAddProductModal()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </header>
+
+      <form
+        class="edit-product-form"
+        #productForm="ngForm"
+        (ngSubmit)="addProduct(productForm.value, productForm)"
+      >
+        <div class="edit-product-body">
+          <div class="edit-product-field">
+            <label for="add-name" class="edit-product-label">Name</label>
+            <input
+              id="add-name"
+              name="name"
+              type="text"
+              class="edit-product-input"
+              placeholder="Enter product name"
+              ngModel
+            />
+          </div>
+
+          <div class="edit-product-field">
+            <label for="add-description" class="edit-product-label">Description</label>
+            <textarea
+              id="add-description"
+              name="description"
+              class="edit-product-input"
+              placeholder="Enter product description"
+              ngModel
+            ></textarea>
+          </div>
+
+          <div class="edit-product-field">
+            <label for="add-category" class="edit-product-label">Category</label>
+            <select id="add-category" name="categoryId" class="edit-product-select" ngModel>
+              <option [ngValue]="null" disabled>Select a category</option>
+              @for (category of categories(); track category.id) {
+                <option [ngValue]="category.id">{{ category.name }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="edit-product-row">
+            <div class="edit-product-field">
+              <label for="add-price" class="edit-product-label">Price (€)</label>
+              <input
+                id="add-price"
+                name="price"
+                type="number"
+                min="0"
+                step="0.01"
+                class="edit-product-input"
+                placeholder="0.00"
+                ngModel
+              />
+            </div>
+
+            <div class="edit-product-field">
+              <label for="add-stock" class="edit-product-label">Stock</label>
+              <input
+                id="add-stock"
+                name="stock"
+                type="number"
+                min="0"
+                class="edit-product-input"
+                placeholder="0"
+                ngModel
+              />
+            </div>
+          </div>
+
+          <div class="edit-product-field">
+            <label for="add-image" class="edit-product-label">Image</label>
+            <input
+              id="add-image"
+              type="file"
+              accept="image/*"
+              class="edit-product-file"
+              (change)="onAddImageSelected($event)"
+            />
+          </div>
+        </div>
+
+        <footer class="edit-product-footer">
+          <button
+            type="button"
+            class="edit-product-btn edit-product-btn--cancel"
+            (click)="closeAddProductModal()"
+          >
+            Cancel
+          </button>
+          <button type="submit" class="edit-product-btn edit-product-btn--save">Add Product</button>
+        </footer>
+      </form>
+    </section>
+  </div>
 }

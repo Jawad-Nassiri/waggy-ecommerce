@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../models/product';
 import { Injectable } from '@angular/core';
+import { ProductRequest } from '../models/product-request';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -25,5 +27,7 @@ export class ProductService {
     return this.http.delete(this.productPath + '/' + id);
   }
 
-  
+  addProduct(formData: FormData) {
+    return this.http.post<Product>(this.productPath, formData);
+  }
 }

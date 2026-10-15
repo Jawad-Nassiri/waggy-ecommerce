@@ -6,7 +6,7 @@ import { Cart } from '../../../models/cart';
 import { RouterLink } from '@angular/router';
 import { Toast } from '../../toast/toast';
 import { OrderService } from '../../../services/order.service';
-
+import { ImageUrlService } from '../../../services/image-url.service';
 
 @Component({
   selector: 'app-cart',
@@ -25,7 +25,8 @@ export class CartComponent {
 
   constructor(
     private cartService: CartService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private imageUrlService: ImageUrlService,
   ) {}
 
   getMyCart(): void {
@@ -138,6 +139,10 @@ export class CartComponent {
 
   ngOnInit(): void {
     this.getMyCart();
+  }
+
+  getImageUrl(image: string): string {
+    return this.imageUrlService.getImageUrl(image);
   }
 
   // reload cart when coming back with the back button

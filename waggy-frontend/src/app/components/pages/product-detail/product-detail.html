@@ -5,7 +5,7 @@
 @if (product(); as product) {
   <main class="product">
     <div class="product-photo">
-      <img [src]="'/images/products/' + product?.image">
+      <img [src]="getImageUrl(product.image)">
     </div>
 
     <section class="product-info">

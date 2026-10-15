@@ -1,10 +1,12 @@
 import { Component, signal } from '@angular/core';
 import { ProductService } from '../../../../services/product.service';
 import { Product } from '../../../../models/product';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { Toast } from '../../../toast/toast';
 import { CategoryService } from '../../../../services/category.service';
 import { Category } from '../../../../models/category';
+import { ProductRequest } from '../../../../models/product-request';
+import { ImageUrlService } from '../../../../services/image-url.service';
 
 @Component({
   selector: 'app-admin-products',
@@ -16,6 +18,7 @@ export class AdminProducts {
   constructor(
     private productService: ProductService,
     private categoryService: CategoryService,
+    private imageUrlService: ImageUrlService,
   ) {}
 
   products = signal<Product[]>([]);
@@ -24,6 +27,8 @@ export class AdminProducts {
   categories = signal<Category[]>([]);
   previewUrl = signal<string | null>(null);
   selectedFile: File | null = null;
+  isAddOpen = signal(false);
+  selectedImage = signal<File | null>(null);
 
   // toast
   showToast = signal(false);
@@ -56,9 +61,11 @@ export class AdminProducts {
   openEdit(product: Product) {
     this.selectedProduct.set({ ...product });
     this.isEditOpen.set(true);
+    this.selectedFile = null;
   }
 
   closeEdit() {
+    this.selectedFile = null;
     this.isEditOpen.set(false);
     this.selectedProduct.set(null);
   }
@@ -93,7 +100,6 @@ export class AdminProducts {
           products.map((product) => (product.id === id ? res : product)),
         );
 
-        console.log('Updated product from backend:', res);
         this.showToast.set(true);
         this.toastTitle = 'Success';
         this.toastMessage = 'Product updated successfully';
@@ -120,16 +126,8 @@ export class AdminProducts {
     }
   }
 
-  getProductImage(image: string): string {
-    if (image.startsWith('uploads/')) {
-      return `http://localhost:8080/${image}`;
-    }
-
-    if (image.includes('/')) {
-      return `/images/products/${image}`;
-    }
-
-    return `/images/products/${image}`;
+  getImageUrl(image: string): string {
+    return this.imageUrlService.getImageUrl(image);
   }
 
   deleteProduct(id: number) {
@@ -159,6 +157,50 @@ export class AdminProducts {
         },
       });
     };
+  }
+
+  openAddProductModal() {
+    this.isAddOpen.set(true);
+  }
+
+  closeAddProductModal() {
+    this.isAddOpen.set(false);
+  }
+
+  addProduct(product: ProductRequest, productForm: NgForm) {
+    const formData = new FormData();
+
+    formData.append('product', new Blob([JSON.stringify(product)], { type: 'application/json' }));
+
+    if (this.selectedImage()) {
+      formData.append('image', this.selectedImage()!);
+    }
+
+    this.productService.addProduct(formData).subscribe({
+      next: (res) => {
+        this.products.update((products) => [...products, res]);
+        productForm.resetForm();
+        this.selectedImage.set(null);
+
+        this.showToast.set(true);
+        this.toastTitle = 'Success';
+        this.toastMessage = 'Product added successfully';
+        this.toastType = 'success';
+
+        this.closeAddProductModal();
+      },
+      error: (err) => {
+        this.showToast.set(true);
+        this.toastTitle = 'Error';
+        this.toastMessage = err.error;
+        this.toastType = 'error';
+      },
+    });
+  }
+
+  onAddImageSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.selectedImage.set(input.files?.[0] ?? null);
   }
 
   ngOnInit() {

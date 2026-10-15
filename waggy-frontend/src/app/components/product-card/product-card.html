@@ -1,7 +1,7 @@
 <a [routerLink]="['/product-detail', product.id]" class="product-card-link">
   <div class="product-card">
     <div class="product-image">
-      <img [src]="'/images/products/' + product.image" [alt]="product.name" />
+      <img [src]="getImageUrl(product.image)" [alt]="product.name" />
     </div>
 
     <h3>{{ product.name }}</h3>

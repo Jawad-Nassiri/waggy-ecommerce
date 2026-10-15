@@ -3,15 +3,19 @@ import { Product } from '../../models/product';
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { Toast } from '../toast/toast';
+import { ImageUrlService } from '../../services/image-url.service';
 
 @Component({
   selector: 'app-product-card',
-  imports: [RouterLink,Toast],
+  imports: [RouterLink, Toast],
   templateUrl: './product-card.html',
   styleUrl: './product-card.css',
 })
 export class ProductCard {
-  constructor(private cartService: CartService) {}
+  constructor(
+    private cartService: CartService,
+    public imageUrlService: ImageUrlService,
+  ) {}
 
   @Input() product!: Product;
 
@@ -41,5 +45,9 @@ export class ProductCard {
         this.showToast.set(true);
       },
     });
+  }
+
+  getImageUrl(image: string): string {
+    return this.imageUrlService.getImageUrl(image);
   }
 }

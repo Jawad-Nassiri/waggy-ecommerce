@@ -19,7 +19,7 @@
       @for (item of cartItems(); track item.productId) {
         <article class="cart-row">
           <div class="cart-product">
-            <img [src]="'/images/products/' + item.image" [alt]="item.productName" />
+            <img [src]="getImageUrl(item.image)" [alt]="item.productName" />
             <h3>{{ item.productName }}</h3>
           </div>
 

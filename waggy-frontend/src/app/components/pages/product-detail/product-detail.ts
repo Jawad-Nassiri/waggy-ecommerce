@@ -7,6 +7,8 @@ import { ProductService } from '../../../services/product.service';
 import { Product } from '../../../models/product';
 import { CartService } from '../../../services/cart.service';
 import { Toast } from '../../toast/toast';
+import { ImageUrlService } from '../../../services/image-url.service';
+
 @Component({
   selector: 'app-product-detail',
   imports: [Banner, Gallery, RouterLink, Toast],
@@ -18,6 +20,7 @@ export class ProductDetail {
     private productService: ProductService,
     private route: ActivatedRoute,
     private cartService: CartService,
+    private imageUrlService: ImageUrlService,
   ) {}
 
   product = signal<Product | null>(null);
@@ -25,10 +28,10 @@ export class ProductDetail {
   galleryImages = galleryImages;
   productQty = 1;
 
-  // toast 
-  type = "";
-  title = "";
-  message = "";
+  // toast
+  type = '';
+  title = '';
+  message = '';
   showToast = signal(false);
 
   increaseQuantity(): void {
@@ -58,18 +61,22 @@ export class ProductDetail {
     this.cartService.addToCart(this.product()!, this.productQty).subscribe({
       next: () => {
         this.cartService.getMyCart().subscribe();
-        this.type = "success";
-        this.title = "Success";
-        this.message = "Product added to cart successfully!";
+        this.type = 'success';
+        this.title = 'Success';
+        this.message = 'Product added to cart successfully!';
         this.showToast.set(true);
       },
       error: () => {
-        this.type = "error";
-        this.title = "Error";
-        this.message = "Failed to add product to cart.";
+        this.type = 'error';
+        this.title = 'Error';
+        this.message = 'Failed to add product to cart.';
         this.showToast.set(true);
       },
     });
+  }
+
+  getImageUrl(image: string): string {
+    return this.imageUrlService.getImageUrl(image);
   }
 
   ngOnInit() {
