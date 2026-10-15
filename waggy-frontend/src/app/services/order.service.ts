@@ -18,7 +18,15 @@ export class OrderService {
     return this.http.post<{ id: number }>(this.ordersPath, { items });
   }
 
-  getAllOrders() {
+  getOrdersCount() {
     return this.http.get<number>(this.ordersPath + '/count');
+  }
+
+  getAllOrders() {
+    return this.http.get<Order[]>(this.ordersPath);
+  }
+
+  deleteOrder(id: number) {
+    return this.http.delete(this.ordersPath + '/' + id);
   }
 }

@@ -22,6 +22,7 @@ public class OrderMapper {
     public OrderResponseDTO toDTO(Order order) {
         return new OrderResponseDTO(
                 order.getId(),
+                order.getUser().getName(),
                 order.getOrderDate(),
                 order.getOrderItems()
                         .stream()

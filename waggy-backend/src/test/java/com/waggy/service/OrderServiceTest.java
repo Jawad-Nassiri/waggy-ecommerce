@@ -206,6 +206,7 @@ class OrderServiceTest {
     private OrderResponseDTO createOrderResponseDTO() {
         return new OrderResponseDTO(
                 1,
+                "leo",
                 LocalDateTime.parse("2026-09-16T00:00:00"),
                 List.of(),
                 new BigDecimal("59.98"),

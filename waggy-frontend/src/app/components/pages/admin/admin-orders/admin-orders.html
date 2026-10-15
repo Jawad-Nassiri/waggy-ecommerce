@@ -1,0 +1,138 @@
+<div class="breadcrumbs">Orders</div>
+
+<section class="panel table-component">
+  <div class="section-header">
+    <div class="section-info">
+      <p class="section-title">Order list</p>
+      <p class="caption-text">
+        {{ orders().length }} {{ orders().length === 1 ? 'order' : 'orders' }} received
+      </p>
+    </div>
+  </div>
+
+  <div class="table-scroll">
+    <div class="table-inner">
+      <div class="table-head-row orders-grid">
+        <p>Order ID</p>
+        <p>Customer</p>
+        <p>Date</p>
+        <p>Items</p>
+        <p>Total</p>
+        <p>Status</p>
+        <p>Actions</p>
+      </div>
+
+      @for (order of orders(); track order.id) {
+        <div class="table-row orders-grid">
+          <p class="order-id">#{{ order.id }}</p>
+
+          <div class="user-cell order-customer">
+            <p class="user-name">{{ order.userName }}</p>
+            <p class="order-email">{{ order.userEmail }}</p>
+          </div>
+
+          <p>{{ order.orderDate | date: 'MMM d, yyyy' }}</p>
+
+          <p>{{ order.items.length }}</p>
+
+          <p class="order-total">€{{ order.totalPrice }}</p>
+
+          <p [ngClass]="order.status === 'PAID' ? 'paid' : 'pending'">
+            {{ order.status }}
+          </p>
+
+          <div class="product-manage">
+            <button class="view-btn" aria-label="View order" (click)="openDetails(order)">
+              <i class="fas fa-eye"></i>
+            </button>
+            <button class="remove-btn" aria-label="Delete order" (click)="deleteOrder(order.id)">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
+        </div>
+      }
+
+      @if (orders().length === 0) {
+        <p class="orders-empty">No orders yet.</p>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- details modal -->
+@if (isDetailsOpen() && selectedOrder()) {
+  <div class="edit-product-overlay">
+    <section class="edit-product-modal" role="dialog" aria-modal="true">
+      <header class="edit-product-header">
+        <div class="edit-product-heading">
+          <h2 class="edit-product-title">Order #{{ selectedOrder()!.id }}</h2>
+          <p class="edit-product-subtitle">
+            {{ selectedOrder()!.id }} · {{ selectedOrder()!.orderDate | date: 'MMM d, yyyy' }}
+          </p>
+        </div>
+
+        <button
+          type="button"
+          class="edit-product-close"
+          aria-label="Close"
+          (click)="closeDetails()"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </header>
+
+      <div class="edit-product-body">
+        @for (item of selectedOrder()!.items; track item.productId) {
+          <div class="details-item">
+            <img
+              class="edit-product-preview"
+              [src]="getImageUrl(item.productImage)"
+              [alt]="item.productName"
+            />
+
+            <div class="details-info">
+              <p class="user-name">{{ item.productName }}</p>
+              <p class="caption-text">Qty: {{ item.quantity }}</p>
+            </div>
+
+            <span class="order-total">€{{ item.quantity * item.price }}</span>
+          </div>
+        }
+
+        <div class="details-total">
+          <span>Total:</span>
+          <strong>€{{ selectedOrder()!.totalPrice }}</strong>
+        </div>
+      </div>
+
+      <footer class="edit-product-footer">
+        <button
+          type="button"
+          class="edit-product-btn edit-product-btn--cancel"
+          (click)="closeDetails()"
+        >
+          Close
+        </button>
+      </footer>
+    </section>
+  </div>
+}
+
+<!-- confirm modal  -->
+<app-confirm-modal
+  [isOpen]="showConfirm()"
+  [message]="confirmMessage"
+  (yes)="onConfirmYes()"
+  (no)="showConfirm.set(false)"
+></app-confirm-modal>
+
+
+<!-- toast component  -->
+@if (showToast()) {
+  <app-toast
+    [title]="toastTitle"
+    [message]="toastMessage"
+    [type]="toastType"
+    (closed)="showToast.set(false)"
+  ></app-toast>
+}

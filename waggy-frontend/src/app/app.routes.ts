@@ -16,6 +16,8 @@ import { AdminDashboard } from './components/pages/admin/admin-dashboard/admin-d
 import { adminGuard } from './guards/admin.guard';
 import { AdminUsers } from './components/pages/admin/admin-users/admin-users';
 import { AdminProducts } from './components/pages/admin/admin-products/admin-products';
+import { AdminOrders } from './components/pages/admin/admin-orders/admin-orders';
+
 
 
 
@@ -47,6 +49,10 @@ export const routes: Routes = [
       {
         path: 'products',
         component: AdminProducts
+      },
+      {
+        path: 'orders',
+        component: AdminOrders
       }
     ],
   },

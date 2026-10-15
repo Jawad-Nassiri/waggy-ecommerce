@@ -46,7 +46,7 @@ export class AdminDashboard {
   }
 
   getAllOrders() {
-    this.orderService.getAllOrders().subscribe(res => {
+    this.orderService.getOrdersCount().subscribe(res => {
       this.ordersCount.set(res);
     });
   }

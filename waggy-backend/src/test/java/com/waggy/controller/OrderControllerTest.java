@@ -5,6 +5,7 @@ import com.waggy.dto.order.OrderItemRequestDTO;
 import com.waggy.dto.order.OrderItemResponseDTO;
 import com.waggy.dto.order.OrderRequestDTO;
 import com.waggy.dto.order.OrderResponseDTO;
+import com.waggy.repository.OrderRepository;
 import com.waggy.service.JwtService;
 import com.waggy.service.OrderService;
 import org.junit.jupiter.api.Test;
@@ -40,6 +41,9 @@ class OrderControllerTest {
     @MockitoBean
     private JwtService jwtService;
 
+    @MockitoBean
+    private OrderRepository orderRepository;
+
     private OrderRequestDTO createRequestDTO() {
         return new OrderRequestDTO(
                 List.of(
@@ -62,6 +66,7 @@ class OrderControllerTest {
     private OrderResponseDTO createResponseDTO() {
         return new OrderResponseDTO(
                 1,
+                "leo",
                 LocalDateTime.of(2026, 9, 17, 10, 30),
                 List.of(createItemResponseDTO()),
                 new BigDecimal("59.98"),
@@ -103,6 +108,7 @@ class OrderControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(1))
                 .andExpect(jsonPath("$[0].id").value(1))
+                .andExpect(jsonPath("$[0].userName").value("leo"))
                 .andExpect(jsonPath("$[0].orderDate").value("2026-09-17T10:30:00"))
                 .andExpect(jsonPath("$[0].items[0].productName").value("Dog Food"))
                 .andExpect(jsonPath("$[0].items[0].quantity").value(2))
