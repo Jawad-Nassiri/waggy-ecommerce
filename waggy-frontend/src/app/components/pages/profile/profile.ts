@@ -8,6 +8,7 @@ import { CartService } from '../../../services/cart.service';
 import { Order } from '../../../models/order';
 import { DatePipe } from '@angular/common';
 import { OrderService } from '../../../services/order.service';
+import { ImageUrlService } from '../../../services/image-url.service';
 
 @Component({
   selector: 'app-profile',
@@ -20,7 +21,8 @@ export class Profile {
     private authService: AuthService,
     private router: Router,
     private cartService: CartService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private imageUrlService: ImageUrlService,
   ) {}
 
   user: any = null;
@@ -52,8 +54,11 @@ export class Profile {
   getOrders() {
     this.orderService.getOrders().subscribe((orders) => {
       this.orders.set(orders);
-      console.log(this.orders())
-
+      console.log(this.orders());
     });
+  }
+
+  getImageUrl(image: string): string {
+    return this.imageUrlService.getImageUrl(image);
   }
 }

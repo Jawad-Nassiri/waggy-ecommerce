@@ -79,7 +79,6 @@ export class Products {
   getProducts() {
     this.productService.getProducts().subscribe((products) => {
       this.products = products;
-      // update the view after receiving products asynchronously
       this.cdr.detectChanges();
     });
   }

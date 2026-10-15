@@ -44,7 +44,7 @@
               <li class="wp-item">
                 <img
                   class="wp-item-img"
-                  [src]="'/images/products/' + item.productImage"
+                  [src]="getImageUrl (item.productImage)"
                   [alt]="item.productName"
                 />
                 <div class="wp-item-info">
