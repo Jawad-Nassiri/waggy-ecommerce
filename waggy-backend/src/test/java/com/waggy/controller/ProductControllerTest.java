@@ -13,6 +13,7 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.mock.web.MockPart;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -88,17 +89,26 @@ class ProductControllerTest {
     void createProduct_shouldReturnCreatedProduct() throws Exception {
         ProductRequestDTO request = createRequestDTO();
         ProductResponseDTO response = createResponseDTO();
+        MockMultipartFile image = new MockMultipartFile(
+                "image", "dog.jpg", "image/jpeg", new byte[]{1, 2, 3}
+        );
+        MockPart productPart = new MockPart(
+                "product",
+                objectMapper.writeValueAsBytes(request)
+        );
+        productPart.getHeaders().setContentType(MediaType.APPLICATION_JSON);
 
-        when(productService.saveProductInDb(request)).thenReturn(response);
+        when(productService.saveProductInDb(eq(request), any(MultipartFile.class)))
+                .thenReturn(response);
 
         assertProductResponse(
-                mockMvc.perform(post("/products")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(request)))
+                mockMvc.perform(multipart("/products")
+                                .file(image)
+                                .part(productPart))
                         .andExpect(status().isOk())
         );
 
-        verify(productService).saveProductInDb(request);
+        verify(productService).saveProductInDb(eq(request), any(MultipartFile.class));
     }
 
     @Test

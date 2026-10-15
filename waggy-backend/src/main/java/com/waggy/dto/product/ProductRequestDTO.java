@@ -22,7 +22,6 @@ public record ProductRequestDTO(
         @PositiveOrZero(message = "Stock cannot be negative")
         Integer stock,
 
-        @NotBlank(message = "Image must not be empty")
         String image,
 
         @NotNull(message = "Category is required")

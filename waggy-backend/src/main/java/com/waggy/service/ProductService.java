@@ -12,6 +12,7 @@ import com.waggy.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -23,10 +24,26 @@ public class ProductService {
     private final CategoryRepository categoryRepository;
     private final ImageService imageService;
 
-    public ProductResponseDTO saveProductInDb(ProductRequestDTO dto) {
+    public ProductResponseDTO saveProductInDb(ProductRequestDTO dto, MultipartFile image) throws IOException {
         Category category = categoryRepository.findById(dto.categoryId())
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
-        Product product = productMapper.toEntity(dto, category);
+
+        if (image == null || image.isEmpty()) {
+            throw new IllegalArgumentException("Image must not be empty");
+        }
+
+        String imagePath = imageService.saveImage(image, category.getSlug());
+
+        ProductRequestDTO productDTO = new ProductRequestDTO(
+                dto.name(),
+                dto.description(),
+                dto.price(),
+                dto.stock(),
+                imagePath,
+                dto.categoryId()
+        );
+
+        Product product = productMapper.toEntity(productDTO, category);
         Product savedProduct = productRepository.save(product);
 
         return productMapper.toDTO(savedProduct);

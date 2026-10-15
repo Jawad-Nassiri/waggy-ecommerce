@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -87,31 +89,34 @@ class ProductServiceTest {
     }
 
     @Test
-    void saveProductInDb_shouldSaveProduct() {
+    void saveProductInDb_shouldSaveProduct() throws IOException {
         ProductRequestDTO dto = createProductRequestDTO();
 
         Category category = new Category();
         Product product = createProduct();
         Product savedProduct = createProduct();
-        CategoryResponseDTO categoryResponse = new CategoryResponseDTO(
-                1,
-                "Dog Food",
-                "dog_food"
+        ProductResponseDTO responseDTO = createProductResponseDTO();
+        MultipartFile image = new MockMultipartFile(
+                "image",
+                "dog.jpg",
+                "image/jpeg",
+                new byte[]{1, 2, 3}
         );
 
-        ProductResponseDTO responseDTO = createProductResponseDTO();
-
         when(categoryRepository.findById(dto.categoryId())).thenReturn(Optional.of(category));
-        when(productMapper.toEntity(dto, category)).thenReturn(product);
+        when(imageService.saveImage(image, category.getSlug())).thenReturn("uploads/dog-food/dog.jpg");
+        when(productMapper.toEntity(any(ProductRequestDTO.class), eq(category))).thenReturn(product);
         when(productRepository.save(product)).thenReturn(savedProduct);
         when(productMapper.toDTO(savedProduct)).thenReturn(responseDTO);
 
-        ProductResponseDTO result = productService.saveProductInDb(dto);
+        ProductResponseDTO result = productService.saveProductInDb(dto, image);
 
         assertEquals(responseDTO, result);
         verify(categoryRepository).findById(dto.categoryId());
-        verify(productMapper).toEntity(dto, category);
+        verify(imageService).saveImage(image, category.getSlug());
+        verify(productMapper).toEntity(any(ProductRequestDTO.class), eq(category));
         verify(productRepository).save(product);
+        verify(productMapper).toDTO(savedProduct);
     }
 
     @Test

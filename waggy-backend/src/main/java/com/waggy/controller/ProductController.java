@@ -19,9 +19,12 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
 
-    @PostMapping
-    public ProductResponseDTO createProduct(@Valid @RequestBody ProductRequestDTO dto) {
-        return productService.saveProductInDb(dto);
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ProductResponseDTO createProduct(
+            @Valid @RequestPart("product") ProductRequestDTO dto,
+            @RequestPart(value = "image", required = false) MultipartFile image
+    ) throws IOException {
+        return productService.saveProductInDb(dto, image);
     }
 
     @GetMapping
