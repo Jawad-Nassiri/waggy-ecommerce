@@ -1,0 +1,36 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: waggy-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: waggy
+    ports:
+      - "3307:3306"
+    volumes:
+      - waggy-mysql-data:/var/lib/mysql
+
+  backend:
+    build: .
+    container_name: waggy-backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./uploads:/app/uploads
+    environment:
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET}
+    depends_on:
+      - mysql
+
+  frontend:
+    build: ../waggy-frontend
+    container_name: waggy-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+
+volumes:
+  waggy-mysql-data:
+    external: true

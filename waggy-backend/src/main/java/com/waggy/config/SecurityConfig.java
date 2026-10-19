@@ -57,6 +57,7 @@ public class SecurityConfig {
                         .requestMatchers("/payments").authenticated()
                         .requestMatchers("/payments/webhook").permitAll()
                         .requestMatchers("/error").permitAll()
+                        .requestMatchers("/uploads/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->
