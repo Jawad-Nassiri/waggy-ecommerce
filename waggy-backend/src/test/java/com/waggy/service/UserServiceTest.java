@@ -7,6 +7,7 @@ import com.waggy.entity.Role;
 import com.waggy.entity.User;
 import com.waggy.exception.UserNotFoundException;
 import com.waggy.mapper.UserMapper;
+import com.waggy.repository.CartRepository;
 import com.waggy.repository.OrderRepository;
 import com.waggy.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -31,6 +32,9 @@ class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private CartRepository cartRepository;
 
     @Mock
     private UserMapper userMapper;

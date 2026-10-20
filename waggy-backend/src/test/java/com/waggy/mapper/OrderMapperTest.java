@@ -4,6 +4,7 @@ import com.waggy.dto.order.OrderResponseDTO;
 import com.waggy.entity.Order;
 import com.waggy.entity.OrderItem;
 import com.waggy.entity.Product;
+import com.waggy.entity.User;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -28,6 +29,9 @@ class OrderMapperTest {
     @Test
     void shouldMapEntityToResponseDto() {
 
+        User user = new User();
+        user.setName("leo");
+
         Product product = new Product();
         product.setId(1);
         product.setName("Dog Food");
@@ -42,6 +46,7 @@ class OrderMapperTest {
         order.setOrderDate(LocalDateTime.now());
         order.setOrderItems(List.of(orderItem));
         order.setStatus("PAID");
+        order.setUser(user);
 
         OrderResponseDTO dto = orderMapper.toDTO(order);
 

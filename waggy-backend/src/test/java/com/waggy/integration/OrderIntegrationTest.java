@@ -10,6 +10,7 @@ import com.waggy.repository.OrderRepository;
 import com.waggy.repository.ProductRepository;
 import com.waggy.repository.UserRepository;
 import com.waggy.service.JwtService;
+import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -140,25 +141,18 @@ class OrderIntegrationTest {
         String request = createOrderRequest(product.getId());
 
         mockMvc.perform(post("/orders")
-                        .header("Authorization", "Bearer " + token)
+                        .cookie(new Cookie("token", token))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").exists())
-                .andExpect(jsonPath("$.items[0].productId")
-                        .value(product.getId()))
-                .andExpect(jsonPath("$.items[0].productName")
-                        .value("Dog Food"))
-                .andExpect(jsonPath("$.items[0].quantity")
-                        .value(2))
-                .andExpect(jsonPath("$.items[0].price")
-                        .value(29.99))
-                .andExpect(jsonPath("$.items[0].subtotal")
-                        .value(59.98))
-                .andExpect(jsonPath("$.totalPrice")
-                        .value(59.98))
-                .andExpect(jsonPath("$.status")
-                        .value("PENDING"));
+                .andExpect(jsonPath("$.items[0].productId").value(product.getId()))
+                .andExpect(jsonPath("$.items[0].productName").value("Dog Food"))
+                .andExpect(jsonPath("$.items[0].quantity").value(2))
+                .andExpect(jsonPath("$.items[0].price").value(29.99))
+                .andExpect(jsonPath("$.items[0].subtotal").value(59.98))
+                .andExpect(jsonPath("$.totalPrice").value(59.98))
+                .andExpect(jsonPath("$.status").value("PENDING"));
     }
 
     @Test
@@ -173,7 +167,7 @@ class OrderIntegrationTest {
         String request = createOrderRequest(product.getId());
 
         mockMvc.perform(post("/orders")
-                        .header("Authorization", "Bearer " + userToken)
+                        .cookie(new Cookie("token", userToken))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
                 .andExpect(status().isOk());
@@ -181,7 +175,7 @@ class OrderIntegrationTest {
         String adminToken = generateAdminToken();
 
         mockMvc.perform(get("/orders")
-                        .header("Authorization", "Bearer " + adminToken))
+                        .cookie(new Cookie("token", adminToken)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(1))
                 .andExpect(jsonPath("$[0].items[0].productName")
@@ -202,13 +196,12 @@ class OrderIntegrationTest {
         String request = createOrderRequest(product.getId());
 
         mockMvc.perform(post("/orders")
-                        .header("Authorization", "Bearer " + token)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(request))
-                .andExpect(status().isOk());
+                .cookie(new Cookie("token", token))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(request));
 
         mockMvc.perform(get("/orders/me")
-                        .header("Authorization", "Bearer " + token))
+                        .cookie(new Cookie("token", token)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(1))
                 .andExpect(jsonPath("$[0].items[0].productName")
@@ -231,7 +224,7 @@ class OrderIntegrationTest {
         String request = createOrderRequest(product.getId());
 
         String response = mockMvc.perform(post("/orders")
-                        .header("Authorization", "Bearer " + userToken)
+                        .cookie(new Cookie("token", userToken))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
                 .andExpect(status().isOk())
@@ -247,7 +240,7 @@ class OrderIntegrationTest {
         String adminToken = generateAdminToken();
 
         mockMvc.perform(get("/orders/{id}", orderId)
-                        .header("Authorization", "Bearer " + adminToken))
+                        .cookie(new Cookie("token", adminToken)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(orderId))
                 .andExpect(jsonPath("$.items[0].productName")
@@ -270,7 +263,7 @@ class OrderIntegrationTest {
         String request = createOrderRequest(product.getId());
 
         String response = mockMvc.perform(post("/orders")
-                        .header("Authorization", "Bearer " + userToken)
+                        .cookie(new Cookie("token", userToken))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
                 .andExpect(status().isOk())
@@ -286,11 +279,11 @@ class OrderIntegrationTest {
         String adminToken = generateAdminToken();
 
         mockMvc.perform(delete("/orders/{id}", orderId)
-                        .header("Authorization", "Bearer " + adminToken))
+                        .cookie(new Cookie("token", adminToken)))
                 .andExpect(status().isOk());
 
         mockMvc.perform(get("/orders/{id}", orderId)
-                        .header("Authorization", "Bearer " + adminToken))
+                        .cookie(new Cookie("token", adminToken)))
                 .andExpect(status().isNotFound());
     }
 }

@@ -1,4 +1,4 @@
-package com.waggy.controller;
+package com.waggy.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.waggy.dto.payment.PaymentResponseDTO;
@@ -12,11 +12,13 @@ import com.waggy.repository.ProductRepository;
 import com.waggy.repository.UserRepository;
 import com.waggy.service.JwtService;
 import com.waggy.service.PaymentService;
+import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -120,8 +122,8 @@ class PaymentIntegrationTest {
                 """.formatted(product.getId());
 
         String orderResponse = mockMvc.perform(post("/orders")
-                        .header("Authorization", "Bearer " + token)
-                        .contentType("application/json")
+                        .cookie(new Cookie("token", token))
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(orderRequest))
                 .andExpect(status().isOk())
                 .andReturn()
@@ -147,8 +149,8 @@ class PaymentIntegrationTest {
                 """.formatted(orderId);
 
         mockMvc.perform(post("/payments")
-                        .header("Authorization", "Bearer " + token)
-                        .contentType("application/json")
+                        .cookie(new Cookie("token", token))
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(paymentRequest))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.checkoutUrl")

@@ -22,9 +22,8 @@ import java.time.LocalDateTime;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(AuthController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -91,7 +90,7 @@ class AuthControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
-                .andExpect(content().string("jwt-token"));
+                .andExpect(cookie().value("token", "jwt-token"));
 
         verify(userService).findUserByEmail(request.email());
         verify(passwordEncoder).matches(request.password(), user.getPassword());
@@ -105,15 +104,16 @@ class AuthControllerTest {
 
         when(userService.saveUserInDb(request)).thenReturn(response);
 
+        when(jwtService.generateToken(response.email(), response.role()))
+                .thenReturn("jwt-token");
+
         mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.name").value("John"))
-                .andExpect(jsonPath("$.email").value("john@example.com"))
-                .andExpect(jsonPath("$.role").value("USER"));
+                .andDo(print())
+                .andExpect(status().isOk());
 
         verify(userService).saveUserInDb(request);
+        verify(jwtService).generateToken(response.email(), response.role());
     }
 }

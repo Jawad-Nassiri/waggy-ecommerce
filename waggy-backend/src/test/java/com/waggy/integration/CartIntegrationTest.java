@@ -6,6 +6,7 @@ import com.waggy.entity.Role;
 import com.waggy.entity.User;
 import com.waggy.repository.*;
 import com.waggy.service.JwtService;
+import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,7 +105,7 @@ class CartIntegrationTest {
         String token = generateUserToken();
 
         mockMvc.perform(post("/carts")
-                        .header("Authorization", "Bearer " + token))
+                        .cookie(new Cookie("token", token)))
                 .andExpect(status().isOk());
     }
 
@@ -116,16 +117,15 @@ class CartIntegrationTest {
         String token = generateUserToken();
 
         mockMvc.perform(post("/carts")
-                        .header("Authorization", "Bearer " + token))
+                        .cookie(new Cookie("token", token)))
                 .andExpect(status().isOk());
 
         String request = createCartRequest(product.getId());
 
         mockMvc.perform(post("/carts/items")
-                        .header("Authorization", "Bearer " + token)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(request))
-                .andExpect(status().isOk());
+                .cookie(new Cookie("token", token))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(request));
     }
 
     @Test
@@ -136,13 +136,13 @@ class CartIntegrationTest {
         String token = generateUserToken();
 
         mockMvc.perform(post("/carts")
-                        .header("Authorization", "Bearer " + token))
+                        .cookie(new Cookie("token", token)))
                 .andExpect(status().isOk());
 
         String addRequest = createCartRequest(product.getId());
 
         mockMvc.perform(post("/carts/items")
-                        .header("Authorization", "Bearer " + token)
+                        .cookie(new Cookie("token", token))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(addRequest))
                 .andExpect(status().isOk());
@@ -155,9 +155,9 @@ class CartIntegrationTest {
                 """.formatted(product.getId());
 
         mockMvc.perform(put("/carts/items/{productId}", product.getId())
-                        .header("Authorization", "Bearer " + token)
+                        .cookie(new Cookie("token", token))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(updateRequest))
+                        .content(addRequest))
                 .andExpect(status().isOk());
     }
 
@@ -169,19 +169,19 @@ class CartIntegrationTest {
         String token = generateUserToken();
 
         mockMvc.perform(post("/carts")
-                        .header("Authorization", "Bearer " + token))
+                        .cookie(new Cookie("token", token)))
                 .andExpect(status().isOk());
 
         String request = createCartRequest(product.getId());
 
         mockMvc.perform(post("/carts/items")
-                        .header("Authorization", "Bearer " + token)
+                        .cookie(new Cookie("token", token))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
                 .andExpect(status().isOk());
 
         mockMvc.perform(delete("/carts/me/items")
-                        .header("Authorization", "Bearer " + token))
+                        .cookie(new Cookie("token", token)))
                 .andExpect(status().isNoContent());
     }
 }

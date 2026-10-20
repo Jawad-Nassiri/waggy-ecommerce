@@ -5,6 +5,7 @@ import com.waggy.entity.Category;
 import com.waggy.entity.Role;
 import com.waggy.repository.CategoryRepository;
 import com.waggy.service.JwtService;
+import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,8 +68,8 @@ public class CategoryIntegrationTest {
         CategoryRequestDTO request = createRequestDTO();
 
         mockMvc.perform(post("/categories")
-                        .header("Authorization", "Bearer " + token)
-                        .contentType(APPLICATION_JSON)
+                        .cookie(new Cookie("token", token))
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Dog Food"))
@@ -87,7 +88,7 @@ public class CategoryIntegrationTest {
         String token = generateToken();
 
         mockMvc.perform(get("/categories/{id}", savedCategory.getId())
-                        .header("Authorization", "Bearer " + token))
+                        .cookie(new Cookie("token", token)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(savedCategory.getId()))
                 .andExpect(jsonPath("$.name").value("Dog Food"))
@@ -106,14 +107,14 @@ public class CategoryIntegrationTest {
         String token = generateToken();
 
         mockMvc.perform(put("/categories/{id}", savedCategory.getId())
-                        .header("Authorization", "Bearer " + token)
+                        .cookie(new Cookie("token", token))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                            {
-                                "name": "Cat Food",
-                                "slug": "cat_food"
-                            }
-                            """))
+                                {
+                                    "name": "Cat Food",
+                                    "slug": "cat_food"
+                                }
+                                """))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(savedCategory.getId()))
                 .andExpect(jsonPath("$.name").value("Cat Food"))

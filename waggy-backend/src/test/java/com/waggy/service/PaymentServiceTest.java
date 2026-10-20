@@ -1,8 +1,8 @@
 package com.waggy.service;
 
 import com.stripe.net.Webhook;
-import com.waggy.entity.Order;
-import com.waggy.entity.Product;
+import com.waggy.entity.*;
+import com.waggy.repository.CartRepository;
 import com.waggy.repository.OrderRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,13 +13,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.stripe.model.checkout.Session;
 import com.waggy.dto.payment.PaymentRequestDTO;
 import com.waggy.dto.payment.PaymentResponseDTO;
-import com.waggy.entity.OrderItem;
 import com.stripe.param.checkout.SessionCreateParams;
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import com.stripe.model.Event;
@@ -35,6 +35,9 @@ class PaymentServiceTest {
     @Mock
     private OrderRepository orderRepository;
 
+    @Mock
+    private CartRepository cartRepository;
+
     @InjectMocks
     private PaymentService paymentService;
 
@@ -48,9 +51,16 @@ class PaymentServiceTest {
     @Test
     void markOrderAsPaid_shouldMarkOrderAsPaid() {
         Order order = createOrder();
+        User user = order.getUser();
+
+        Cart cart = new Cart();
+        cart.setCartItems(new ArrayList<>());
 
         when(orderRepository.findById(order.getId()))
                 .thenReturn(Optional.of(order));
+
+        when(cartRepository.findByUser(user))
+                .thenReturn(Optional.of(cart));
 
         paymentService.markOrderAsPaid(order.getId());
 
@@ -58,6 +68,8 @@ class PaymentServiceTest {
 
         verify(orderRepository).findById(order.getId());
         verify(orderRepository).save(order);
+        verify(cartRepository).findByUser(user);
+        verify(cartRepository).save(cart);
     }
 
     @Test
@@ -100,6 +112,14 @@ class PaymentServiceTest {
     @Test
     void handleWebhook_shouldMarkOrderAsPaid() {
         Order order = createOrder();
+
+        User user = order.getUser();
+
+        Cart cart = new Cart();
+        cart.setCartItems(new ArrayList<>());
+
+        when(cartRepository.findByUser(user))
+                .thenReturn(Optional.of(cart));
 
         Event event = mock(Event.class);
         EventDataObjectDeserializer deserializer =
