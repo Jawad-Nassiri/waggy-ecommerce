@@ -15,5 +15,5 @@ jobs:
           java-version: '25'
 
       - name: Build and test backend
-        run: ./mvnw test
+        run: chmod +x mvnw && ./mvnw test
         working-directory: waggy-backend
