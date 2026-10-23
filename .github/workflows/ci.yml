@@ -46,6 +46,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+
+      - name: Package backend
+        run: chmod +x mvnw && ./mvnw package -DskipTests
+        working-directory: waggy-backend
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -65,4 +75,3 @@ jobs:
           context: ./waggy-frontend
           push: true
           tags: jawadnassiri/waggy-frontend:latest
-
