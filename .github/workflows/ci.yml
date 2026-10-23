@@ -1,3 +1,4 @@
+
 on:
   push:
 
@@ -36,3 +37,32 @@ jobs:
       - name: Build and test backend
         run: chmod +x mvnw && ./mvnw test
         working-directory: waggy-backend
+
+  build-and-push:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push backend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./waggy-backend
+          push: true
+          tags: jawadnassiri/waggy-backend:latest
+
+      - name: Build and push frontend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./waggy-frontend
+          push: true
+          tags: jawadnassiri/waggy-frontend:latest
+
