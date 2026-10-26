@@ -27,7 +27,8 @@ public class CartItemMapper {
                 cartItem.getProduct().getPrice(),
                 cartItem.getProduct().getPrice()
                         .multiply(BigDecimal.valueOf(cartItem.getQuantity())),
-                cartItem.getProduct().getImage()
+                cartItem.getProduct().getImage(),
+                cartItem.getProduct().getStock()
         );
     }
 }

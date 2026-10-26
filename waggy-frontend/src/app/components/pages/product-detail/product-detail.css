@@ -94,7 +94,8 @@
     padding: 20px !important;
 }
 
-.btn-basket, .btn-dark {
+.btn-basket,
+.btn-dark {
     height: 58px;
     padding: 0 24px;
     border: 1px solid #e5e7eb;
@@ -105,7 +106,7 @@
     cursor: pointer;
     transition: all 0.3s ease;
     margin-bottom: 10px;
-     font-family: inherit;
+    font-family: inherit;
 }
 
 .btn-basket:hover,
@@ -113,6 +114,11 @@
     background: #deaa6c;
     border-color: #deaa6c;
     color: #fff;
+}
+
+.stock-out {
+    color: red;
+    margin: 5px 0 15px 0;
 }
 
 /* responsive  */

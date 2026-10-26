@@ -52,7 +52,8 @@ class CartControllerTest {
                 2,
                 new BigDecimal("29.99"),
                 new BigDecimal("59.98"),
-                "image.jpg"
+                "image.jpg",
+                100
         );
     }
 

@@ -63,7 +63,8 @@ class CartServiceTest {
                 1,
                 new BigDecimal(1299.99),
                 new BigDecimal(1299.99),
-                "image.jpg"
+                "image.jpg",
+                100
         );
     }
 

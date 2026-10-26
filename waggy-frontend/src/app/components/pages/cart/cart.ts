@@ -58,7 +58,7 @@ export class CartComponent {
   }
 
   increaseQty(item: CartItem): void {
-    if (item.quantity < 100) {
+    if (item.quantity < item.stock) {
       item.quantity += 1;
 
       this.cartService.updateCartItem(item.productId, item.quantity).subscribe({
@@ -75,6 +75,11 @@ export class CartComponent {
           this.showToast.set(true);
         },
       });
+    } else {
+      this.toastTitle = 'Stock limit reached';
+      this.toastMessage = `Only ${item.stock} items available in stock.`;
+      this.toastType = 'error';
+      this.showToast.set(true);
     }
   }
 

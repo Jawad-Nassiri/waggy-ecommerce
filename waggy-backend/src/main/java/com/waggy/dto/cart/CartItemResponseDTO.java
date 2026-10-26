@@ -8,6 +8,7 @@ public record CartItemResponseDTO(
         Integer quantity,
         BigDecimal price,
         BigDecimal subtotal,
-        String image
+        String image,
+        Integer stock
 ) {
 }

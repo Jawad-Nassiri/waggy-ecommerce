@@ -43,6 +43,12 @@ public class OrderService {
             Product product = productRepository.findById(item.productId())
                     .orElseThrow(() -> new ProductNotFoundException("Product not found !"));
 
+            if (product.getStock() < item.quantity()) {
+                throw new IllegalArgumentException("Not enough stock!");
+            }
+
+            product.setStock(product.getStock() - item.quantity());
+
             OrderItem orderItem = new OrderItem();
             orderItem.setProduct(product);
             orderItem.setQuantity(item.quantity());
