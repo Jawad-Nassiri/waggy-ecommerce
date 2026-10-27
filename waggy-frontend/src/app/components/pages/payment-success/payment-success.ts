@@ -1,11 +1,14 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from '../../../services/order.service';
+import { Gallery } from '../../gallery/gallery';
+import { Banner } from '../../banner/banner';
+import { galleryImages } from '../../../data/gallery-images';
 
 
 @Component({
   selector: 'app-payment-success',
-  imports: [RouterLink],
+  imports: [RouterLink, Gallery, Banner],
   templateUrl: './payment-success.html',
   styleUrl: './payment-success.css',
 })
@@ -17,6 +20,8 @@ export class PaymentSuccess {
   ) { }
   
   isValid = signal(false);
+
+  galleryImages = galleryImages;
 
   ngOnInit() {
     const orderId = Number(this.route.snapshot.queryParamMap.get('orderId'));
