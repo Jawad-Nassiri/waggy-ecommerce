@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { AdminUsers } from './admin-users';
+import { UserService } from '../../../../services/user.service';
+import { of } from 'rxjs';
 
 describe('AdminUsers', () => {
   let component: AdminUsers;
@@ -9,11 +10,21 @@ describe('AdminUsers', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AdminUsers],
+      providers: [
+        {
+          provide: UserService,
+          useValue: {
+            getAllUsers: () => of([]),
+            updateUser: () => of({}),
+            deleteUser: () => of({}),
+          },
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AdminUsers);
     component = fixture.componentInstance;
-    await fixture.whenStable();
+    fixture.detectChanges();
   });
 
   it('should create', () => {

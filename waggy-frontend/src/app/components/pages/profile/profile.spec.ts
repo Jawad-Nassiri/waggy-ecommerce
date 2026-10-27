@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { HttpTestingController } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { Profile } from './profile';
@@ -6,16 +9,14 @@ import { Profile } from './profile';
 describe('Profile', () => {
   let component: Profile;
   let fixture: ComponentFixture<Profile>;
+  let httpTestingController: HttpTestingController;
 
   beforeEach(async () => {
-    const authServiceMock = {
-      currentUser: () => null,
-      logout: () => {},
-    };
-
     await TestBed.configureTestingModule({
       imports: [Profile],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         {
           provide: AuthService,
           useValue: {
@@ -26,16 +27,20 @@ describe('Profile', () => {
         {
           provide: Router,
           useValue: {
-            navigate: () => {},
+            navigate: () => Promise.resolve(true),
           },
         },
       ],
     }).compileComponents();
 
+    httpTestingController = TestBed.inject(HttpTestingController);
+
     fixture = TestBed.createComponent(Profile);
     component = fixture.componentInstance;
+  });
 
-    await fixture.whenStable();
+  afterEach(() => {
+    httpTestingController.verify();
   });
 
   it('should create', () => {

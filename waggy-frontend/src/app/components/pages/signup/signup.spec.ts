@@ -2,22 +2,25 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { Signup } from './signup';
 import { AuthService } from '../../../services/auth.service';
-import { of } from 'rxjs';
-import { throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 describe('Signup', () => {
   let component: Signup;
   let fixture: ComponentFixture<Signup>;
 
-  beforeEach(async () => {
-    const authServiceMock = {
-      loadCurrentUser: vi.fn(),
-      signup: vi.fn(),
-    };
+  const authServiceMock = {
+    loadCurrentUser: vi.fn().mockReturnValue(of(null)),
+    signup: vi.fn(),
+  };
 
-    const routerMock = {
-      navigate: vi.fn(),
-    };
+  const routerMock = {
+    navigate: vi.fn(),
+  };
+
+  beforeEach(async () => {
+    authServiceMock.signup.mockReset();
+    authServiceMock.loadCurrentUser.mockReturnValue(of(null));
+    routerMock.navigate.mockReset();
 
     await TestBed.configureTestingModule({
       imports: [Signup],
@@ -44,11 +47,9 @@ describe('Signup', () => {
     const input = document.createElement('input');
 
     component.validateName('Jo', input);
-
     expect(component.nameValid).toBe(false);
 
     component.validateName('Jawad', input);
-
     expect(component.nameValid).toBe(true);
   });
 
@@ -66,8 +67,11 @@ describe('Signup', () => {
     const input = document.createElement('input');
     const confirmInput = document.createElement('input');
 
-    component.validatePassword('abc', { currentTarget: input } as unknown as Event, confirmInput);
-
+    component.validatePassword(
+      'abc',
+      { currentTarget: input } as unknown as Event,
+      confirmInput,
+    );
     expect(component.passwordValid).toBe(false);
 
     component.validatePassword(
@@ -75,7 +79,6 @@ describe('Signup', () => {
       { currentTarget: input } as unknown as Event,
       confirmInput,
     );
-
     expect(component.passwordValid).toBe(true);
   });
 
@@ -92,8 +95,7 @@ describe('Signup', () => {
   });
 
   it('should signup successfully', () => {
-    const authService = TestBed.inject(AuthService);
-    vi.spyOn(authService, 'signup').mockReturnValue(of({}));
+    authServiceMock.signup.mockReturnValue(of({}));
 
     const nameInput = document.createElement('input');
     const emailInput = document.createElement('input');
@@ -112,13 +114,16 @@ describe('Signup', () => {
 
     component.signup(nameInput, emailInput, passwordInput, confirmPasswordInput);
 
-    expect(authService.signup).toHaveBeenCalledWith('Jawad', 'jawad@mail.com', 'Abc123!');
+    expect(authServiceMock.signup).toHaveBeenCalledWith(
+      'Jawad',
+      'jawad@mail.com',
+      'Abc123!',
+    );
+    expect(authServiceMock.loadCurrentUser).toHaveBeenCalled();
   });
 
   it('should show error toast when signup fails', () => {
-    const authService = TestBed.inject(AuthService);
-
-    vi.spyOn(authService, 'signup').mockReturnValue(
+    authServiceMock.signup.mockReturnValue(
       throwError(() => ({ error: 'Email already exists' })),
     );
 

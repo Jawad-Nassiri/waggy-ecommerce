@@ -9,7 +9,7 @@ describe('Login', () => {
   let fixture: ComponentFixture<Login>;
 
   const authServiceMock = {
-    loadCurrentUser: vi.fn(),
+    loadCurrentUser: vi.fn().mockReturnValue(of(null)),
     login: vi.fn(),
   };
 

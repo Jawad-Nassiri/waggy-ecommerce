@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideRouter } from '@angular/router';
 import { Home } from './home';
+import { HomeService } from '../../../services/home.service';
+import { of } from 'rxjs';
 
 describe('Home', () => {
   let component: Home;
@@ -9,11 +11,24 @@ describe('Home', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Home],
-    }).compileComponents();
+      providers: [
+        provideRouter([]),
+        {
+          provide: HomeService,
+          useValue: {
+            getProductsByCategoryId: () => of([]),
+          },
+        },
+      ],
+    })
+      .overrideComponent(Home, {
+        set: { template: '' },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(Home);
     component = fixture.componentInstance;
-    await fixture.whenStable();
+    fixture.detectChanges();
   });
 
   it('should create', () => {

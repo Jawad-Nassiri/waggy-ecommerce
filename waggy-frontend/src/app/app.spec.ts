@@ -2,13 +2,16 @@ import { TestBed } from '@angular/core/testing';
 import { App } from './app';
 import { provideRouter } from '@angular/router';
 import { AuthService } from './services/auth.service';
+import { of } from 'rxjs';
 
 describe('App', () => {
   const authServiceMock = {
-    loadCurrentUser: vi.fn(),
+    loadCurrentUser: vi.fn(() => of(null)),
   };
 
   beforeEach(async () => {
+    authServiceMock.loadCurrentUser.mockReturnValue(of(null));
+
     await TestBed.configureTestingModule({
       imports: [App],
       providers: [

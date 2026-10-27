@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-
 import { ProductService } from '../../../services/product.service';
 import { Products } from './products';
 
@@ -21,12 +20,15 @@ describe('Products', () => {
           useValue: productServiceMock,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(Products, {
+        set: { template: '' },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(Products);
     component = fixture.componentInstance;
-
-    await fixture.whenStable();
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -42,7 +44,7 @@ describe('Products', () => {
       stock: 10,
       image: '',
       createdAt: '',
-      category: { id: 1 },
+      category: { id: 1, name: 'Dog Cloth' },
     }));
 
     expect(component.paginatedProducts.length).toBe(9);
@@ -64,7 +66,7 @@ describe('Products', () => {
         stock: 10,
         image: '',
         createdAt: '',
-        category: { id: 1 },
+        category: { id: 1, name: 'Dog Cloth' },
       },
       {
         id: 2,
@@ -74,7 +76,7 @@ describe('Products', () => {
         stock: 10,
         image: '',
         createdAt: '',
-        category: { id: 2 },
+        category: { id: 2, name: 'Dog Food' },
       },
     ];
 
@@ -94,7 +96,7 @@ describe('Products', () => {
         stock: 10,
         image: '',
         createdAt: '',
-        category: { id: 1 },
+        category: { id: 1, name: 'Dog Cloth' },
       },
       {
         id: 2,
@@ -104,7 +106,7 @@ describe('Products', () => {
         stock: 10,
         image: '',
         createdAt: '',
-        category: { id: 1 },
+        category: { id: 1, name: 'Dog Cloth' },
       },
       {
         id: 3,
@@ -114,7 +116,7 @@ describe('Products', () => {
         stock: 10,
         image: '',
         createdAt: '',
-        category: { id: 1 },
+        category: { id: 1, name: 'Dog Cloth' },
       },
     ];
 
@@ -134,7 +136,7 @@ describe('Products', () => {
         stock: 10,
         image: '',
         createdAt: '',
-        category: { id: 1 },
+        category: { id: 1, name: 'Dog Cloth' },
       },
       {
         id: 2,
@@ -144,7 +146,7 @@ describe('Products', () => {
         stock: 10,
         image: '',
         createdAt: '',
-        category: { id: 1 },
+        category: { id: 1, name: 'Dog Cloth' },
       },
       {
         id: 3,
@@ -154,7 +156,7 @@ describe('Products', () => {
         stock: 10,
         image: '',
         createdAt: '',
-        category: { id: 2 },
+        category: { id: 2, name: 'Dog Food' },
       },
     ];
 
@@ -174,7 +176,7 @@ describe('Products', () => {
       stock: 10,
       image: '',
       createdAt: '',
-      category: { id: 1 },
+      category: { id: 1, name: 'Dog Cloth' },
     }));
 
     expect(component.totalPages).toBe(2);
