@@ -3,7 +3,7 @@ on:
   push:
 
 jobs:
-  test:
+  backend-test:
     runs-on: ubuntu-latest
 
     services:
@@ -39,7 +39,7 @@ jobs:
         working-directory: waggy-backend
 
   build-and-push:
-    needs: test
+    needs: [backend-test, frontend-test]
     runs-on: ubuntu-latest
 
     steps:
@@ -75,3 +75,27 @@ jobs:
           context: ./waggy-frontend
           push: true
           tags: jawadnassiri/waggy-frontend:latest
+
+
+  frontend-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: waggy-frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        run: npm ci
+        working-directory: waggy-frontend
+
+      - name: Run frontend tests
+        run: npm test -- --run
+        working-directory: waggy-frontend
+
