@@ -96,6 +96,6 @@ jobs:
         working-directory: waggy-frontend
 
       - name: Run frontend tests
-        run: npm test -- --run
+        run: npm test -- --watch=false
         working-directory: waggy-frontend
 
