@@ -106,10 +106,10 @@ class PaymentIntegrationTest {
     @Test
     void createPayment_shouldReturnCheckoutUrl() throws Exception {
 
-        createUser();
+        User savedUser = createUser();
         Product product = createProduct();
 
-        String token = generateToken();
+        String token = jwtService.generateToken(savedUser.getEmail(), savedUser.getRole());
 
         // Create an order first
         String orderRequest = """
