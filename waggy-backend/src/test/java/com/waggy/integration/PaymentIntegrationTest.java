@@ -20,11 +20,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
+
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -99,32 +104,32 @@ class PaymentIntegrationTest {
         return productRepository.save(product);
     }
 
-    private String generateToken() {
-        return jwtService.generateToken("user@test.com", Role.USER);
-    }
-
     @Test
     void createPayment_shouldReturnCheckoutUrl() throws Exception {
 
         User savedUser = createUser();
         Product product = createProduct();
 
-        String token = jwtService.generateToken(savedUser.getEmail(), savedUser.getRole());
+        UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken(
+                        savedUser.getEmail(),
+                        null,
+                        List.of(new SimpleGrantedAuthority("ROLE_USER"))
+                );
 
-        // Create an order first
         String orderRequest = """
                 {
-                    "items": [
-                        {
-                            "productId": %d,
-                            "quantity": 2
-                        }
-                    ]
+                  "items": [
+                    {
+                      "productId": %d,
+                      "quantity": 2
+                    }
+                  ]
                 }
                 """.formatted(product.getId());
 
         String orderResponse = mockMvc.perform(post("/orders")
-                        .cookie(new Cookie("token", token))
+                        .with(authentication(authentication))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(orderRequest))
                 .andExpect(status().isOk())
@@ -146,12 +151,12 @@ class PaymentIntegrationTest {
 
         String paymentRequest = """
                 {
-                    "orderId": %d
+                  "orderId": %d
                 }
                 """.formatted(orderId);
 
         mockMvc.perform(post("/payments")
-                        .cookie(new Cookie("token", token))
+                        .with(authentication(authentication))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(paymentRequest))
                 .andExpect(status().isOk())
