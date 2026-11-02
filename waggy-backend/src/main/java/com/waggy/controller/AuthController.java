@@ -8,6 +8,8 @@ import com.waggy.entity.User;
 import com.waggy.exception.AuthenticationException;
 import com.waggy.service.JwtService;
 import com.waggy.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -29,6 +31,8 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
+
+    @Operation(summary = "Login", description = "Authenticates a user and creates a JWT authentication cookie.")
     @PostMapping("/login")
     public void login(
             @Valid @RequestBody LoginRequestDTO loginRequest,
@@ -54,7 +58,7 @@ public class AuthController {
     }
 
 
-
+    @Operation(summary = "Register", description = "Creates a new user account and automatically logs in the user.")
     @PostMapping("/register")
     public AuthResponseDTO register(
             @Valid @RequestBody UserRequestDTO userRequestDTO,
@@ -92,7 +96,9 @@ public class AuthController {
     }
 
 
+    @Operation(summary = "Logout", description = "Logs out the user by clearing the JWT authentication cookie.")
     @PostMapping("/logout")
+    @SecurityRequirement(name = "bearerAuth")
     public void logout(HttpServletResponse response) {
         ResponseCookie cookie = ResponseCookie.from("token", "")
                 .httpOnly(true)

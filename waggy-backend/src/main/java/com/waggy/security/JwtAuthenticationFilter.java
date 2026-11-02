@@ -1,4 +1,5 @@
 package com.waggy.security;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -19,7 +20,7 @@ import lombok.AllArgsConstructor;
 
 /**
  * checks each request for a jwt stored in the token cookie.
-
+ * <p>
  * the browser automatically sends the cookie with each request.
  * this filter extracts the jwt and validates it.
  * if it is valid, spring knows who the user is.
@@ -38,19 +39,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
 
-        Cookie[] cookies = request.getCookies();
-
-        if (cookies == null) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
         String token = null;
 
-        for (Cookie cookie : cookies) {
-            if ("token".equals(cookie.getName())) {
-                token = cookie.getValue();
-                break;
+        String authHeader = request.getHeader("Authorization");
+
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            token = authHeader.substring(7);
+        }
+
+        if (token == null && request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if ("token".equals(cookie.getName())) {
+                    token = cookie.getValue();
+                    break;
+                }
             }
         }
 
