@@ -200,6 +200,10 @@ button {
     backdrop-filter: blur(3px);
 }
 
+.edit-user-modal {
+    margin: auto 10px;
+}
+
 .edit-user-overlay.is-open {
     display: flex;
 }
@@ -397,21 +401,210 @@ button {
     background: #583d7c;
 }
 
-@media (max-width: 480px) {
+/* responsive  */
+
+@media (max-width: 1000px) {
+    .breadcrumbs {
+        margin-left: 0;
+        font-size: 20px;
+    }
+
+    .panel {
+        margin-top: 20px;
+        padding: 16px;
+    }
+
+    .section-title {
+        font-size: 18px;
+    }
+
+    .caption-text {
+        font-size: 14px;
+    }
+
+    .table-scroll {
+        max-height: none;
+        padding-right: 0;
+    }
+
+    .table-inner {
+        min-width: 0;
+    }
+
+    .table-head-row {
+        display: none;
+    }
+
+    .table-row {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "name   role"
+            "email  email"
+            "id     date"
+            "manage manage";
+        gap: 10px 16px;
+        align-items: center;
+        text-align: left;
+        min-height: 0;
+        padding: 16px;
+        margin-top: 12px;
+        background: #faf8f4;
+        border: 1px solid #efebe3;
+        border-radius: 12px;
+    }
+
+    .table-row:last-child {
+        border-bottom: 1px solid #efebe3;
+    }
+
+    .table-row:hover {
+        background: #faf8f4;
+    }
+
+    .table-row>.user-cell {
+        grid-area: name;
+        justify-content: flex-start;
+    }
+
+    .table-row>.user-email {
+        grid-area: email;
+        font-size: 14px;
+    }
+
+    .table-row>.user-id {
+        grid-area: id;
+        font-size: 13px;
+    }
+
+    .table-row>p:nth-of-type(3) {
+        grid-area: role;
+        justify-self: end;
+    }
+
+    .table-row>p:nth-of-type(4) {
+        grid-area: date;
+        justify-self: end;
+        font-size: 13px;
+        color: #6b7570;
+    }
+
+    .table-row>.product-manage {
+        grid-area: manage;
+        justify-content: flex-end;
+        padding-top: 12px;
+        border-top: 1px solid #efebe3;
+    }
+
+    .role-admin,
+    .role-user {
+        padding-top: 5px;
+    }
+}
+
+
+@media (max-width: 640px) {
+    .breadcrumbs {
+        font-size: 18px;
+    }
+
+    .panel {
+        padding: 14px;
+        border-radius: 12px;
+    }
+
+    .section-title {
+        font-size: 17px;
+    }
+
+    .table-row {
+        padding: 14px;
+        gap: 8px 12px;
+    }
+
+    .user-name {
+        font-size: 15px;
+    }
+
+    .table-row>.product-manage {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .product-manage button {
+        padding: 10px 14px;
+        font-size: 15px;
+    }
+
+    .edit-user-overlay {
+        align-items: center;
+        padding: 16px;
+    }
+
+    .edit-user-modal {
+        border-radius: 20px !important;
+    }
+}
+
+@media (max-width: 380px) {
+    .table-row {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "name"
+            "role"
+            "email"
+            "id"
+            "date"
+            "manage";
+    }
+
+    .table-row>p:nth-of-type(3),
+    .table-row>p:nth-of-type(4) {
+        justify-self: start;
+    }
+}
+
+@media (max-width: 640px) {
+
+    .edit-user-overlay {
+        align-items: flex-end;
+        padding: 0;
+    }
+
+    .edit-user-modal {
+        max-width: 100%;
+        max-height: 92vh;
+        border-radius: 20px 20px 0 0;
+        margin-right: 20px;
+        margin-left: 20px;
+    }
+
     .edit-user-header {
-        padding: 20px 18px 16px;
+        padding: 18px 18px 14px;
+    }
+
+    .edit-user-title {
+        font-size: 18px;
     }
 
     .edit-user-body {
         padding: 18px;
+        gap: 16px;
+    }
+
+    .edit-user-input,
+    .edit-user-select {
+        height: 48px;
+        font-size: 16px;
     }
 
     .edit-user-footer {
         flex-direction: column-reverse;
-        padding: 14px 18px 18px;
+        padding: 14px 18px calc(18px + env(safe-area-inset-bottom, 0px));
     }
 
     .edit-user-btn {
         width: 100%;
+        height: 48px;
     }
 }

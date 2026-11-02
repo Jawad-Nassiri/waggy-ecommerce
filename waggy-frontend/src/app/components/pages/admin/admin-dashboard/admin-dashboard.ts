@@ -35,14 +35,14 @@ export class AdminDashboard {
 
       this.usersCount.set(res.length);
       this.adminsCount.set(admins.length);
-      this.lastUsers.set(res.slice(-5));
+      this.lastUsers.set(res.slice(-8));
     });
   }
 
   getProducts() {
     this.productService.getProducts().subscribe((res) => {
       this.productsCount.set(res.length);
-      this.lastProducts.set(res.slice(-5));
+      this.lastProducts.set(res.slice(-8));
     });
   }
 
