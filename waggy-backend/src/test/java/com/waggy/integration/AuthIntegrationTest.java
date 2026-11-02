@@ -41,8 +41,12 @@ class AuthIntegrationTest {
 
     @BeforeEach
     void setUp() {
+        jdbcTemplate.update("DELETE FROM order_items");
         jdbcTemplate.update("DELETE FROM cart_items");
         jdbcTemplate.update("DELETE FROM carts");
+        jdbcTemplate.update("DELETE FROM orders");
+        jdbcTemplate.update("DELETE FROM products");
+        jdbcTemplate.update("DELETE FROM categories");
         jdbcTemplate.update("DELETE FROM users");
     }
 
