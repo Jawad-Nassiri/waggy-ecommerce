@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+import { CartService } from '../../../services/cart.service';
 
 @Component({
   selector: 'app-admin',
@@ -11,7 +12,7 @@ import { AuthService } from '../../../services/auth.service';
 export class Admin {
   sidebarOpen = false;
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router, private authService: AuthService, private cartService: CartService) {}
 
     logout() {
     this.authService.logout().subscribe({
@@ -19,6 +20,8 @@ export class Admin {
         this.router.navigate(['/'], {
           state: { toastMessage: 'Logout successful!' },
         });
+
+        this.cartService.clearCartCount();
       },
     });
   }
