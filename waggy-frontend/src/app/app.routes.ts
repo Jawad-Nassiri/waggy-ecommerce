@@ -17,9 +17,7 @@ import { adminGuard } from './guards/admin.guard';
 import { AdminUsers } from './components/pages/admin/admin-users/admin-users';
 import { AdminProducts } from './components/pages/admin/admin-products/admin-products';
 import { AdminOrders } from './components/pages/admin/admin-orders/admin-orders';
-
-
-
+import { ForgotPassword } from './components/pages/forgot-password/forgot-password';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -33,6 +31,7 @@ export const routes: Routes = [
   { path: 'faq', component: Faq },
   { path: 'payments/success', component: PaymentSuccess, canActivate: [authGuard] },
   { path: 'payments/cancel', component: PaymentSuccess, canActivate: [authGuard] },
+  { path: 'forgot-password', component: ForgotPassword },
   {
     path: 'admin',
     component: Admin,
@@ -44,16 +43,16 @@ export const routes: Routes = [
       },
       {
         path: 'users',
-        component: AdminUsers
+        component: AdminUsers,
       },
       {
         path: 'products',
-        component: AdminProducts
+        component: AdminProducts,
       },
       {
         path: 'orders',
-        component: AdminOrders
-      }
+        component: AdminOrders,
+      },
     ],
   },
 ];
