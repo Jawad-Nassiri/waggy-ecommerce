@@ -31,11 +31,13 @@
         @if (authService.currentUser()) {
           @if (authService.currentUser()?.role === 'ADMIN') {
             <a routerLink="/admin" class="user">
-              <i class="fa-solid fa-user"></i>
+              <i class="fa-solid fa-user-gear"></i>
+              {{authService.currentUser()?.name}}
             </a>
           } @else {
             <a routerLink="/profile" class="user">
               <i class="fa-solid fa-user"></i>
+              {{authService.currentUser()?.name}}
             </a>
           }
         } @else {

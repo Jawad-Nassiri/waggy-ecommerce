@@ -56,6 +56,7 @@
     color: #222;
     cursor: pointer;
     transition: 0.3s ease;
+    text-decoration: none;
 }
 
 .nav-icons .user:hover {
