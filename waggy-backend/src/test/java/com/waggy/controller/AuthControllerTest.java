@@ -1,12 +1,15 @@
 package com.waggy.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.waggy.dto.auth.ForgotPasswordRequestDTO;
+import com.waggy.dto.auth.ResetPasswordRequestDTO;
 import com.waggy.dto.user.LoginRequestDTO;
 import com.waggy.dto.user.UserRequestDTO;
 import com.waggy.dto.user.UserResponseDTO;
 import com.waggy.entity.Role;
 import com.waggy.entity.User;
 import com.waggy.service.JwtService;
+import com.waggy.service.PasswordResetService;
 import com.waggy.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -42,6 +44,9 @@ class AuthControllerTest {
 
     @MockitoBean
     private JwtService jwtService;
+
+    @MockitoBean
+    private PasswordResetService passwordResetService;
 
     private LoginRequestDTO createLoginRequest() {
         return new LoginRequestDTO(
@@ -115,5 +120,38 @@ class AuthControllerTest {
 
         verify(userService).saveUserInDb(request);
         verify(jwtService).generateToken(response.email(), response.role());
+    }
+
+    @Test
+    void forgotPassword_shouldReturn200() throws Exception {
+        ForgotPasswordRequestDTO dto =
+                new ForgotPasswordRequestDTO("test@example.com");
+
+        doNothing().when(passwordResetService)
+                .requestPasswordReset(dto.email());
+
+        mockMvc.perform(post("/auth/forgot-password")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isOk());
+
+        verify(passwordResetService).requestPasswordReset(dto.email());
+    }
+
+    @Test
+    void resetPassword_shouldReturn200() throws Exception {
+        ResetPasswordRequestDTO dto =
+                new ResetPasswordRequestDTO("test-token", "NewPassword123!");
+
+        doNothing().when(passwordResetService)
+                .resetPassword(dto.token(), dto.newPassword());
+
+        mockMvc.perform(post("/auth/reset-password")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isOk());
+
+        verify(passwordResetService)
+                .resetPassword(dto.token(), dto.newPassword());
     }
 }

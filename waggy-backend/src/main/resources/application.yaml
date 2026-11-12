@@ -1,3 +1,4 @@
+
 spring:
   application:
     name: waggy-backend
@@ -11,6 +12,18 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: jawadnasiri2222@gmail.com
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 jwt:
   secret: WaggyDevSecret_7fK2mP9xQ4vL8sR3nT6yU1aZ5cD9eF2g

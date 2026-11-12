@@ -18,7 +18,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
@@ -49,8 +51,8 @@ class OrderIntegrationTest {
     @Autowired
     private ProductRepository productRepository;
 
-    @Autowired
-    private OrderRepository orderRepository;
+    @MockitoBean
+    private JavaMailSender mailSender;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -65,6 +67,7 @@ class OrderIntegrationTest {
         jdbcTemplate.update("DELETE FROM orders");
         jdbcTemplate.update("DELETE FROM products");
         jdbcTemplate.update("DELETE FROM categories");
+        jdbcTemplate.update("DELETE FROM password_reset_token");
         jdbcTemplate.update("DELETE FROM users");
     }
 

@@ -20,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.ActiveProfiles;
@@ -43,9 +44,6 @@ class PaymentIntegrationTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private JwtService jwtService;
-
-    @Autowired
     private UserRepository userRepository;
 
     @Autowired
@@ -55,13 +53,13 @@ class PaymentIntegrationTest {
     private ProductRepository productRepository;
 
     @Autowired
-    private OrderRepository orderRepository;
-
-    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @MockitoBean
     private PaymentService paymentService;
+
+    @MockitoBean
+    private JavaMailSender mailSender;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -73,6 +71,7 @@ class PaymentIntegrationTest {
         jdbcTemplate.update("DELETE FROM orders");
         jdbcTemplate.update("DELETE FROM products");
         jdbcTemplate.update("DELETE FROM categories");
+        jdbcTemplate.update("DELETE FROM password_reset_token");
         jdbcTemplate.update("DELETE FROM users");
     }
 

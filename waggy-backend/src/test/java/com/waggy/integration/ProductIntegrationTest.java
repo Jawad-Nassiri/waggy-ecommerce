@@ -14,14 +14,15 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -44,6 +45,9 @@ class ProductIntegrationTest {
     @Autowired
     private JwtService jwtService;
 
+    @MockitoBean
+    private JavaMailSender mailSender;
+
     @BeforeEach
     void setUp() {
         jdbcTemplate.update("DELETE FROM order_items");
@@ -52,6 +56,7 @@ class ProductIntegrationTest {
         jdbcTemplate.update("DELETE FROM orders");
         jdbcTemplate.update("DELETE FROM products");
         jdbcTemplate.update("DELETE FROM categories");
+        jdbcTemplate.update("DELETE FROM password_reset_token");
         jdbcTemplate.update("DELETE FROM users");
     }
 

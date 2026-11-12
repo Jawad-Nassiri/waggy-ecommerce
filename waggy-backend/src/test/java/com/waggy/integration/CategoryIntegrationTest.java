@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
@@ -39,6 +41,9 @@ public class CategoryIntegrationTest {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @MockitoBean
+    private JavaMailSender mailSender;
+
     @BeforeEach
     void setUp() {
         jdbcTemplate.update("DELETE FROM order_items");
@@ -47,6 +52,7 @@ public class CategoryIntegrationTest {
         jdbcTemplate.update("DELETE FROM orders");
         jdbcTemplate.update("DELETE FROM products");
         jdbcTemplate.update("DELETE FROM categories");
+        jdbcTemplate.update("DELETE FROM password_reset_token");
         jdbcTemplate.update("DELETE FROM users");
     }
 

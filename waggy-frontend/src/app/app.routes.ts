@@ -18,6 +18,8 @@ import { AdminUsers } from './components/pages/admin/admin-users/admin-users';
 import { AdminProducts } from './components/pages/admin/admin-products/admin-products';
 import { AdminOrders } from './components/pages/admin/admin-orders/admin-orders';
 import { ForgotPassword } from './components/pages/forgot-password/forgot-password';
+import { ResetPassword } from './components/pages/reset-password/reset-password';
+import { resetPasswordGuard } from './guards/reset-password.guard';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -32,6 +34,8 @@ export const routes: Routes = [
   { path: 'payments/success', component: PaymentSuccess, canActivate: [authGuard] },
   { path: 'payments/cancel', component: PaymentSuccess, canActivate: [authGuard] },
   { path: 'forgot-password', component: ForgotPassword },
+  { path: 'reset-password', component: ResetPassword, canActivate: [resetPasswordGuard] },
+
   {
     path: 'admin',
     component: Admin,
