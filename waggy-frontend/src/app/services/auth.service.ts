@@ -20,7 +20,7 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    return this.http.post(`${ API_URL } /auth/login`, {
+    return this.http.post(`${API_URL}/auth/login`, {
       email,
       password,
     });
@@ -33,7 +33,7 @@ export class AuthService {
   }
 
   getCurrentUser() {
-    return this.http.get(`${API_URL}/ users / me`);
+    return this.http.get(`${API_URL}/users/me`);
   }
 
   loadCurrentUser() {
