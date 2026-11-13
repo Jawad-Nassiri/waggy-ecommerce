@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, signal } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
-import { HttpClient } from '@angular/common/http';
+import { Toast } from '../toast/toast';
+import { HostListener } from '@angular/core';
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, Toast],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
@@ -13,13 +14,27 @@ export class Header {
   constructor(
     public authService: AuthService,
     public cartService: CartService,
-    private http: HttpClient
+    private router: Router,
   ) {
     this.cartService.getMyCart().subscribe();
   }
 
-  username = "";
+  username = '';
   menuOpen = false;
+  isDropdownOpen = false;
+
+  showToast = signal(false);
+  toastTitle = '';
+  toastMessage = '';
+  toastType = '';
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.user-dropdown')) {
+      this.isDropdownOpen = false;
+    }
+  }
 
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
@@ -29,11 +44,26 @@ export class Header {
     this.authService.getCurrentUser().subscribe({
       next: (user) => {
         this.username = (user as any).name;
-      }
-    })
+      },
+    });
+  }
+
+  logout() {
+    this.authService.logout().subscribe({
+      next: () => {
+        this.showToast.set(true);
+        this.toastTitle = 'Success';
+        this.toastMessage = 'You logged out successfully!';
+        this.toastType = 'success';
+
+        this.router.navigate(["./"]);
+
+        this.cartService.clearCartCount();
+      },
+    });
   }
 
   ngOnInit() {
-    this.getUser()
+    this.getUser();
   }
 }
