@@ -91,6 +91,7 @@ public class SecurityConfig {
             "http://localhost:4200",
             "https://waggy-frontend.onrender.com"
         ));
+        configuration.setAllowedOriginPatterns(List.of("*"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
