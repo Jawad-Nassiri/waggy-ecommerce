@@ -1,0 +1,1 @@
+export const API_URL = 'https://waggy-backend-vsrz.onrender.com';

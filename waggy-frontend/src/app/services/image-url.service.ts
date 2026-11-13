@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { API_URL } from '../core/api.config';
 
 @Injectable({
   providedIn: 'root',
@@ -6,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class ImageUrlService {
   getImageUrl(image: string): string {
     if (image.startsWith('uploads/')) {
-      return `http://localhost:8080/${image}`;
+      return `${API_URL}/${image}`;
     }
 
     return `/images/${image}`;

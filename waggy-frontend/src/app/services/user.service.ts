@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user';
+import { API_URL } from '../core/api.config';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,7 @@ import { User } from '../models/user';
 export class UserService {
   constructor(private http: HttpClient) {}
 
-  userPath = 'http://localhost:8080/users';
+  userPath = `${API_URL}/users`;
 
   getAllUsers() {
     return this.http.get<User[]>(this.userPath);

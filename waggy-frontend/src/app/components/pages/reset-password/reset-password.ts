@@ -6,6 +6,7 @@ import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Toast } from '../../toast/toast';
+import { API_URL } from '../../../core/api.config';
 
 @Component({
   selector: 'app-reset-password',
@@ -49,7 +50,7 @@ export class ResetPassword {
     const token = new URLSearchParams(window.location.search).get('token');
 
     this.http
-      .post('http://localhost:8080/auth/reset-password', {
+      .post(`${API_URL}/auth/reset-password`, {
         token: token,
         newPassword: this.password,
       })

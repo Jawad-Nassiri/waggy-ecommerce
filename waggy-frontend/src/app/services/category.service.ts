@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Category } from '../models/category';
+import { API_URL } from '../core/api.config';
 
 
 @Injectable({
@@ -9,7 +10,7 @@ import { Category } from '../models/category';
 export class CategoryService {
     constructor(private http: HttpClient) { }
     
-    categoryPath = 'http://localhost:8080/categories';
+    categoryPath = `${API_URL}/categories`;
 
     getCategories() {
         return this.http.get<Category[]>(this.categoryPath);

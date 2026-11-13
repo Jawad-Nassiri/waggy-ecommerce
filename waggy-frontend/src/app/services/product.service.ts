@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../models/product';
 import { Injectable } from '@angular/core';
-import { ProductRequest } from '../models/product-request';
+import { API_URL } from '../core/api.config';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +9,7 @@ import { ProductRequest } from '../models/product-request';
 export class ProductService {
   constructor(private http: HttpClient) {}
 
-  private productPath = 'http://localhost:8080/products';
+  private productPath = `${API_URL}/products`;
 
   getProducts() {
     return this.http.get<Product[]>(this.productPath);

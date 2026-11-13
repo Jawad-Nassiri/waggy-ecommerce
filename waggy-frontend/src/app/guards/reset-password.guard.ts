@@ -13,7 +13,7 @@ export const resetPasswordGuard: CanActivateFn = (route) => {
     return router.createUrlTree(['/login']);
   }
 
-  return http.get(`http://localhost:8080/auth/validate-reset-token?token=${token}`).pipe(
+  return http.get(`https://waggy-backend-vsrz.onrender.com/auth/validate-reset-token=${token}`).pipe(
     map(() => true),
     catchError(() => of(router.createUrlTree(['/login']))),
   );

@@ -5,6 +5,7 @@ import { Cart } from '../models/cart';
 import { tap } from 'rxjs';
 import { Order } from '../models/order';
 import { catchError, of } from 'rxjs';
+import { API_URL } from '../core/api.config';
 
 @Injectable({
   providedIn: 'root',
@@ -12,9 +13,9 @@ import { catchError, of } from 'rxjs';
 export class CartService {
   constructor(private http: HttpClient) {}
 
-  path = 'http://localhost:8080/carts';
-  ordersPath = 'http://localhost:8080/orders';
-  paymentsPath = 'http://localhost:8080/payments';
+  path = `${API_URL}/carts`;
+  ordersPath = `${API_URL}/orders`;
+  paymentsPath = `${API_URL}/payments`;
   cartCount = signal(0);
 
   addToCart(product: Product, quantity: number) {

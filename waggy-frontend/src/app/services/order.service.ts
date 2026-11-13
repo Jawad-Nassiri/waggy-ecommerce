@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Order } from '../models/order';
+import { API_URL } from '../core/api.config';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,7 @@ import { Order } from '../models/order';
 export class OrderService {
   constructor(private http: HttpClient) {}
 
-  ordersPath = 'http://localhost:8080/orders';
+  ordersPath = `${API_URL}/orders`;
 
   getOrders() {
     return this.http.get<Order[]>(this.ordersPath + '/me');
