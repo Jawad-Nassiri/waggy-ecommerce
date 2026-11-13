@@ -23,9 +23,6 @@ jobs:
     env:
       STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
       STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
-      SPRING_DATASOURCE_URL: jdbc:mysql://127.0.0.1:3306/waggy
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
 
     steps:
       - name: Checkout code
