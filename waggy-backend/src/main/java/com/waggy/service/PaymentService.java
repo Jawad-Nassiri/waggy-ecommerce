@@ -69,7 +69,6 @@ public class PaymentService {
                 .putMetadata("orderId", order.getId().toString())
                 .build();
 
-
         // creates the stripe payment page for the order.
         // returns the payment page url.
         // if something goes wrong, it throws an error.
@@ -118,7 +117,9 @@ public class PaymentService {
 
                 String orderId = session.getMetadata().get("orderId");
 
-                markOrderAsPaid(Integer.valueOf(orderId));
+                if (orderId != null) {
+                    markOrderAsPaid(Integer.valueOf(orderId));
+                }
             }
 
         } catch (Exception e) {
