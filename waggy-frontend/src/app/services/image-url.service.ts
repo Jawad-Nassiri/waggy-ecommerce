@@ -9,6 +9,6 @@ export class ImageUrlService {
       return `http://localhost:8080/${image}`;
     }
 
-    return `/images/products/${image}`;
+    return `/images/${image}`;
   }
 }
