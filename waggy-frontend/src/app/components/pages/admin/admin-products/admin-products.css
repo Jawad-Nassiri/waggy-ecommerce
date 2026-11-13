@@ -406,12 +406,13 @@ textarea.edit-product-input {
 }
 
 .edit-product-btn--save {
-  background: #6a4c93;
-  color: #ffffff;
+      background: #fbf0dd;
+    color: #a8641a;
 }
 
 .edit-product-btn--save:hover {
-  background: #583d7c;
+        background: #fdeccf;
+
 }
 
 .edit-product-row {

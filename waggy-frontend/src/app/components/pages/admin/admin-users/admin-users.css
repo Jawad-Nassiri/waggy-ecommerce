@@ -393,12 +393,13 @@ button {
 }
 
 .edit-user-btn--save {
-    background: #6a4c93;
-    color: #ffffff;
+    background: #fbf0dd;
+    color: #a8641a;
 }
 
 .edit-user-btn--save:hover {
-    background: #583d7c;
+    background: #fcecd1;
+
 }
 
 /* responsive  */
