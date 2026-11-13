@@ -1,16 +1,18 @@
 package com.waggy.service;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import com.waggy.entity.PasswordResetToken;
 import com.waggy.entity.User;
 import com.waggy.repository.PasswordResetTokenRepository;
 import com.waggy.repository.UserRepository;
+
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -56,7 +58,7 @@ public class PasswordResetService {
         String token = generateToken();
         saveToken(user, token);
 
-        String resetLink = "http://localhost:4200/reset-password?token=" + token;
+        String resetLink = "https://waggy-frontend.onrender.com/reset-password?token=" + token;
 
         emailService.sendResetEmail(user.getEmail(), resetLink);
     }

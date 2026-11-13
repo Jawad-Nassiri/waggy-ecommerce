@@ -2,10 +2,6 @@ package com.waggy.service;
 
 import java.util.List;
 
-import com.waggy.entity.Cart;
-import com.waggy.entity.User;
-import com.waggy.exception.CartNotFoundException;
-import com.waggy.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +11,12 @@ import com.stripe.net.Webhook;
 import com.stripe.param.checkout.SessionCreateParams;
 import com.waggy.dto.payment.PaymentRequestDTO;
 import com.waggy.dto.payment.PaymentResponseDTO;
+import com.waggy.entity.Cart;
 import com.waggy.entity.Order;
+import com.waggy.entity.User;
+import com.waggy.exception.CartNotFoundException;
 import com.waggy.exception.OrderNotFoundException;
+import com.waggy.repository.CartRepository;
 import com.waggy.repository.OrderRepository;
 
 @Service
@@ -63,8 +63,8 @@ public class PaymentService {
         // if canceled → go to the cancel page.
         SessionCreateParams params = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
-                .setSuccessUrl("http://localhost:4200/payments/success?orderId=" + order.getId())
-                .setCancelUrl("http://localhost:4200/payments/cancel")
+                .setSuccessUrl("https://waggy-frontend.onrender.com/payments/success?orderId=" + order.getId())
+                .setCancelUrl("https://waggy-frontend.onrender.com/payments/cancel")
                 .addAllLineItem(lineItems)
                 .putMetadata("orderId", order.getId().toString())
                 .build();
