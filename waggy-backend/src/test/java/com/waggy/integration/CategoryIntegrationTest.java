@@ -1,5 +1,6 @@
 package com.waggy.integration;
 
+import com.resend.Resend;
 import com.waggy.dto.category.CategoryRequestDTO;
 import com.waggy.entity.Category;
 import com.waggy.entity.Role;
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -20,7 +20,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
 
 
-import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -42,7 +41,7 @@ public class CategoryIntegrationTest {
     private CategoryRepository categoryRepository;
 
     @MockitoBean
-    private JavaMailSender mailSender;
+    private Resend resend;
 
     @BeforeEach
     void setUp() {

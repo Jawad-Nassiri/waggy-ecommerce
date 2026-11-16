@@ -1,5 +1,6 @@
 package com.waggy.integration;
 
+import com.resend.Resend;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @SpringBootTest
@@ -29,7 +28,7 @@ class UserIntegrationTest {
     private JdbcTemplate jdbcTemplate;
 
     @MockitoBean
-    private JavaMailSender mailSender;
+    private Resend resend;
 
     @BeforeEach
     void setUp() {

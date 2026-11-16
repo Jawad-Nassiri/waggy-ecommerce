@@ -1,5 +1,6 @@
 package com.waggy.integration;
 
+import com.resend.Resend;
 import com.waggy.entity.Category;
 import com.waggy.entity.Product;
 import com.waggy.entity.Role;
@@ -23,7 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.mail.javamail.JavaMailSender;
+
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @SpringBootTest
@@ -50,7 +51,7 @@ class CartIntegrationTest {
     private JwtService jwtService;
 
     @MockitoBean
-    private JavaMailSender mailSender;
+    private Resend resend;
 
     @BeforeEach
     void setUp() {

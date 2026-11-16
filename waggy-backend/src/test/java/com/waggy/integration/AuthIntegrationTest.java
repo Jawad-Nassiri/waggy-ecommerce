@@ -1,6 +1,7 @@
 package com.waggy.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.resend.Resend;
 import com.waggy.dto.user.LoginRequestDTO;
 import com.waggy.dto.user.UserRequestDTO;
 import com.waggy.entity.Role;
@@ -13,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.http.MediaType;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -40,7 +40,7 @@ class AuthIntegrationTest {
     private JdbcTemplate jdbcTemplate;
 
     @MockitoBean
-    private JavaMailSender mailSender;
+    private Resend resend;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 

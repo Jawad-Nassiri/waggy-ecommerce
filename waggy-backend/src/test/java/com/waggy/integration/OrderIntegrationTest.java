@@ -1,6 +1,7 @@
 package com.waggy.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.resend.Resend;
 import com.waggy.entity.Category;
 import com.waggy.entity.Product;
 import com.waggy.entity.Role;
@@ -18,7 +19,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -52,7 +52,7 @@ class OrderIntegrationTest {
     private ProductRepository productRepository;
 
     @MockitoBean
-    private JavaMailSender mailSender;
+    private Resend resend;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;

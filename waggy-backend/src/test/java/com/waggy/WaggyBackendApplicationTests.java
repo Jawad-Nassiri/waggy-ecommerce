@@ -1,8 +1,8 @@
 package com.waggy;
 
+import com.resend.Resend;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
@@ -11,7 +11,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 class WaggyBackendApplicationTests {
 
 	@MockitoBean
-	private JavaMailSender mailSender;
+	private Resend resend;
 
 	@Test
 	void contextLoads() {

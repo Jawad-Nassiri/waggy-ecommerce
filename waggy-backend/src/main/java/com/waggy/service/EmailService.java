@@ -1,22 +1,36 @@
 package com.waggy.service;
 
-import lombok.AllArgsConstructor;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import com.resend.Resend;
+import com.resend.core.exception.ResendException;
+import com.resend.services.emails.model.CreateEmailOptions;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
 public class EmailService {
-    private final JavaMailSender mailSender;
+
+    private final Resend resend;
+    private final String from;
+
+    public EmailService(
+            Resend resend,
+            @Value("${resend.from}") String from) {
+        this.resend = resend;
+        this.from = from;
+    }
 
     public void sendResetEmail(String to, String resetLink) {
-        SimpleMailMessage message = new SimpleMailMessage();
+        CreateEmailOptions params = CreateEmailOptions.builder()
+                .from(from)
+                .to(to)
+                .subject("Waggy - Password Reset")
+                .text("Click this link to reset your password:\n" + resetLink)
+                .build();
 
-        message.setTo(to);
-        message.setSubject("Waggy - Password Reset");
-        message.setText("Click this link to reset your password:\n" + resetLink);
-
-        mailSender.send(message);
+        try {
+            resend.emails().send(params);
+        } catch (ResendException e) {
+            throw new RuntimeException("Failed to send reset email", e);
+        }
     }
 }
