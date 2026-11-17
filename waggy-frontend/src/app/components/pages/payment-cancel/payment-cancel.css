@@ -1,50 +1,176 @@
 .payment-cancel {
-    display: flex;
-    justify-content: center;
-    padding: 80px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  padding: 60px 20px;
+  background: #faf8f4;
 }
 
 .message-box {
-    width: 100%;
-    max-width: 550px;
-    padding: 50px 40px;
-    text-align: center;
-    background: #fff;
-    border: 1px solid #e9ecef;
-    border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  padding: 52px 40px 40px;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid #e6e2d8;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(63, 47, 34, 0.12);
+  overflow: hidden;
+  box-sizing: border-box;
+  animation: fadeUp 0.6s ease both;
 }
 
-.message-box i {
-    font-size: 55px;
-    color: #dc3545;
+.message-box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: #deaa6c;
+}
+
+.cancel-circle {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #f8e1de;
+  animation: pop 0.5s ease 0.2s both, shake 0.5s ease 1.3s;
+}
+
+.cancel-circle svg {
+  width: 60px;
+  height: 60px;
+}
+
+.cancel-ring {
+  fill: none;
+  stroke: #b3392c;
+  stroke-width: 2;
+  stroke-dasharray: 151;
+  stroke-dashoffset: 151;
+  animation: draw 0.7s ease 0.4s forwards;
+}
+
+.cancel-mark {
+  fill: none;
+  stroke: #b3392c;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  animation: draw 0.25s ease 0.9s forwards;
+}
+
+.cancel-mark-2 {
+  animation-delay: 1.1s;
 }
 
 .message-box h2 {
-    margin: 15px 0 12px;
-    font-size: 32px;
-    font-weight: 600;
+  margin: 0 0 10px;
+  font-size: 30px;
+  font-weight: 700;
+  color: #3f2f22;
 }
 
-.message-box p {
-    margin: 0 0 30px;
-    font-size: 18px;
-    color: #495057;
-    line-height: 1.6;
+.message-box .subtitle {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.6;
+  color: #6b5340;
+}
+
+.info-note {
+  margin: 28px 0;
+  padding: 14px 18px;
+  background: #faf8f4;
+  border: 1px solid #efebe3;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b5340;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.cart-button,
+.secondary-button {
+  display: inline-block;
+  padding: 12px 26px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .cart-button {
-    display: inline-block;
-    padding: 12px 28px;
-    background: #dc3545;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: 500;
-    transition: background 0.2s ease;
+  background: #3f2f22;
+  color: #ffffff;
 }
 
 .cart-button:hover {
-    background: #bb2d3b;
+  background: #5a4331;
+  transform: translateY(-2px);
+}
+
+.secondary-button {
+  background: #fbf0dd;
+  color: #a8641a;
+}
+
+.secondary-button:hover {
+  background: #f6e3c2;
+  transform: translateY(-2px);
+}
+
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes pop {
+  from { transform: scale(0.4); opacity: 0; }
+  70% { transform: scale(1.08); }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-7px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(3px); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 600px) {
+  .payment-cancel { padding: 40px 12px; }
+  .message-box { padding: 44px 22px 28px; }
+  .message-box h2 { font-size: 24px; }
+  .message-box .subtitle { font-size: 16px; }
+}
+
+@media (max-width: 480px) {
+  .actions { flex-direction: column; }
+
+  .cart-button,
+  .secondary-button {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
 }

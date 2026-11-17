@@ -1,14 +1,24 @@
 <div class="payment-cancel">
   <div class="message-box">
-    <i class="fa fa-times-circle" aria-hidden="true"></i>
+    <div class="cancel-circle">
+      <svg viewBox="0 0 52 52" aria-hidden="true">
+        <circle class="cancel-ring" cx="26" cy="26" r="24"></circle>
+        <path class="cancel-mark" d="M18 18L34 34"></path>
+        <path class="cancel-mark cancel-mark-2" d="M34 18L18 34"></path>
+      </svg>
+    </div>
 
-    <h2>Payment was cancelled</h2>
-
-    <p>
-      Your payment was cancelled.<br />
-      You can return to your cart and try again.
+    <h2>Payment cancelled</h2>
+    <p class="subtitle">
+      No worries, nothing was charged.<br />
+      You can go back to your cart and try again.
     </p>
 
-    <a routerLink="/cart" class="cart-button">Back to Cart</a>
+    <div class="info-note">Your items are still waiting in your cart.</div>
+
+    <div class="actions">
+      <a routerLink="/cart" class="cart-button">Back to Cart</a>
+      <a routerLink="/products" class="secondary-button">Continue shopping</a>
+    </div>
   </div>
 </div>
