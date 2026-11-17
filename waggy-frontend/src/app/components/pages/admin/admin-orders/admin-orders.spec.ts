@@ -22,6 +22,8 @@ describe('AdminOrders', () => {
   const mockOrders = [
     {
       id: 1,
+      userName: 'jawad',
+      userId: 82,
       orderDate: '2026-10-20',
       items: [],
       totalPrice: 30,
@@ -81,24 +83,17 @@ describe('AdminOrders', () => {
 
   it('should handle an error when loading orders', () => {
     const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
-    orderService.getAllOrders.mockReturnValue(
-      throwError(() => ({ error: 'Load failed' })),
-    );
+    orderService.getAllOrders.mockReturnValue(throwError(() => ({ error: 'Load failed' })));
 
     component.getAllOrders();
 
-    expect(consoleError).toHaveBeenCalledWith(
-      'Failed to load orders',
-      'Load failed',
-    );
+    expect(consoleError).toHaveBeenCalledWith('Failed to load orders', 'Load failed');
 
     consoleError.mockRestore();
   });
 
   it('should return an image URL from the image service', () => {
-    expect(component.getImageUrl('hoodie.jpg')).toBe(
-      'http://localhost:8080/hoodie.jpg',
-    );
+    expect(component.getImageUrl('hoodie.jpg')).toBe('http://localhost:8080/hoodie.jpg');
     expect(imageUrlService.getImageUrl).toHaveBeenCalledWith('hoodie.jpg');
   });
 
@@ -122,9 +117,7 @@ describe('AdminOrders', () => {
     component.deleteOrder(1);
 
     expect(component.showConfirm()).toBe(true);
-    expect(component.confirmMessage).toBe(
-      'Are you sure you want to delete this order?',
-    );
+    expect(component.confirmMessage).toBe('Are you sure you want to delete this order?');
     expect(orderService.deleteOrder).not.toHaveBeenCalled();
   });
 
@@ -144,9 +137,7 @@ describe('AdminOrders', () => {
   });
 
   it('should show an error toast when deleting an order fails', () => {
-    orderService.deleteOrder.mockReturnValue(
-      throwError(() => new Error('Delete failed')),
-    );
+    orderService.deleteOrder.mockReturnValue(throwError(() => new Error('Delete failed')));
 
     component.deleteOrder(1);
     component.onConfirmYes();
