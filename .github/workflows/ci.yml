@@ -76,6 +76,12 @@ jobs:
           push: true
           tags: jawadnassiri/waggy-frontend:latest
 
+      - name: Deploy backend to Render
+        run: curl --fail --request POST "${{ secrets.RENDER_BACKEND_DEPLOY_HOOK }}"
+
+      - name: Deploy frontend to Render
+        run: curl --fail --request POST "${{ secrets.RENDER_FRONTEND_DEPLOY_HOOK }}"
+
 
   frontend-test:
     runs-on: ubuntu-latest
