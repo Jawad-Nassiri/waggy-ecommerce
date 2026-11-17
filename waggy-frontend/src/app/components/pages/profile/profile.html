@@ -36,7 +36,10 @@
               <p class="wp-order-date">{{ order.orderDate | date: 'MMM d, yyyy' }}</p>
               <p class="wp-order-id">ID: #{{ order.id }}</p>
             </div>
-            <span class="wp-status wp-status--paid">{{ order.status }}</span>
+            <!-- <span class="wp-status wp-status--paid">{{ order.status }}</span> -->
+            <span class="wp-status" [ngClass]="'wp-status--' + order.status.toLowerCase()">
+              {{ order.status }}
+            </span>
           </div>
 
           <ul class="wp-items">
@@ -44,14 +47,16 @@
               <li class="wp-item">
                 <img
                   class="wp-item-img"
-                  [src]="getImageUrl (item.productImage)"
+                  [src]="getImageUrl(item.productImage)"
                   [alt]="item.productName"
                 />
                 <div class="wp-item-info">
                   <h3 class="wp-item-name">{{ item.productName }}</h3>
                   <p class="wp-item-qty">Quantity: {{ item.quantity }}</p>
                 </div>
-                <span class="wp-item-price">€{{ item.quantity * item.price | number:'1.2-2' }}</span>
+                <span class="wp-item-price"
+                  >€{{ item.quantity * item.price | number: '1.2-2' }}</span
+                >
               </li>
             }
           </ul>

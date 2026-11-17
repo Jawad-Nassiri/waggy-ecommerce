@@ -69,8 +69,14 @@
 
   <div class="shop-content">
     <p class="results-count">
-  Showing {{ paginatedProducts.length }} results out of {{ filteredProducts.length }}
-</p>
+      Showing {{ paginatedProducts.length }} results out of {{ filteredProducts.length }}
+    </p>
+    @if (paginatedProducts.length === 0) {
+      <div class="no-product-found">
+        <p>Oops! No products found. Try changing your filters!</p>
+        <i class="fa-solid fa-face-frown"></i>
+      </div>
+    }
     <div class="shop-grid">
       @for (product of paginatedProducts; track product.id) {
         <app-product-card [product]="product"></app-product-card>

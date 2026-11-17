@@ -6,13 +6,13 @@ import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
 import { CartService } from '../../../services/cart.service';
 import { Order } from '../../../models/order';
-import { DatePipe, DecimalPipe } from '@angular/common';
+import { DatePipe, DecimalPipe, NgClass } from '@angular/common';
 import { OrderService } from '../../../services/order.service';
 import { ImageUrlService } from '../../../services/image-url.service';
 
 @Component({
   selector: 'app-profile',
-  imports: [Banner, Gallery, DatePipe, DecimalPipe],
+  imports: [Banner, Gallery, DatePipe, DecimalPipe, NgClass],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })

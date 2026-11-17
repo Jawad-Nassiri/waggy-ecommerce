@@ -11,7 +11,6 @@ import { ProductService } from '../../../services/product.service';
   styleUrl: './products.css',
 })
 export class Products {
-  
   constructor(
     private productService: ProductService,
     private cdr: ChangeDetectorRef,
@@ -52,11 +51,13 @@ export class Products {
 
   filterByCategory(categoryId: number) {
     this.selectedCategory = categoryId;
+    this.currentPage = 1;
   }
 
   filterByPrice(min: number, max: number) {
     this.selectedMinPrice = min;
     this.selectedMaxPrice = max;
+    this.currentPage = 1;
   }
 
   get filteredProducts() {

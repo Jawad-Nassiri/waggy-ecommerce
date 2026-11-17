@@ -1,7 +1,6 @@
 <!-- banner component  -->
 <app-banner title="FAQs"></app-banner>
 
-<!-- faqs  -->
 <main class="faq-main">
   <h1>Frequently Asked Questions</h1>
 
@@ -12,21 +11,20 @@
 
   <div class="faq-list">
     @for (faq of faqs; track $index) {
-      <div class="faq-item">
-  <button
-    class="faq-question"
-    type="button"
-    [class.open]="openIndex() === $index"
-    [attr.aria-expanded]="openIndex() === $index"
-    (click)="toggle($index)">
-    <span>{{ faq.q }}</span>
-    <i class="fa-solid fa-caret-down"></i>
-  </button>
+      <div class="faq-item" [class.open]="openIndex() === $index">
+        <button
+          class="faq-question"
+          type="button"
+          [attr.aria-expanded]="openIndex() === $index"
+          (click)="toggle($index)">
+          <span>{{ faq.q }}</span>
+          <span class="faq-icon"><i class="fa-solid fa-caret-down"></i></span>
+        </button>
 
-  <div class="faq-answer" [class.open]="openIndex() === $index">
-    <div class="faq-answer-inner">{{ faq.a }}</div>
-  </div>
-</div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">{{ faq.a }}</div>
+        </div>
+      </div>
     }
   </div>
 </main>

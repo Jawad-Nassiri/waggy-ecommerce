@@ -80,13 +80,16 @@
 .wp-orders::-webkit-scrollbar {
   width: 8px;
 }
+
 .wp-orders::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .wp-orders::-webkit-scrollbar-thumb {
   background: #d9c3ad;
   border-radius: 999px;
 }
+
 .wp-orders::-webkit-scrollbar-thumb:hover {
   background: #b88f6b;
 }
@@ -195,26 +198,12 @@
 
 .wp-status {
   flex-shrink: 0;
-  font-size: 12.5px;
+  font-size: 15px;
   font-weight: 600;
   padding: 6px 14px;
   border-radius: 999px;
   white-space: nowrap;
-}
-
-.wp-status--delivered {
-  background: #e3f0e8;
-  color: #2f6b4f;
-}
-
-.wp-status--transit {
-  background: #e5edf5;
-  color: #33587d;
-}
-
-.wp-status--processing {
-  background: #fbf0dd;
-  color: #a8641a;
+  letter-spacing: 1px;
 }
 
 .wp-status--paid {
@@ -224,26 +213,32 @@
   padding: 8px 20px;
 }
 
+.wp-status--pending {
+  background: #fbf0dd;
+  color: #a8641a;
+  padding: 10px 15px;
+}
+
 .empty-orders {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    padding: 70px 20px;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 70px 20px;
+  text-align: center;
 }
 
 .empty-orders p {
-    margin: 0;
-    font-size: 30px;
-    font-weight: 500;
-    color: #555;
+  margin: 0;
+  font-size: 30px;
+  font-weight: 500;
+  color: #555;
 }
 
 .empty-orders i {
-    font-size: 55px;
-    color: #f4a261;
+  font-size: 55px;
+  color: #f4a261;
 }
 
 /* responsive */
