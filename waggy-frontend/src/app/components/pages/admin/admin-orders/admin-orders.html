@@ -14,7 +14,7 @@
     <div class="table-inner">
       <div class="table-head-row orders-grid">
         <p>Order ID</p>
-        <p>Customer</p>
+        <p>Customer ID</p>
         <p>Date</p>
         <p>Items</p>
         <p>Total</p>
@@ -27,8 +27,7 @@
           <p class="order-id">#{{ order.id }}</p>
 
           <div class="user-cell order-customer">
-            <p class="user-name">{{ order.userName }}</p>
-            <p class="order-email">{{ order.userEmail }}</p>
+            <p class="user-name">#{{ order.userId }}</p>
           </div>
 
           <p>{{ order.orderDate | date: 'MMM d, yyyy' }}</p>

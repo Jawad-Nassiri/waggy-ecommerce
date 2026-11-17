@@ -67,6 +67,7 @@ class OrderControllerTest {
         return new OrderResponseDTO(
                 1,
                 "leo",
+                1,
                 LocalDateTime.of(2026, 9, 17, 10, 30),
                 List.of(createItemResponseDTO()),
                 new BigDecimal("59.98"),

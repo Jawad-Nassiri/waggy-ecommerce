@@ -20,7 +20,7 @@ export class AdminOrders implements OnInit {
     private imageUrlService: ImageUrlService,
   ) {}
 
-  orders = signal<any[]>([]);
+  orders = signal<Order[]>([]);
   showConfirm = signal(false);
   confirmMessage = 'Are you sure you want to delete this order?';
   isDetailsOpen = signal(false);

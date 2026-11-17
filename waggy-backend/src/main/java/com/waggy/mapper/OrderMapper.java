@@ -23,6 +23,7 @@ public class OrderMapper {
         return new OrderResponseDTO(
                 order.getId(),
                 order.getUser().getName(),
+                order.getUser().getId(),
                 order.getOrderDate(),
                 order.getOrderItems()
                         .stream()
