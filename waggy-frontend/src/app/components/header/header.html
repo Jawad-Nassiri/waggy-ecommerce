@@ -46,6 +46,11 @@
                     <i class="fa-solid fa-gauge"></i>
                     <span class="dropdown-item-text">Dashboard</span>
                   </a>
+
+                  <a routerLink="/profile" class="dropdown-item" (click)="isDropdownOpen = false">
+                    <i class="fa-solid fa-user"></i>
+                    <span class="dropdown-item-text">Profile</span>
+                  </a>
                 } @else {
                   <a routerLink="/profile" class="dropdown-item" (click)="isDropdownOpen = false">
                     <i class="fa-solid fa-user"></i>

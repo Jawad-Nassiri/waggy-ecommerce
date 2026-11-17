@@ -5,6 +5,7 @@ import { CartService } from '../../services/cart.service';
 import { Toast } from '../toast/toast';
 import { ImageUrlService } from '../../services/image-url.service';
 import { DecimalPipe } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-product-card',
@@ -16,6 +17,7 @@ export class ProductCard {
   constructor(
     private cartService: CartService,
     public imageUrlService: ImageUrlService,
+    private authService: AuthService,
   ) {}
 
   @Input() product!: Product;
@@ -26,9 +28,18 @@ export class ProductCard {
   toastMessage = '';
   toastType = '';
 
+
   addToCart(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
+
+    if (!this.authService.currentUser()) {
+      this.toastTitle = 'Error';
+      this.toastMessage = 'Please log in to continue.';
+      this.toastType = 'error';
+      this.showToast.set(true);
+      return;
+    }
 
     this.cartService.addToCart(this.product, 1).subscribe({
       next: () => {
@@ -41,7 +52,7 @@ export class ProductCard {
       },
       error: () => {
         this.toastTitle = 'Error';
-        this.toastMessage = 'Failed to add product to cart.';
+        this.toastMessage = 'Sorry, available stock limit reached.';
         this.toastType = 'error';
         this.showToast.set(true);
       },

@@ -38,6 +38,11 @@ export class ProductDetail {
   increaseQuantity(): void {
     if (this.productQty < this.product()!.stock) {
       this.productQty++;
+    } else {
+      this.title = 'Stock limit reached';
+      this.message = `Only ${this.productQty} items available in stock.`;
+      this.type = 'error';
+      this.showToast.set(true);
     }
   }
 
