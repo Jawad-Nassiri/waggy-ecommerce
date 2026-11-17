@@ -29,6 +29,8 @@ describe('Profile', () => {
   const mockOrders = [
     {
       id: 1,
+      userName: 'jawad',
+      userId: 82,
       orderDate: '2026-10-20',
       items: [],
       totalPrice: 25,
