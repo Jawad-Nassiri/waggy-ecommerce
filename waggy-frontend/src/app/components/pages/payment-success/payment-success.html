@@ -1,18 +1,28 @@
-@if(isValid()) {
+@if (isValid()) {
   <div class="payment-success">
-  <div class="message-box">
-    <i class="fa fa-check-circle" aria-hidden="true"></i>
+    <div class="message-box">
+      <div class="check-circle">
+        <svg viewBox="0 0 52 52" aria-hidden="true">
+          <circle class="check-ring" cx="26" cy="26" r="24"></circle>
+          <path class="check-mark" d="M14 27l8 8 16-17"></path>
+        </svg>
+      </div>
 
-    <h2>Your payment was successful</h2>
+      <h2>Payment successful</h2>
+      <p class="subtitle">Thank you for your order. Your pet's goodies are on their way.</p>
 
-    <p>
-      Thank you for your payment. We will<br />
-      be in contact with more details shortly.
-    </p>
+      <ul class="steps">
+        <li><span class="step-icon">1</span><span>Order confirmed</span></li>
+        <li><span class="step-icon">2</span><span>Email sent</span></li>
+        <li><span class="step-icon">3</span><span>Preparing shipment</span></li>
+      </ul>
 
-    <a routerLink="/" class="home-button">Back to Home</a>
+      <div class="actions">
+        <a routerLink="/" class="home-button">Back to Home</a>
+        <a routerLink="/profile" class="secondary-button">My orders</a>
+      </div>
+    </div>
   </div>
-</div>
 }
 
 <!-- gallery component  -->
