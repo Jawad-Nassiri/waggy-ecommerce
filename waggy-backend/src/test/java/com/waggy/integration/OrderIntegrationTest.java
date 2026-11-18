@@ -7,7 +7,6 @@ import com.waggy.entity.Product;
 import com.waggy.entity.Role;
 import com.waggy.entity.User;
 import com.waggy.repository.CategoryRepository;
-import com.waggy.repository.OrderRepository;
 import com.waggy.repository.ProductRepository;
 import com.waggy.repository.UserRepository;
 import com.waggy.service.JwtService;

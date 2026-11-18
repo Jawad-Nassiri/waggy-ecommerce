@@ -71,7 +71,7 @@ class OrderServiceTest {
                 .thenReturn(Optional.of(user));
         when(orderMapper.toEntity())
                 .thenReturn(order);
-        when(productRepository.findById(product.getId()))
+        when(productRepository.findByIdWithLock(product.getId()))
                 .thenReturn(Optional.of(product));
         when(orderRepository.save(order))
                 .thenReturn(savedOrder);
@@ -85,7 +85,7 @@ class OrderServiceTest {
         verify(userRepository).findByEmail("jawad@test.com");
         verify(orderMapper).toEntity();
         verify(authentication).getName();
-        verify(productRepository).findById(product.getId());
+        verify(productRepository).findByIdWithLock(product.getId());
         verify(orderRepository).save(order);
         verify(orderMapper).toDTO(savedOrder);
     }

@@ -40,7 +40,7 @@ export class ProductDetail {
       this.productQty++;
     } else {
       this.title = 'Stock limit reached';
-      this.message = `Only ${this.productQty} items available in stock.`;
+      this.message = `Sorry, available stock limit reached.`;
       this.type = 'error';
       this.showToast.set(true);
     }

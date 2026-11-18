@@ -17,7 +17,7 @@
       </div>
     } @else {
       @for (item of cartItems(); track item.productId) {
-        <article class="cart-row">
+        <article class="cart-row" [class.stock-error]="stockErrorProductId() === item.productId">
           <div class="cart-product">
             <img [src]="getImageUrl(item.image)" [alt]="item.productName" />
             <h3>{{ item.productName }}</h3>

@@ -24,6 +24,8 @@ export class CartComponent {
   toastMessage = '';
   toastType = '';
 
+  stockErrorProductId = signal<number | null>(null);
+
   constructor(
     private cartService: CartService,
     private orderService: OrderService,
@@ -77,7 +79,7 @@ export class CartComponent {
       });
     } else {
       this.toastTitle = 'Stock limit reached';
-      this.toastMessage = `Only ${item.stock} items available in stock.`;
+      this.toastMessage = `Sorry, available stock limit reached.`;
       this.toastType = 'error';
       this.showToast.set(true);
     }
@@ -138,6 +140,14 @@ export class CartComponent {
             window.location.href = response.checkoutUrl;
           },
         });
+      },
+      error: (err) => {
+        const productId = Number(err.error.message.match(/^#(\d+)/)?.[1]);
+        this.stockErrorProductId.set(productId || null);
+        this.toastTitle = 'Error';
+        this.toastMessage = err.error.message || 'Something went wrong';
+        this.toastType = 'error';
+        this.showToast.set(true);
       },
     });
   }

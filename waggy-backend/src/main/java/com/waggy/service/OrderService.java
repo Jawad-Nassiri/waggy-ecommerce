@@ -14,6 +14,7 @@ import com.waggy.mapper.OrderMapper;
 import com.waggy.repository.OrderRepository;
 import com.waggy.repository.ProductRepository;
 import com.waggy.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,6 +30,7 @@ public class OrderService {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
 
+    @Transactional
     public OrderResponseDTO createOrder(OrderRequestDTO dto) {
         // get the email of the currently logged-in user
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -40,11 +42,14 @@ public class OrderService {
         order.setUser(user);
 
         for (OrderItemRequestDTO item : dto.items()) {
-            Product product = productRepository.findById(item.productId())
+//          get the product and locks its database row until the transaction finishes
+            Product product = productRepository.findByIdWithLock(item.productId())
                     .orElseThrow(() -> new ProductNotFoundException("Product not found !"));
 
             if (product.getStock() < item.quantity()) {
-                throw new IllegalArgumentException("Not enough stock!");
+                throw new IllegalArgumentException(
+                        "#" + product.getId() + " " + product.getName() + " is no longer available."
+                );
             }
 
             product.setStock(product.getStock() - item.quantity());

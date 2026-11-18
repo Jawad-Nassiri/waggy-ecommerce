@@ -234,6 +234,10 @@ button {
     color: #f4a261;
 }
 
+.stock-error {
+    border: 2px solid red;
+}
+
 
 /* responsive  */
 
