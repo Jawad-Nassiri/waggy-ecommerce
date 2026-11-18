@@ -48,6 +48,8 @@ export class CartComponent {
           this.toastMessage = 'Product updated successfully!';
           this.toastType = 'success';
           this.showToast.set(true);
+
+          this.cartService.getMyCart().subscribe();
         },
         error: () => {
           this.toastTitle = 'Error';
@@ -69,6 +71,8 @@ export class CartComponent {
           this.toastMessage = 'Product updated successfully!';
           this.toastType = 'success';
           this.showToast.set(true);
+
+          this.cartService.getMyCart().subscribe();
         },
         error: () => {
           this.toastTitle = 'Error';
@@ -111,12 +115,11 @@ export class CartComponent {
   clearCart(): void {
     this.cartService.clearCart().subscribe({
       next: () => {
-        this.cartItems.set([]);
         this.toastTitle = 'Success';
         this.toastMessage = 'Cart cleared successfully!';
         this.toastType = 'success';
         this.showToast.set(true);
-        this.cartItems.set([]);
+        this.cartService.getMyCart().subscribe();
       },
       error: () => {
         this.toastTitle = 'Error';

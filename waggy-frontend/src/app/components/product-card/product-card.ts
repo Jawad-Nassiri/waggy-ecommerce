@@ -28,7 +28,6 @@ export class ProductCard {
   toastMessage = '';
   toastType = '';
 
-
   addToCart(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
@@ -61,5 +60,11 @@ export class ProductCard {
 
   getImageUrl(image: string): string {
     return this.imageUrlService.getImageUrl(image);
+  }
+
+  isStockLimitReached(product: Product): boolean {
+    const item = this.cartService.cartItems().find((item) => item.productId === product.id);
+
+    return (item?.quantity ?? 0) >= product.stock;
   }
 }

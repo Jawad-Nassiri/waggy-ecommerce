@@ -20,7 +20,13 @@
       @if (product.stock === 0) {
         <p class="stock-out">Out of stock</p>
       } @else {
-        <p class="stock">in stock</p>
+        <p class="stock" [class.out-of-stock]="isStockLimitReached()">
+          @if (isStockLimitReached()) {
+            out of stock
+          } @else {
+            in stock
+          }
+        </p>
       }
 
       <div class="qty">
@@ -34,13 +40,28 @@
           <input type="number" [value]="0" readonly />
         }
 
-        <button type="button" [disabled]="product.stock === 0" (click)="increaseQuantity()">
+        <button
+          type="button"
+          [disabled]="product.stock === 0 || isStockLimitReached()"
+          (click)="increaseQuantity()"
+        >
           +
         </button>
       </div>
 
       @if (product.stock > 0) {
-        <button type="button" class="btn-basket" (click)="addToCart()">Add to basket</button>
+        <button
+          type="button"
+          class="btn-basket"
+          [disabled]="isStockLimitReached()"
+          (click)="addToCart()"
+        >
+          @if (isStockLimitReached()) {
+            Out of stock
+          } @else {
+            Add to basket
+          }
+        </button>
       }
 
       <a routerLink="/products" class="btn btn-dark"> continue shopping </a>

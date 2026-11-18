@@ -36,11 +36,19 @@ export class ProductDetail {
   showToast = signal(false);
 
   increaseQuantity(): void {
-    if (this.productQty < this.product()!.stock) {
+    const product = this.product();
+
+    if (!product) return;
+
+    const cartItem = this.cartService.cartItems().find((item) => item.productId === product.id);
+
+    const cartQuantity = cartItem?.quantity ?? 0;
+
+    if (cartQuantity + this.productQty < product.stock) {
       this.productQty++;
     } else {
       this.title = 'Stock limit reached';
-      this.message = `Sorry, available stock limit reached.`;
+      this.message = 'Sorry, available stock limit reached.';
       this.type = 'error';
       this.showToast.set(true);
     }
@@ -74,7 +82,7 @@ export class ProductDetail {
       error: () => {
         this.type = 'error';
         this.title = 'Error';
-        this.message = 'Failed to add product to cart.';
+        this.message = 'Sorry, available stock limit reached.';
         this.showToast.set(true);
       },
     });
@@ -82,6 +90,17 @@ export class ProductDetail {
 
   getImageUrl(image: string): string {
     return this.imageUrlService.getImageUrl(image);
+  }
+
+  isStockLimitReached(): boolean {
+    const product = this.product();
+    if (!product) return false;
+
+    const item = this.cartService.cartItems().find((item) => item.productId === product.id);
+
+    const cartQuantity = item?.quantity ?? 0;
+
+    return cartQuantity + this.productQty > product.stock;
   }
 
   ngOnInit() {

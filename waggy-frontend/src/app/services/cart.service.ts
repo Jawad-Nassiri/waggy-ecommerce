@@ -6,6 +6,7 @@ import { tap } from 'rxjs';
 import { Order } from '../models/order';
 import { catchError, of } from 'rxjs';
 import { API_URL } from '../core/api.config';
+import { CartItem } from '../models/cart-item';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,7 @@ export class CartService {
   ordersPath = `${API_URL}/orders`;
   paymentsPath = `${API_URL}/payments`;
   cartCount = signal(0);
+  cartItems = signal<CartItem[]>([]);
 
   addToCart(product: Product, quantity: number) {
     return this.http.post(this.path + '/items', {
@@ -27,9 +29,13 @@ export class CartService {
 
   getMyCart() {
     return this.http.get<Cart>(this.path + '/me').pipe(
-      tap((cart) => this.cartCount.set(cart.items.length)),
+      tap((cart) => {
+        this.cartCount.set(cart.items.length);
+        this.cartItems.set(cart.items);
+      }),
       catchError(() => {
         this.cartCount.set(0);
+        this.cartItems.set([]);
         return of({ items: [] } as unknown as Cart);
       }),
     );
