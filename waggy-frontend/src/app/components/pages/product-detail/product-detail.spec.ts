@@ -7,6 +7,8 @@ import { ActivatedRoute, provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { vi } from 'vitest';
 import { Product } from '../../../models/product';
+import { signal, WritableSignal  } from '@angular/core';
+import { CartItem } from '../../../models/cart-item';
 
 describe('ProductDetail', () => {
   let component: ProductDetail;
@@ -19,6 +21,7 @@ describe('ProductDetail', () => {
   let cartService: {
     addToCart: ReturnType<typeof vi.fn>;
     getMyCart: ReturnType<typeof vi.fn>;
+    cartItems: WritableSignal<CartItem[]>;
   };
 
   let imageUrlService: {
@@ -42,6 +45,7 @@ describe('ProductDetail', () => {
     cartService = {
       addToCart: vi.fn(() => of({})),
       getMyCart: vi.fn(() => of({ items: [] })),
+      cartItems: signal<CartItem[]>([]),
     };
 
     imageUrlService = {
@@ -137,7 +141,7 @@ describe('ProductDetail', () => {
 
     expect(component.showToast()).toBe(true);
     expect(component.title).toBe('Error');
-    expect(component.message).toBe('Failed to add product to cart.');
+    expect(component.message).toBe('Sorry, available stock limit reached.');
   });
 
   it('should not add to cart when no product is loaded', () => {

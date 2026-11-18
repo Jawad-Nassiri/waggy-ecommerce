@@ -119,6 +119,7 @@ export class CartComponent {
         this.toastMessage = 'Cart cleared successfully!';
         this.toastType = 'success';
         this.showToast.set(true);
+        this.cartItems.set([]);
         this.cartService.getMyCart().subscribe();
       },
       error: () => {
