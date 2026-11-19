@@ -1,13 +1,14 @@
 import { Component, signal } from '@angular/core';
 import { User } from '../../../../models/user';
 import { UserService } from '../../../../services/user.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { Toast } from '../../../toast/toast';
 import { ConfirmModal } from '../confirm-modal/confirm-modal';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-admin-users',
-  imports: [FormsModule, Toast, ConfirmModal],
+  imports: [FormsModule, Toast, ConfirmModal, DatePipe],
   templateUrl: './admin-users.html',
   styleUrl: './admin-users.css',
 })
@@ -17,6 +18,8 @@ export class AdminUsers {
   users = signal<User[]>([]);
   isEditOpen = signal(false);
   selectedUser = signal<User | null>(null);
+  isAddOpen = signal(false);
+  showConfirm = signal(false);
 
   // toast
   showToast = signal(false);
@@ -24,7 +27,6 @@ export class AdminUsers {
   toastMessage = '';
   toastType = '';
 
-  showConfirm = signal(false);
   confirmMessage = '';
   confirmAction: (() => void) | null = null;
 
@@ -118,5 +120,35 @@ export class AdminUsers {
     };
 
     this.showConfirm.set(true);
+  }
+
+  openAddUserModal() {
+    this.isAddOpen.set(true);
+  }
+
+  addUser(user: User, userForm: NgForm): void {
+    this.userService.createUser(user.name, user.email, user.role as 'USER' | 'ADMIN').subscribe({
+      next: (res) => {
+        this.users.update((users) => [...users, res]);
+
+        this.showToast.set(true);
+        this.toastTitle = 'Success';
+        this.toastMessage = 'User added successfully';
+        this.toastType = 'success';
+
+        userForm.resetForm();
+        this.closeAddUserModal();
+      },
+      error: () => {
+        this.showToast.set(true);
+        this.toastTitle = 'Error';
+        this.toastMessage = 'Failed to create user';
+        this.toastType = 'error';
+      },
+    });
+  }
+
+  closeAddUserModal() {
+    this.isAddOpen.set(false);
   }
 }

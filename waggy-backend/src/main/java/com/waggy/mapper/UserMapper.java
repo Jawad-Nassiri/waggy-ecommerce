@@ -1,5 +1,6 @@
 package com.waggy.mapper;
 
+import com.waggy.dto.user.AdminUserCreateDTO;
 import com.waggy.dto.user.UserRequestDTO;
 import com.waggy.dto.user.UserResponseDTO;
 import com.waggy.entity.Role;
@@ -25,5 +26,13 @@ public class UserMapper {
                 user.getRole(),
                 user.getCreatedAt()
         );
+    }
+
+    public User toAdminEntity(AdminUserCreateDTO dto) {
+        User user = new User();
+        user.setName(dto.name());
+        user.setEmail(dto.email());
+        user.setRole(dto.role());
+        return user;
     }
 }

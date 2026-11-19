@@ -1,10 +1,6 @@
 package com.waggy.controller;
 
-import com.waggy.dto.user.AdminUserUpdateDTO;
-import com.waggy.dto.user.UserRequestDTO;
-import com.waggy.dto.user.UserResponseDTO;
-import com.waggy.dto.user.UserUpdateDTO;
-import com.waggy.entity.Role;
+import com.waggy.dto.user.*;
 import com.waggy.service.JwtService;
 import com.waggy.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -18,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.waggy.entity.Role.USER;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -39,21 +36,21 @@ class UserControllerTest {
 
     @Test
     void createUser_shouldReturnCreatedUser() throws Exception {
-        UserRequestDTO request = new UserRequestDTO(
+        AdminUserCreateDTO request = new AdminUserCreateDTO(
                 "Jawad",
                 "jawad@test.com",
-                "Jn000&"
+                USER
         );
 
         UserResponseDTO response = new UserResponseDTO(
                 1,
                 "Jawad",
                 "jawad@test.com",
-                Role.USER,
+                USER,
                 LocalDateTime.parse("2020-12-12T00:00:00")
         );
 
-        when(userService.saveUserInDb(request)).thenReturn(response);
+        when(userService.createAdminUser(request)).thenReturn(response);
 
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -61,7 +58,7 @@ class UserControllerTest {
                                 {
                                     "name": "Jawad",
                                     "email": "jawad@test.com",
-                                    "password": "Jn000&"
+                                    "role": "USER"
                                 }
                                 """))
                 .andExpect(status().isOk())
@@ -69,7 +66,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.name").value("Jawad"))
                 .andExpect(jsonPath("$.email").value("jawad@test.com"));
 
-        verify(userService).saveUserInDb(request);
+        verify(userService).createAdminUser(request);
     }
 
     @Test
@@ -78,7 +75,7 @@ class UserControllerTest {
                 1,
                 "Jawad",
                 "jawad@test.com",
-                Role.USER,
+                USER,
                 LocalDateTime.parse("2020-12-12T00:00:00")
         );
 
@@ -86,7 +83,7 @@ class UserControllerTest {
                 2,
                 "Ali",
                 "ali@test.com",
-                Role.USER,
+                USER,
                 LocalDateTime.parse("2020-12-13T00:00:00")
         );
 
@@ -111,7 +108,7 @@ class UserControllerTest {
                 1,
                 "Jawad",
                 "jawad@test.com",
-                Role.USER,
+                USER,
                 LocalDateTime.parse("2020-12-12T00:00:00")
         );
 
@@ -132,7 +129,7 @@ class UserControllerTest {
                 1,
                 "Jawad",
                 "jawad@test.com",
-                Role.USER,
+                USER,
                 LocalDateTime.parse("2020-12-12T00:00:00")
         );
 
@@ -158,7 +155,7 @@ class UserControllerTest {
                 1,
                 "Jawad",
                 "jawadUpdated@test.com",
-                Role.USER,
+                USER,
                 LocalDateTime.parse("2020-12-12T00:00:00")
         );
 
@@ -185,14 +182,14 @@ class UserControllerTest {
         AdminUserUpdateDTO request = new AdminUserUpdateDTO(
                 "Jawad",
                 "jawadUpdated@test.com",
-                Role.USER
+                USER
         );
 
         UserResponseDTO response = new UserResponseDTO(
                 1,
                 "Jawad",
                 "jawadUpdated@test.com",
-                Role.USER,
+                USER,
                 LocalDateTime.parse("2020-12-12T00:00:00")
         );
 

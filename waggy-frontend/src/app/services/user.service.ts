@@ -26,4 +26,8 @@ export class UserService {
   deleteUser(id: number) {
     return this.http.delete(this.userPath + '/' + id);
   }
+
+  createUser(name: string, email: string, role: 'USER' | 'ADMIN') {
+  return this.http.post<User>(this.userPath, { name, email, role });
+  }
 }

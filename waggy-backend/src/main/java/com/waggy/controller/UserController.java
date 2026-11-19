@@ -1,9 +1,6 @@
 package com.waggy.controller;
 
-import com.waggy.dto.user.AdminUserUpdateDTO;
-import com.waggy.dto.user.UserRequestDTO;
-import com.waggy.dto.user.UserResponseDTO;
-import com.waggy.dto.user.UserUpdateDTO;
+import com.waggy.dto.user.*;
 import com.waggy.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -23,11 +20,11 @@ public class UserController {
 
     @Operation(
             summary = "Create a user",
-            description = "Creates a new user account."
+            description = "Creates a new user account by admin."
     )
     @PostMapping
-    public UserResponseDTO createUser(@Valid @RequestBody UserRequestDTO dto) {
-        return userService.saveUserInDb(dto);
+    public UserResponseDTO createUser(@Valid @RequestBody AdminUserCreateDTO dto) {
+        return userService.createAdminUser(dto);
     }
 
     @Operation(

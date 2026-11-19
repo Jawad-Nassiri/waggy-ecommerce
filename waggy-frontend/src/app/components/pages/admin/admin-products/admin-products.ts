@@ -184,7 +184,7 @@ export class AdminProducts {
     this.productService.addProduct(formData).subscribe({
       next: (res) => {
         this.products.update((products) => [...products, res]);
-        productForm.resetForm();
+        productForm.resetForm(); // should be check there is no usage
         this.selectedImage.set(null);
 
         this.showToast.set(true);

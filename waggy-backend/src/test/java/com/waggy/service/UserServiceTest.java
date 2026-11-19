@@ -9,6 +9,7 @@ import com.waggy.exception.UserNotFoundException;
 import com.waggy.mapper.UserMapper;
 import com.waggy.repository.CartRepository;
 import com.waggy.repository.OrderRepository;
+import com.waggy.repository.PasswordResetTokenRepository;
 import com.waggy.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,9 +35,6 @@ class UserServiceTest {
     private UserRepository userRepository;
 
     @Mock
-    private CartRepository cartRepository;
-
-    @Mock
     private UserMapper userMapper;
 
     @Mock
@@ -44,6 +42,12 @@ class UserServiceTest {
 
     @Mock
     private OrderRepository orderRepository;
+
+    @Mock
+    private CartRepository cartRepository;
+
+    @Mock
+    private PasswordResetTokenRepository passwordResetTokenRepository;
 
     @InjectMocks
     private UserService userService;
@@ -162,6 +166,7 @@ class UserServiceTest {
 
         verify(userRepository).findById(user.getId());
         verify(userRepository).delete(user);
+        verify(passwordResetTokenRepository).deleteByUser(user);
     }
 
     @Test

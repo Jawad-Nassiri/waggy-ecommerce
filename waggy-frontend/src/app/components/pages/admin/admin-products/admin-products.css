@@ -290,11 +290,12 @@ button {
   font-size: 18px;
   cursor: pointer;
   transition: background 0.15s ease, color 0.15s ease;
+  background: #fbf0dd;
+    color: #a8641a;
 }
 
 .edit-product-close:hover {
-  background: #f3f4f6;
-  color: #1f2a24;
+  background-color: #f6e3c2;
 }
 
 .edit-product-close:focus-visible {
