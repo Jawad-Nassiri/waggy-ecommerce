@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -156,8 +157,8 @@ class ProductIntegrationTest {
                     "categoryId": %d
                 }
                 """.formatted(category.getId());
-
         mockMvc.perform(multipart(HttpMethod.PUT, "/products/{id}", product.getId())
+                        .with(csrf())
                         .file(new MockMultipartFile(
                                 "product",
                                 "",
