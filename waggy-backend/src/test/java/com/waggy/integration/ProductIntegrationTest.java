@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.mock.web.MockMultipartFile;
@@ -156,7 +157,7 @@ class ProductIntegrationTest {
                 }
                 """.formatted(category.getId());
 
-        mockMvc.perform(multipart("/products/{id}", product.getId())
+        mockMvc.perform(multipart(HttpMethod.PUT, "/products/{id}", product.getId())
                         .file(new MockMultipartFile(
                                 "product",
                                 "",
@@ -169,12 +170,9 @@ class ProductIntegrationTest {
                                 "image/jpeg",
                                 "fake image content".getBytes()
                         ))
-                        .with(requestBuilder -> {
-                            requestBuilder.setMethod("PUT");
-                            return requestBuilder;
-                        })
                         .cookie(new Cookie("token", token))
                         .accept(MediaType.APPLICATION_JSON))
+                .andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
                 .andExpect(status().isOk());
 
         Product updated = productRepository.findById(product.getId()).orElseThrow();
